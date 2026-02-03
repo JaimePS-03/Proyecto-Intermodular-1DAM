@@ -7,3 +7,5 @@ Integrantes del grupo:
 Jaime Pérez Such
 
 Alejandro Robledillo Lozano
+
+Óscar Pérez Berenguer
