@@ -1,0 +1,209 @@
+CREATE TABLE CLIENTES(
+id VARCHAR(4) PRIMARY KEY,
+nombre VARCHAR(15),
+apellidos VARCHAR(50),
+telefono VARCHAR(12),
+email VARCHAR(50)
+);
+
+CREATE TABLE RESERVAS(
+id SERIAL PRIMARY KEY,
+n_personas NUMERIC(2),
+tipo_reserva VARCHAR(15),
+fecha TIMESTAMP,
+id_cli VARCHAR(4) NOT NULL,
+ 
+FOREIGN KEY (id_cli) REFERENCES CLIENTES(id)
+);
+
+CREATE TABLE MESAS(
+n_mesa NUMERIC(2) PRIMARY KEY,
+n_personas NUMERIC (2)
+);
+
+CREATE TABLE PEDIDOS(
+id SERIAL PRIMARY KEY,
+hora TIMESTAMP,
+n_mesa NUMERIC(2),
+
+FOREIGN KEY (n_mesa) REFERENCES MESAS(n_mesa)
+);
+
+CREATE TABLE REALIZAR(
+id_cli VARCHAR(4),
+id_pedi INT,
+
+PRIMARY KEY (id_cli, id_pedi),
+FOREIGN KEY (id_cli) REFERENCES CLIENTES(id),
+FOREIGN KEY (id_pedi) REFERENCES PEDIDOS(id)
+);
+
+CREATE TABLE RECIBOS(
+cod_recibo SERIAL PRIMARY KEY,
+fecha DATE,
+hora TIME,
+id_pedido INT UNIQUE,
+
+FOREIGN KEY (id_pedido) REFERENCES PEDIDOS(id)
+);
+
+CREATE TABLE PLATOS(
+n_plato VARCHAR(3) PRIMARY KEY,
+nombre VARCHAR(30),
+precio NUMERIC(5,2)
+);
+
+CREATE TABLE TENER(
+id_pedido INT,
+n_plato VARCHAR(3),
+
+PRIMARY KEY (id_pedido, n_plato),
+FOREIGN KEY (id_pedido) REFERENCES PEDIDOS(id),
+FOREIGN KEY (n_plato) REFERENCES PLATOS(n_plato)
+);
+
+CREATE TABLE INGREDIENTES(
+nombre VARCHAR(20) PRIMARY KEY,
+tipo VARCHAR(20),
+existencias NUMERIC(3)
+);
+
+CREATE TABLE PROVEEDORES(
+cif VARCHAR(9) PRIMARY KEY,
+nombre VARCHAR(30),
+direccion VARCHAR(50),
+telefono VARCHAR(12),
+email VARCHAR(50)
+);
+
+CREATE TABLE SUMINISTRAR(
+n_plato VARCHAR(3),
+nombre_ingre VARCHAR(20),
+cif_provee VARCHAR(9),
+precio NUMERIC(5,2),
+fecha DATE,
+hora TIME,
+
+PRIMARY KEY (n_plato, nombre_ingre, cif_provee),
+FOREIGN KEY (n_plato) REFERENCES PLATOS (n_plato),
+FOREIGN KEY (nombre_ingre) REFERENCES INGREDIENTES(nombre),
+FOREIGN KEY (cif_provee) REFERENCES PROVEEDORES(cif)
+);
+
+CREATE TABLE ALERGENO(
+id VARCHAR(4) PRIMARY KEY,
+grupo VARCHAR(20)
+);
+
+CREATE TABLE CONTIENE(
+nombre_ingre VARCHAR(20),
+ID_ale VARCHAR(4),
+
+PRIMARY KEY (nombre_ingre, ID_ale),
+FOREIGN KEY (nombre_ingre) REFERENCES INGREDIENTES(nombre),
+FOREIGN KEY (ID_ale) REFERENCES ALERGENO(id)
+);
+
+CREATE TABLE JEFES(
+dni VARCHAR(9) PRIMARY KEY,
+nombre VARCHAR(15),
+apellidos VARCHAR(30),
+telefono VARCHAR(12),
+email VARCHAR(50)
+);
+
+CREATE TABLE ZONAS(
+n_zona NUMERIC(2) PRIMARY KEY,
+nombre VARCHAR(20),
+terraza BOOLEAN
+);
+
+CREATE TABLE EMPLEADOS(
+dni VARCHAR(9) PRIMARY KEY,
+nombre VARCHAR(15),
+apellidos VARCHAR(30),
+telefono VARCHAR(12),
+NUSS VARCHAR(12),
+colectivo VARCHAR(20),
+email VARCHAR(50)
+);
+
+CREATE TABLE COCINERO(
+especialidad VARCHAR(20),
+dni_empleado VARCHAR(9) PRIMARY KEY,
+
+FOREIGN KEY (dni_empleado) REFERENCES EMPLEADOS(dni)
+);
+
+CREATE TABLE CAMAREROS(
+anos_servicio NUMERIC(2),
+dni_empleado VARCHAR(9) PRIMARY KEY,
+n_zona NUMERIC(2),
+camarero_jefe VARCHAR(9) NOT NULL,
+
+FOREIGN KEY (dni_empleado) REFERENCES EMPLEADOS(dni),
+FOREIGN KEY (n_zona) REFERENCES ZONAS(n_zona),
+FOREIGN KEY (camarero_jefe) REFERENCES CAMAREROS(dni_empleado)
+);
+
+CREATE TABLE ANOTAR(
+id_camarero VARCHAR(9),
+id_pedidos INT,
+
+PRIMARY KEY (id_camarero, id_pedidos),
+FOREIGN KEY (id_camarero) REFERENCES CAMAREROS(dni_empleado),
+FOREIGN KEY (id_pedidos) REFERENCES PEDIDOS(id)
+);
+
+CREATE TABLE COCINAR(
+n_plato VARCHAR(3),
+dni_cocinero VARCHAR(9),
+
+PRIMARY KEY (n_plato, dni_cocinero),
+FOREIGN KEY (n_plato) REFERENCES PLATOS(n_plato),
+FOREIGN KEY (dni_cocinero) REFERENCES COCINERO(dni_empleado)
+);
+
+CREATE TABLE BARTENDERS(
+dni_empleado VARCHAR(9),
+
+FOREIGN KEY (dni_empleado) REFERENCES EMPLEADOS(dni)
+);
+
+ALTER TABLE BARTENDERS
+ADD CONSTRAINT pk_dni_empleado PRIMARY KEY (dni_empleado);
+
+CREATE TABLE ORGANIZAR(
+dni_empleado VARCHAR(9),
+dni_jefe VARCHAR(9),
+
+PRIMARY KEY (dni_empleado, dni_jefe),
+FOREIGN KEY (dni_empleado) REFERENCES EMPLEADOS(dni),
+FOREIGN KEY (dni_jefe) REFERENCES JEFES(dni)
+);
+
+CREATE TABLE SERVIR(
+n_zona NUMERIC(2) PRIMARY KEY,
+dni_bartender VARCHAR(9) UNIQUE,
+
+FOREIGN KEY (n_zona) REFERENCES ZONAS(n_zona),
+FOREIGN KEY (dni_bartender) REFERENCES BARTENDERS(dni_empleado)
+);
+
+CREATE TABLE DESCUENTOS(
+codigo VARCHAR(20) PRIMARY KEY,
+cantidad_descuento NUMERIC(4,2),
+descripcion VARCHAR(50),
+fecha_caducidad DATE
+);
+
+CREATE TABLE OFRECER(
+id_cli VARCHAR(4),
+id_res INT,
+codigo_des VARCHAR(20) UNIQUE,
+
+PRIMARY KEY (id_cli, id_res),
+FOREIGN KEY (id_cli) REFERENCES CLIENTES(id),
+FOREIGN KEY (id_res) REFERENCES RESERVAS(id),
+FOREIGN KEY (codigo_des) REFERENCES DESCUENTOS(codigo)
+);
