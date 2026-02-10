@@ -213,3 +213,221 @@ VALUES
 ('076', 'Sandy de Caramelo', 3.50, 'Helados'),
 ('077', 'Sandy de Chocolate', 3.50, 'Helados'),
 ('078', 'Sandy de chocolate blanco', 3.50, 'Helados');
+
+INSERT INTO PROVEEDORES
+VALUES
+('A12345678', 'NESTLE', 'C/LUGAR, N2', '666555444', 'nestle@contacto.com'),
+('B23456789', 'MERCADONA PROVEEDORES', 'C/INDUSTRIAL, 10', '611222333', 'proveedores@mercadona.es'),
+('C34567890', 'EL POZO ALIMENTACION', 'AVDA. AGRICOLA, 45', '622333444', 'ventas@elpozo.com'),
+('D45678901', 'RESUINSA CARNES', 'POLIGONO INDUSTRIAL, 23', '633444555', 'compras@resuinsa.es'),
+('E56789012', 'OBLANCA HORECA', 'C/LOGISTICA, 8', '644555666', 'horeca@oblanca.com'),
+('F67890123', 'LA ALEGRÍA RIOJANA', 'C/VIÑEDOS, 12', '655666777', 'ventas@laalegriariojana.com'),
+('G78901234', 'NATURA FRUTAS', 'MERCASA VALENCIA, NAVE 5', '666777888', 'frutas@natura.es'),
+('H89012345', 'MARISMERIA COSTA', 'C/PUERTO, 30', '677888999', 'pescado@marismeriacosta.com'),
+('J90123456', 'COCINAS PROFESSIONAL', 'C/TECNICA, 7', '688999000', 'ventas@cocinaspro.es'),
+('K01234567', 'LIMPIEZA TOTAL HORECA', 'C/SERVICIOS, 15', '699000111', 'atencion@limpiezatotal.es');
+
+INSERT INTO JEFES
+VALUES
+('15937446P', 'Oscar', 'Perez Berenguer', '666998745', 'oscperben@contacto.com'),
+('75236947S', 'Antonio', 'Perez Garcia', '665223147', 'antpergar@contacto.com'),
+('87452136U', 'Elisa', 'Berenguer Carreres', '654321987', 'elibercar@contacto.com');
+
+INSERT INTO ZONAS
+VALUES
+('001', 'Zona bar', false),
+('010', '10', false),
+('070', '70', false),
+('100', '100', false),
+('200', '200', true),
+('300', '300', true),
+('400', '400', true);
+
+INSERT INTO EMPLEADOS
+VALUES
+INSERT INTO EMPLEADOS VALUES
+('11111111A', 'LUIS', 'GARCIA FERNANDEZ', '611111111', '111111111111', 'COCINERO', 'luis.garcia@restaurante.com'),
+('22222222B', 'ANA', 'LOPEZ MARTIN', '622222222', '222222222222', 'COCINERO', 'ana.lopez@restaurante.com'),
+('33333333C', 'PEDRO', 'SANCHEZ RUIZ', '633333333', '333333333333', 'COCINERO', 'pedro.sanchez@restaurante.com'),
+('44444444D', 'CARLA', 'MARTINEZ GOMEZ', '644444444', '444444444444', 'CAMARERO', 'carla.martinez@restaurante.com'),
+('55555555E', 'DANIEL', 'PEREZ LOPEZ', '655555555', '555555555555', 'CAMARERO', 'daniel.perez@restaurante.com'),
+('66666666F', 'LAURA', 'DIAZ TORRES', '666666666', '666666666666', 'CAMARERO', 'laura.diaz@restaurante.com'),
+('77777777G', 'MIGUEL', 'RODRIGUEZ VEGA', '677777777', '777777777777', 'CAMARERO', 'miguel.rodriguez@restaurante.com'),
+('88888888H', 'SARA', 'GOMEZ LARA', '688888888', '888888888888', 'CAMARERO', 'sara.gomez@restaurante.com'),
+('99999999J', 'ALVARO', 'CASTRO RAMOS', '699999999', '999999999999', 'CAMARERO', 'alvaro.castro@restaurante.com'),
+('00000000K', 'ELENA', 'NAVARRO FERNANDEZ', '600000000', '000000000000', 'CAMARERO', 'elena.navarro@restaurante.com'),
+('12345678L', 'RAUL', 'MORALES CASTILLO', '612345678', '123456789012', 'BARTENDER', 'raul.morales@restaurante.com'),
+('87654321M', 'IRENE', 'GUTIERREZ LOPEZ', '687654321', '876543210987', 'BARTENDER', 'irene.gutierrez@restaurante.com');
+
+INSERT INTO COCINERO 
+VALUES
+('ARROZ Y PAELLA', '11111111A'),
+('COCINA ESPAÑOLA', '22222222B'),
+('POSTRES', '33333333C');
+
+INSERT INTO CAMAREROS 
+VALUES
+(5,  '44444444D', '010', NULL),
+(6,  '55555555E', '070', NULL),
+(2,  '66666666F', '100', '44444444D'),
+(3,  '77777777G', '200', '44444444D'),
+(1,  '88888888H', '300', '55555555E'),
+(2,  '99999999J', '400', '55555555E'),
+(1,  '00000000K', '100', '44444444D');
+
+INSERT INTO BARTENDERS 
+VALUES
+('12345678L'),
+('87654321M');
+
+INSERT INTO ORGANIZAR 
+VALUES
+('11111111A', '75236947S'),
+('22222222B', '75236947S'),
+('33333333C', '75236947S'),
+('44444444D', '87452136U'),
+('55555555E', '87452136U'), 
+('66666666F', '87452136U'),
+('77777777G', '87452136U'), 
+('88888888H', '87452136U'), 
+('99999999J', '87452136U'),
+('00000000K', '87452136U'),
+('12345678L', '15937446P'), 
+('87654321M', '15937446P');   
+
+INSERT INTO SERVIR 
+VALUES
+('010', '12345678L'),  
+('070', '87654321M'),   
+('100', '12345678L'),  
+('200', '87654321M');
+
+INSERT INTO DESCUENTOS 
+VALUES
+('HAPPY2026', 22.00, 'Descuento añadido por año nuevo', '2026-01-15'),
+('HAPPY2027', 15.00, 'Descuento especial año nuevo', '2027-01-15'),
+('VERANO2026', 10.00, 'Descuento de verano', '2026-09-30'),
+('FAMILIA', 12.50, 'Descuento para familias numerosas', NULL),
+('GRUPO20', 20.00, 'Descuento para grupos de 20 o más personas', NULL),
+('CUMPLEAÑOS', 10.00, 'Descuento de cumpleaños', '2026-12-31'),
+('PRIMERAVISO', 5.00, 'Descuento por primera visita', NULL),
+('HAPPYHOLIDAY', 18.00, 'Descuento especial festivos', '2026-12-25'),
+('VIP25', 25.00, 'Descuento VIP para clientes habituales', NULL),
+('BLACKFRIDAY', 30.00, 'Descuento Black Friday', '2026-11-30');
+
+INSERT INTO OFRECER 
+VALUES
+('0007',  4, 'HAPPY2026'),  
+('0027',  2, 'FAMILIA'),       
+('0014',  8, 'GRUPO20'),     
+('0003',  6, 'CUMPLEAÑOS'),   
+('0019',  5, 'VERANO2026'),   
+('0022',  7, 'PRIMERAVISO'),  
+('0011', 10, 'HAPPY2027'),    
+('0008',  9, 'BLACKFRIDAY'),   
+('0026', 12, 'VIP25'),    
+('0016', 11, 'HAPPYHOLIDAY');  
+
+INSERT INTO COCINAR 
+VALUES
+('019', '11111111A'),
+('020', '11111111A'),
+('021', '11111111A'),
+('022', '11111111A'),
+('023', '11111111A'),
+('024', '11111111A'),
+('025', '11111111A'),
+('026', '11111111A'),
+('027', '11111111A'),
+('028', '11111111A'),
+('001', '22222222B'),
+('002', '22222222B'),
+('003', '22222222B'),
+('004', '22222222B'),
+('005', '22222222B'),
+('006', '22222222B'),
+('007', '22222222B'),
+('008', '22222222B'),
+('009', '22222222B'),
+('010', '22222222B'),
+('011', '22222222B'),
+('012', '22222222B'),
+('013', '22222222B'),
+('014', '22222222B'),
+('015', '22222222B'),
+('016', '22222222B'),
+('017', '22222222B'),
+('018', '22222222B'),
+('029', '22222222B'),
+('030', '22222222B'),
+('031', '22222222B'),
+('032', '22222222B'),
+('033', '22222222B'),
+('034', '22222222B'),
+('035', '22222222B'),
+('036', '22222222B'),
+('037', '22222222B'),
+('038', '22222222B'),
+('039', '22222222B'),
+('040', '22222222B'),
+('041', '22222222B'),
+('042', '22222222B'),
+('043', '22222222B'),
+('044', '22222222B'),
+('045', '22222222B'),
+('046', '22222222B'),
+('047', '22222222B'),
+('048', '22222222B'),
+('049', '22222222B'),
+('050', '22222222B'),
+('051', '22222222B'),
+('052', '22222222B'),
+('053', '22222222B'),
+('054', '22222222B'),
+('055', '33333333C'),
+('056', '33333333C'),
+('057', '33333333C'),
+('058', '33333333C'),
+('059', '33333333C'),
+('060', '33333333C'),
+('061', '33333333C'),
+('062', '33333333C'),
+('063', '33333333C'),
+('064', '33333333C'),
+('065', '33333333C'),
+('066', '33333333C'),
+('067', '33333333C'),
+('068', '33333333C'),
+('069', '33333333C'),
+('070', '33333333C'),
+('071', '33333333C'),
+('072', '33333333C'),
+('073', '33333333C'),
+('074', '33333333C'),
+('075', '33333333C'),
+('076', '33333333C'),
+('077', '33333333C'),
+('078', '33333333C');
+
+INSERT INTO ANOTAR 
+VALUES
+('44444444D', 1), 
+('66666666F', 2), 
+('77777777G', 3), 
+('44444444D', 4), 
+('66666666F', 5), 
+('77777777G', 6), 
+('44444444D', 7), 
+('66666666F', 8), 
+('77777777G', 9), 
+('44444444D', 10),
+('55555555E', 11), 
+('88888888H', 12),
+('99999999J', 13),
+('55555555E', 14),
+('88888888H', 15),
+('99999999J', 16),
+('55555555E', 17),
+('88888888H', 18),
+('99999999J', 19),
+('00000000K', 20);  
