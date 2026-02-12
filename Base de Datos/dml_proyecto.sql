@@ -152,7 +152,7 @@ VALUES
 ('015', 'Queso tibio de cabra con salsa de níspero', 11.95, 'Aperitivos'),
 ('016', 'Sepia a la plancha', 14.95, 'Aperitivos'),
 ('017', 'Sopa de mariscos', 18.50, 'Aperitivos'),
-('018', 'Tabla de quesos valencianos', null, 'Aperitivos'),
+('018', 'Tabla de quesos valencianos', 14.95, 'Aperitivos'),
 ('019', 'Arroz a banda', 15.60, 'Arroces y paellas'),
 ('020', 'Arroz caldoso de bogavante', 23.15, 'Arroces y paellas'),
 ('021', 'Arroz de montaña', 13.90, 'Arroces y paellas'),
@@ -201,7 +201,7 @@ VALUES
 ('064', 'Piña natural', 6.00, 'Postres'),
 ('065', 'Tarta de muerte por chocolate', 6.95, 'Postres'),
 ('066', 'Tarta de queso', 6.95, 'Postres'),
-('067', 'Tarta de Whisky', null, 'Postres'),
+('067', 'Tarta de Whisky', 6.95, 'Postres'),
 ('068', 'Tiramisú', 6.95, 'Postres'),
 ('069', 'Torrija de pan Brioche caramelizada', 7.45, 'Postres'),
 ('070', 'Tulipa de turrón con nísperos', 7.45, 'Postres'),
@@ -213,3 +213,129 @@ VALUES
 ('076', 'Sandy de Caramelo', 3.50, 'Helados'),
 ('077', 'Sandy de Chocolate', 3.50, 'Helados'),
 ('078', 'Sandy de chocolate blanco', 3.50, 'Helados');
+
+INSERT INTO INGREDIENTES
+VALUES
+('Tomate','Conservas',60),
+('Cerdo','Frescos',30),
+('Ternera','Frescos',30),
+('Conejo','Frescos',20),
+('Gambas','Congelados',15),
+('Calamar','Congelados',20),
+('Perejil','Especias',5),
+('Arroz','Conservas',100),
+('Lechuga','Frescos',40),
+('Queso de cabra','Frescos',25),
+('Atún','Conservas',35),
+('Pan','Frescos',50),
+('Ajo','Especias',10),
+('Huevo','Frescos',60),
+('Pollo','Frescos',40),
+('Cordero','Frescos',20),
+('Pato','Frescos',15),
+('Bogavante','Congelados',10),
+('Mejillones','Congelados',20),
+('Almejas','Congelados',20),
+('Pulpo','Congelados',15),
+('Sepia','Congelados',15),
+('Champiñones','Frescos',30),
+('Jamón','Frescos',25),
+('Patata','Frescos',80),
+('Harina','Conservas',50),
+('Leche','Frescos',40),
+('Nata','Frescos',30),
+('Chocolate','Conservas',40),
+('Turrón','Conservas',25),
+('Nísperos','Frescos',20),
+('Piña','Frescos',15),
+('Caracoles','Frescos',15),
+('Verduras variadas','Frescos',60),
+('Bacon','Frescos',25),
+('Pan de hamburguesa','Frescos',40),
+('Masa de pizza','Frescos',50),
+('Mozzarella','Frescos',35),
+('Peperoni','Frescos',20),
+('Aceite de oliva','Conservas',70),
+('Sal','Especias',20),
+('Azúcar','Conservas',50);
+
+INSERT INTO ALERGENOS
+VALUES
+('0001','Gluten'),
+('0002','Crustáceos'),
+('0003','Huevos'),
+('0004','Pescado'),
+('0005','Cacahuetes'),
+('0006','Soja'),
+('0007','Leche'),
+('0008','Frutos de cáscara'),
+('0009','Apio'),
+('0010','Mostaza'),
+('0011','Granos de sésamo'),
+('0012','Dióxido de azufre y sulfitos'),
+('0013','Altramuces'),
+('0014','Moluscos');
+
+INSERT INTO CONTIENE (nombre_ingre, ID_ale)
+VALUES
+-- Gluten
+('Pan', '0001'),
+('Harina', '0001'),
+('Masa de pizza', '0001'),
+('Spaguetti a la boloñesa', '0001'),
+
+-- Crustáceos
+('Gambas', '0002'),
+('Bogavante', '0002'),
+('Mejillones', '0002'),
+('Almejas', '0002'),
+
+-- Huevos
+('Huevo', '0003'),
+('Nuggets de pollo', '0003'),
+('Crema catalana', '0003'),
+
+-- Pescado
+('Atún', '0004'),
+('Pulpo', '0004'),
+('Sepia', '0004'),
+
+-- Leche
+('Queso de cabra', '0007'),
+('Mozzarella', '0007'),
+('Nata', '0007'),
+('Chocolate', '0007'),
+
+-- Frutos de cáscara
+('Nueces', '0008'),
+('Almendras', '0008'),
+('Turrón', '0008'),
+
+-- Otros alérgenos comunes
+('Sésamo', '0011'),
+('Mostaza', '0010'),
+('Apio', '0009'),
+('Sulfitos', '0012');
+
+
+INSERT INTO DESCUENTOS
+VALUES
+('DESC05', 5.00, 'Descuento básico 5%', '2026-12-31'),
+('DESC10', 10.00, 'Descuento medio 10%', '2026-12-31'),
+('DESC15', 15.00, 'Descuento especial 15%', '2026-12-31'),
+('DESC20', 20.00, 'Descuento VIP 20%', '2026-12-31'),
+('PROMO5', 5.00, 'Promoción semanal 5%', '2026-03-31'),
+('PROMO10', 10.00, 'Promoción mensual 10%', '2026-02-28'),
+('SUMMER15', 15.00, 'Descuento verano 15%', '2026-08-31'),
+('BLACK25', 25.00, 'Black Friday 25%', '2026-11-30'),
+('NEWYEAR30', 30.00, 'Año nuevo 30%', '2027-01-15'),
+('FIESTA10', 10.00, 'Descuento fiesta local 10%', '2026-05-01'),
+('FIESTA20', 20.00, 'Descuento fiesta nacional 20%', '2026-09-15'),
+('CLIENTE5', 5.00, 'Descuento fidelidad 5%', '2026-12-31'),
+('CLIENTE15', 15.00, 'Descuento fidelidad 15%', '2026-12-31'),
+('NOCHE10', 10.00, 'Descuento noche 10%', '2026-12-31'),
+('FINDE20', 20.00, 'Descuento fin de semana 20%', '2026-12-31'),
+('CHILD5', 5.00, 'Descuento niños 5%', '2026-12-31'),
+('STUDENT10', 10.00, 'Descuento estudiantes 10%', '2026-12-31'),
+('LOYAL25', 25.00, 'Descuento clientes VIP 25%', '2026-12-31'),
+('ANNIV30', 30.00, 'Descuento aniversario 30%', '2026-12-31');
