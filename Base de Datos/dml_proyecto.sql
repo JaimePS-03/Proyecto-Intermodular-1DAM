@@ -62,7 +62,12 @@ VALUES
 (7, 6),
 (8, 6),
 (9, 15),
-(10, 15);
+(10, 15),
+(11, 6),
+(12, 6),
+(13, 8),
+(14, 6),
+(15, 11); 
 
 INSERT INTO PEDIDOS
 VALUES
@@ -348,7 +353,6 @@ VALUES
 
 INSERT INTO EMPLEADOS
 VALUES
-INSERT INTO EMPLEADOS VALUES
 ('11111111A', 'LUIS', 'GARCIA FERNANDEZ', '611111111', '111111111111', 'COCINERO', 'luis.garcia@restaurante.com'),
 ('22222222B', 'ANA', 'LOPEZ MARTIN', '622222222', '222222222222', 'COCINERO', 'ana.lopez@restaurante.com'),
 ('33333333C', 'PEDRO', 'SANCHEZ RUIZ', '633333333', '333333333333', 'COCINERO', 'pedro.sanchez@restaurante.com'),
