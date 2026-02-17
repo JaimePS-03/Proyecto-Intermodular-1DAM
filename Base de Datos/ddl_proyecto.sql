@@ -22,7 +22,7 @@ n_personas NUMERIC (2)
 );
 
 CREATE TABLE PEDIDOS(
-id SERIAL PRIMARY KEY,
+id INT PRIMARY KEY,
 hora TIMESTAMP,
 n_mesa NUMERIC(2),
 
@@ -200,7 +200,7 @@ fecha_caducidad DATE
 
 CREATE TABLE OFRECER(
 id_cli VARCHAR(4),
-id_res INT,
+id_res SERIAL,
 codigo_des VARCHAR(20) UNIQUE,
 
 PRIMARY KEY (id_cli, id_res),

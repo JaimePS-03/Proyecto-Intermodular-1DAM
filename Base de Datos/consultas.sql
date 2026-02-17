@@ -85,8 +85,27 @@ WHERE C.id = R.id_cli,
 AND C.nombre NOT IN (SELECT id_cli
                     FROM RESERVAS);
 
--- Muestra los pedidos que se hayan repartido por "Nestle"
+-- Muestra los platos e ingredientes que se hayan repartido por "NESTLE"
+SELECT nombre
+FROM platos
+WHERE n_plato IN (SELECT S.n_plato
+                FROM SUMINISTRAR s
+                WHERE cif_provee = "A12345678");
+
 
 -- 2 CONSULTAS USANDO GROUP BY CON HAVING
 
+-- Obten el id y el nombre de los clientes que hayn hecho más de 3 reservas en total
+SELECT C.nombre, C.id, COUNT(R.id_cli)
+FROM CLIENTES C, RESERVAS R
+WHERE C.id = R.id_cli
+GROUP BY C.nombre
+HAVING COUNT(R.id_cli) > 3;
+
+-- Muestra los dni de los empleados de los camareros y la cantidad de pedidos que han hecho, solo mostrar más de 5.
+SELECT E.dni, COUNT(A.id_camarero)
+FROM EMPLEADOS E, ANOTAR A
+WHERE E.dni = A.id_camarero
+GROUP BY E.dni
+HAVING COUNT(A.id_camarero) > 5;
 -- 3 ACTUALIZACIONES USANDO SUBCONSULTAS EN WHERE Y SET
