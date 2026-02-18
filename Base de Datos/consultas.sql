@@ -78,6 +78,42 @@ GROUP BY j.nombre;
 
 -- 2 CONSULTAS UTULIZANDO SUBCONSULTAS
 
+-- Pedidos que tienen clientes asociados
+SELECT p.id, p.n_mesa,p.hora
+FROM PEDIDOS p
+WHERE p.id IN (
+    SELECT r.id_pedi
+    FROM REALIZAR r
+);
+
+-- Clientes que han pedido un plato en concreto
+SELECT c.id,c.nombre
+FROM CLIENTES c
+WHERE c.id IN (
+    SELECT r.id_cli
+    FROM REALIZAR r
+    WHERE r.id_pedi IN (
+        SELECT t.id_pedido
+        FROM TENER t
+        WHERE t.n_plato = '001'));
+
+
+
 -- 2 CONSULTAS USANDO GROUP BY CON HAVING
+
+-- Clientes con mas de 3 pedidos
+SELECT r.id_cli, COUNT(*) AS num_pedidos
+FROM REALIZAR r
+GROUP BY r.id_cli
+HAVING COUNT(*) > 3;
+
+-- Mesas con mas pedidos que la media
+SELECT p.n_mesa, COUNT(*) AS num_pedidos
+FROM PEDIDOS p
+GROUP BY p.n_mesa
+HAVING COUNT(*) > (SELECT AVG(cnt_pedidos)FROM (
+    SELECT n_mesa, COUNT(*) AS cnt_pedidos
+    FROM PEDIDOS
+    GROUP BY n_mesa));
 
 -- 3 ACTUALIZACIONES USANDO SUBCONSULTAS EN WHERE Y SET
