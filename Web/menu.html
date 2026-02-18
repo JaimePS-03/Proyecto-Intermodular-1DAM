@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carta | Restaurante Demo</title>
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/menu-page.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Ir al inicio">
+      <span class="brand__dot" aria-hidden="true"></span>
+      <span class="brand__text">Restaurante Demo</span>
+    </a>
+
+    <div class="nav-clip" id="navClip">
+      <nav class="nav-desktop" id="navDesktop" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="#historia">Historia</a>
+        <a href="menu.html">Menú</a>
+        <a class="btn btn--small" href="#reservas">Reservas</a>
+      </nav>
+    </div>
+  </header>
+
+  <aside class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-menu__panel">
+      <div class="mobile-menu__top">
+        <div class="mobile-menu__title">Menú</div>
+        <button class="mobile-menu__close" id="closeMenuBtn" type="button" aria-label="Cerrar menú">✕</button>
+      </div>
+
+      <a href="index.html#nosotros" class="mobile-menu__link">Nosotros</a>
+      <a href="index.html#historia" class="mobile-menu__link">Historia</a>
+      <a href="menu.html" class="mobile-menu__link">Carta</a>
+      <a href="index.html#destacar" class="mobile-menu__link">A destacar</a>
+      <a href="index.html#reservas" class="mobile-menu__link mobile-menu__link--cta">Reservas</a>
+    </div>
+    <div class="mobile-menu__backdrop" id="menuBackdrop" aria-hidden="true"></div>
+  </aside>
+
+  <main>
+    <section class="menu-hero">
+      <div class="container reveal">
+        <p class="kicker">Carta</p>
+        <h1 class="menu-title">Nuestro menú</h1>
+        <p class="lead menu-subtitle">Elige una categoría a la izquierda y verás los platos a la derecha.</p>
+      </div>
+    </section>
+
+    <section class="menu-page">
+      <div class="container menu-layout">
+        <!-- Izquierda: categorías -->
+        <aside class="menu-categories reveal" aria-label="Categorías">
+          <h2 class="menu-panel-title">Categorías</h2>
+          <div class="cat-list" id="catList"></div>
+        </aside>
+
+        <!-- Derecha: cartas / cards -->
+        <section class="menu-cards reveal" aria-label="Platos">
+          <div class="menu-cards-top">
+            <h2 class="menu-panel-title" id="activeCategoryTitle">Todos</h2>
+          </div>
+          <div class="cards-grid" id="cardsGrid"></div>
+        </section>
+      </div>
+    </section>
+    
+    <footer class="footer">
+      <div class="container footer__grid">
+        <p>© 2026 Restaurante Demo. Contenido ficticio para practicar.</p>
+        <a class="link" href="#top">Volver arriba</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script src="js/menu-page.js"></script>
+</body>
+</html>

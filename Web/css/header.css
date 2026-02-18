@@ -1,0 +1,273 @@
+/* Header principal */
+.site-header {
+  background: var(--glass-bg) !important;
+  border-bottom-color: var(--glass-border) !important;
+  backdrop-filter: blur(10px);
+}
+.mobile-menupanel { background: var(--glass-bg) !important; }
+.mobile-menubackdrop { background: var(--backdrop-dark) !important; }
+.nav-desktop a { color: var(--nav-text) !important; }
+
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(15,76,129,.12);
+}
+
+.brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  color: var(--blue-900);
+}
+.brand__dot{
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--orange-600), var(--blue-700));
+  box-shadow: 0 8px 18px rgba(255,122,24,.25);
+}
+
+.nav-desktop{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.nav-desktop a{
+  font-weight: 700;
+  color: rgba(11,42,74,.82);
+  transition: color .2s ease;
+}
+.nav-desktop a:hover{ color: var(--orange-600); }
+
+.burger{
+  display: none;
+  width: 46px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(15,76,129,.18);
+  background: rgba(255,255,255,.85);
+  cursor: pointer;
+}
+.burger__line{
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 5px auto;
+  background: var(--blue-900);
+  border-radius: 20px;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+@media (max-width: 840px){
+  .nav-desktop{ display: none; }
+  .burger{ display: inline-block; }
+}
+
+/* Menú móvil */
+.mobile-menu{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+}
+
+.mobile-menu.is-open{ pointer-events: auto; }
+
+.mobile-menu__backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(11,42,74,.45);
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+
+.mobile-menu__panel{
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(360px, 92vw);
+  background: var(--white);
+  border-left: 1px solid rgba(15,76,129,.12);
+  transform: translateX(105%);
+  transition: transform .28s ease;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 10px;
+}
+
+.mobile-menu.is-open .mobile-menu__panel{ transform: translateX(0); }
+.mobile-menu.is-open .mobile-menu__backdrop{ opacity: 1; }
+
+.mobile-menu__top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(15,76,129,.12);
+  margin-bottom: 6px;
+}
+
+.mobile-menu__title{ font-weight: 900; color: var(--blue-900); }
+.mobile-menu__close{
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--blue-900);
+}
+
+.mobile-menu__link{
+  padding: 12px 12px;
+  border-radius: 12px;
+  font-weight: 800;
+  color: var(--blue-900);
+  background: rgba(233,242,255,.7);
+  transition: transform .2s ease, background .2s ease;
+}
+.mobile-menu__link:hover{
+  transform: translateX(2px);
+  background: rgba(255,210,176,.65);
+}
+
+.mobile-menu__link--cta{
+  background: linear-gradient(135deg, var(--orange-600), #ff9a3d);
+  color: #1a120b;
+}
+
+.mobile-menu__note{
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+/* Área desktop con colapso */
+.nav-area{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.nav-desktop--primary{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  white-space: nowrap;
+  transition: transform .28s ease;
+  will-change: transform;
+}
+
+.nav-desktop--secondary{
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  max-width: 260px; /* suficiente para el botón */
+  opacity: 1;
+  transform: translateX(0);
+  transition: max-width .28s ease, opacity .18s ease, transform .28s ease;
+  will-change: max-width, transform, opacity;
+}
+
+/* Botón que colapsa/expande el bloque derecho */
+.nav-collapse{
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(15,76,129,.18);
+  background: rgba(255,255,255,.85);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.nav-collapse__icon{
+  width: 18px;
+  height: 12px;
+  position: relative;
+}
+
+.nav-collapse__icon::before,
+.nav-collapse__icon::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--blue-900);
+  border-radius: 999px;
+}
+
+.nav-collapse__icon::before{ top: 2px; }
+.nav-collapse__icon::after{ bottom: 2px; }
+
+/* Estado colapsado */
+.nav-area.is-collapsed .nav-desktop--secondary{
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(10px);
+  pointer-events: none;
+}
+
+.nav-area.is-collapsed .nav-desktop--primary{
+  transform: translateX(var(--navShift, 0px));
+}
+
+/* Accesibilidad: reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .nav-desktop--primary,
+  .nav-desktop--secondary{
+    transition: none;
+  }
+}
+
+/* En móvil escondemos el bloque desktop completo (y se queda el burger) */
+@media (max-width: 840px){
+  .nav-area{ display: none; }
+}
+
+/* Contenedor que recorta el nav al plegarse */
+.nav-clip{
+  overflow: hidden;
+  max-width: var(--navW, 720px);
+  transition: max-width .38s cubic-bezier(.2,.9,.2,1);
+  will-change: max-width;
+}
+
+/* Animación del contenido (desplazamiento hacia la izquierda) */
+.nav-desktop{
+  opacity: 1;
+  transform: translateX(0);
+  transition: transform .38s cubic-bezier(.2,.9,.2,1), opacity .18s ease;
+  will-change: transform, opacity;
+}
+
+/* Estado plegado */
+.site-header.is-nav-hidden .nav-clip{
+  max-width: 0px;
+}
+
+.site-header.is-nav-hidden .nav-desktop{
+  opacity: 0;
+  transform: translateX(-28px);
+  pointer-events: none;
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce){
+  .nav-clip, .nav-desktop{ transition: none; }
+}
