@@ -1,0 +1,88 @@
+.card { background: var(--glass-bg) !important; border-color: var(--glass-border) !important; }
+.timelineitem { background: var(--glass-light); border-color: var(--glass-border); }
+
+.cards{
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.card{
+  border-radius: var(--radius);
+  background: rgba(255,255,255,.85);
+  border: 1px solid rgba(15,76,129,.12);
+  padding: 16px;
+  box-shadow: 0 12px 32px rgba(11,42,74,.10);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 42px rgba(11,42,74,.14);
+}
+.card h3{ margin: 0 0 8px; color: var(--blue-900); }
+.card p{ margin: 0; color: var(--muted); line-height: 1.6; }
+
+.split{
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 26px;
+  align-items: start;
+}
+
+.timeline{
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+}
+.timeline__item{
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 12px;
+  border-radius: 14px;
+  background: rgba(233,242,255,.55);
+  border: 1px solid rgba(15,76,129,.10);
+}
+.timeline__year{
+  font-weight: 950;
+  color: var(--blue-900);
+}
+.timeline__text{
+  color: var(--muted);
+  font-weight: 650;
+}
+
+.photoMock{
+  height: 290px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(15,76,129,.14);
+  background:
+    linear-gradient(135deg, rgba(15,76,129,.18), rgba(255,122,24,.14)),
+    radial-gradient(400px 240px at 70% 20%, rgba(255,255,255,.9), transparent 55%);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.photoMock__label{
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.85);
+  border: 1px solid rgba(15,76,129,.12);
+  font-weight: 900;
+  color: var(--blue-900);
+}
+
+.hint{
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+@media (max-width: 900px){
+  .cards{ grid-template-columns: 1fr; }
+  .split{ grid-template-columns: 1fr; }
+}

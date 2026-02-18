@@ -1,0 +1,64 @@
+.carousel{
+  padding: 22px 0 28px;
+}
+
+.carousel__viewport{
+  position: relative;
+  border-radius: calc(var(--radius) + 10px);
+  overflow: hidden;
+  border: 1px solid rgba(15,76,129,.12);
+  box-shadow: var(--shadow);
+  background: rgba(255,255,255,.6);
+}
+
+.carousel__track{
+  display: flex;
+  width: 100%;
+  transform: translateX(0);
+  transition: transform .55s cubic-bezier(.2,.9,.2,1);
+  will-change: transform;
+}
+
+.carousel__slide{
+  flex: 0 0 100%;
+  margin: 0;
+}
+
+.carousel__slide img{
+  width: 100%;
+  height: clamp(260px, 42vw, 420px);
+  object-fit: cover;
+  display: block;
+}
+
+.carousel__overlay{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(11,42,74,.58),
+    rgba(11,42,74,.22) 55%,
+    rgba(11,42,74,0)
+  );
+}
+
+.carousel__caption{
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  max-width: min(560px, calc(100% - 36px));
+  color: var(--white);
+}
+
+.carousel__title{
+  margin: 6px 0 10px;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  line-height: 1.08;
+}
+
+.carousel .kicker{ color: rgba(255,255,255,.82); }
+.carousel .lead{ color: rgba(255,255,255,.85); }
+
+@media (prefers-reduced-motion: reduce){
+  .carousel__track{ transition: none; }
+}
