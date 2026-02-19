@@ -27,6 +27,20 @@ WHERE lower(direccion) LIKE ('c/%');
 
 -- ACTUALIZACIONES Y BORRADOS EN CUALQUIER TABLA
 
+UPDATE CLIENTES
+SET telefono = '623423197'
+WHERE id = '0010';
+
+UPDATE PLATOS
+SET precio = 12.50
+WHERE n_plato = '003';
+
+DELETE FROM CLIENTES
+WHERE id = '0009';
+
+DELETE FROM RESERVAS
+WHERE id = 7;
+
 -- 3 CONSULTAS CON MAS DE 1 TABLA
 
 -- Devuelve el nombre de los clientes, el tipo de reserva y la fecha de esta

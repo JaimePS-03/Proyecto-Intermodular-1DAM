@@ -130,7 +130,6 @@ VALUES
 (11, 'Cumpleaños', '17-02-2026 18:00:00', '0001'),
 (5, 'Comida familiar', '18-02-2026 14:15:00', '0027');
 
-<<<<<<< HEAD
 INSERT INTO MESAS
 VALUES
 (1, 4),
@@ -220,8 +219,6 @@ VALUES
 ('2026-01-20', '17:23:40', 278),
 ('2026-01-23', '20:43:18', 279),
 ('2026-01-27', '13:30:05', 280);
-=======
->>>>>>> a2da97f460af50162440cb61e3a0cd632a9684ce
 
 INSERT INTO PLATOS
 VALUES
@@ -499,7 +496,6 @@ VALUES
 ('VIP25', 25.00, 'Descuento VIP para clientes habituales', NULL),
 ('BLACKFRIDAY', 30.00, 'Descuento Black Friday', '2026-11-30');
 
-<<<<<<< HEAD
 INSERT INTO OFRECER 
 (id_cli, codigo_des)
 VALUES
@@ -513,20 +509,6 @@ VALUES
 ('0009',   'BLACKFRIDAY'),   
 ('0012',  'VIP25'),    
 ('0011',  'HAPPYHOLIDAY');  
-=======
-INSERT INTO OFRECER (id_cli, id_res, codigo_des) VALUES
-('0004', 1, 'HAPPY2026'),
-('0002', 2, 'FAMILIA'),
-('0008', 3, 'GRUPO20'),
-('0006', 4, 'CUMPLEAÑOS'),
-('0005', 5, 'VERANO2026'),
-('0006', 6, 'PRIMERAVISO'),
-('0010', 7, 'HAPPY2027'),
-('0009', 8, 'BLACKFRIDAY'),
-('0012', 9, 'VIP25'),
-('0011', 10, 'HAPPYHOLIDAY');
-
->>>>>>> a2da97f460af50162440cb61e3a0cd632a9684ce
 
 INSERT INTO COCINAR 
 VALUES
