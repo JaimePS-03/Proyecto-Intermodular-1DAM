@@ -76,12 +76,12 @@ FROM jefes j, organizar o
 WHERE o.dni_jefe = j.dni
 GROUP BY j.nombre;
 
--- 2 CONSULTAS UTULIZANDO SUBCONSULTAS
+-- 2 CONSULTAS UTILIZANDO SUBCONSULTAS
 
 -- Muestra los clientes que no tengan reservas
 SELECT C.id, C.nombre
 FROM CLIENTES C, RESERVAS R
-WHERE C.id = R.id_cli,
+WHERE C.id = R.id_cli
 AND C.nombre NOT IN (SELECT id_cli
                     FROM RESERVAS);
 
@@ -90,7 +90,7 @@ SELECT nombre
 FROM platos
 WHERE n_plato IN (SELECT S.n_plato
                 FROM SUMINISTRAR s
-                WHERE cif_provee = "A12345678");
+                WHERE cif_provee like '%A12345678%');
 
 
 -- 2 CONSULTAS USANDO GROUP BY CON HAVING
@@ -108,4 +108,28 @@ FROM EMPLEADOS E, ANOTAR A
 WHERE E.dni = A.id_camarero
 GROUP BY E.dni
 HAVING COUNT(A.id_camarero) > 5;
+
 -- 3 ACTUALIZACIONES USANDO SUBCONSULTAS EN WHERE Y SET
+
+-- Pon el precio de los platos al precio medio de los precios de los proveedores
+UPDATE PLATOS p
+SET precio = (
+    SELECT AVG(precio)
+    FROM SUMINISTRAR S
+    WHERE s.n_plato = p.n_plato
+);
+
+-- Actualiza el colectivo de empleados que sean cocineros
+UPDATE EMPLEADOS
+SET colectivo = 'COCINA'
+WHERE dni IN (
+    SELECT dni_empleado
+    FROM COCINERO
+);
+
+-- Actualiza el campo 'n_personas' de una mesa al máximo de personas que aparecen en reservas.
+UPDATE MESAS
+SET n_personas = (
+    SELECT MAX(n_personas)
+    FROM RESERVAS
+);
