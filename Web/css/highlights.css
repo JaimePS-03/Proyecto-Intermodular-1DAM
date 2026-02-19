@@ -1,0 +1,24 @@
+.highlights{
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.highlight{
+  border-radius: var(--radius);
+  border: 1px solid rgba(15,76,129,.12);
+  background:
+    radial-gradient(420px 240px at 20% 10%, rgba(255,210,176,.55), transparent 60%),
+    rgba(255,255,255,.9);
+  padding: 18px;
+  box-shadow: 0 12px 32px rgba(11,42,74,.10);
+  transition: transform .25s ease;
+}
+.highlight:hover{ transform: translateY(-3px); }
+.highlight h3{ margin: 0 0 8px; color: var(--blue-900); }
+.highlight p{ margin: 0 0 10px; color: var(--muted); line-height: 1.6; }
+
+@media (max-width: 900px){
+  .highlights{ grid-template-columns: 1fr; }
+}

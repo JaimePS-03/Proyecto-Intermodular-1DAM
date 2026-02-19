@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Restaurante Fuentes del Algar</title>
+  <meta name="description" content="Demo ficticia inspirada en un restaurante familiar con terraza, piscinas y cocina mediterránea." />
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/menu.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Ir al inicio">
+      <span class="brand__dot" aria-hidden="true"></span>
+      <span class="brandtext">Fuentes del Algars</span>
+    </a>
+
+    <div class="nav-clip" id="navClip">
+      <nav class="nav-desktop" id="navDesktop" aria-label="Navegación principal">
+        <button class="theme-switch" id="themeSwitch" type="button" aria-label="Cambiar tema" aria-pressed="false">
+          <span class="theme-switch__thumb" aria-hidden="true"></span>
+        </button>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#historia">Historia</a>
+        <a href="menu.html">Menú</a>
+        <a class="btn btn--small" href="#reservas">Reservas</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="carousel" aria-label="Carrusel de fotos del restaurante">
+      <div class="container">
+        <div class="carousel__viewport" id="carousel">
+          <div class="carousel__track">
+            <figure class="carousel__slide">
+              <img src="img/images.jpg" alt="Terraza del restaurante" loading="eager" />
+            </figure>
+            <figure class="carousel__slide">
+              <img src="img/kirkified-1767888900786.png" alt="Plato destacado" loading="lazy" />
+            </figure>
+            <figure class="carousel__slide">
+              <img src="img/shelf.gif" alt="Comedor interior" loading="lazy" />
+            </figure>
+          </div>
+
+          <div class="carousel__overlay" aria-hidden="true"></div>
+
+          <div class="carousel__caption reveal">
+            <p class="kicker">Carta</p>
+            <h1 class="carousel__title">Restaurante Demo</h1>
+            <p class="lead">Cocina mediterránea creativa y ambiente familiar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EL MENÚ (CTA) -->
+    <section class="section section--cta" id="menu">
+      <div class="container cta reveal">
+        <div class="cta__text">
+          <h2>El menú</h2>
+          <p>
+            Menú ficticio con platos de la zona, producto de proximidad y opciones para todos los gustos.
+          </p>
+        </div>
+
+        <div class="cta__actions">
+          <a class="btn btn--contrast" href="#reservas">Explorar el menú</a>
+        </div>
+      </div>
+    </section>
+
+        <!-- PLATOS -->
+    <section class="section" id="platos">
+      <div class="container">
+        <header class="section__header reveal">
+          <h2>Platos principales</h2>
+          <p>Selección inventada para practicar maquetación de tarjetas.</p>
+        </header>
+
+        <div class="gridMenu">
+          <article class="dish reveal">
+            <h3>Arroz del día</h3>
+            <p>Arroz meloso con “toque cítrico” y caldo de mar (ficticio).</p>
+            <span class="dish__tag">Recomendado</span>
+          </article>
+
+          <article class="dish reveal">
+            <h3>Brasa mediterránea</h3>
+            <p>Corte a la parrilla con guarnición de temporada (inventado).</p>
+            <span class="dish__tag dish__tag--blue">Brasas</span>
+          </article>
+
+          <article class="dish reveal">
+            <h3>Pescado de lonja demo</h3>
+            <p>Plancha suave, aceite aromático y verduras.</p>
+            <span class="dish__tag">Ligero</span>
+          </article>
+        </div>
+
+        <header class="section__header reveal" style="margin-top: 28px;">
+          <h2>Postres</h2>
+          <p>Pequeños finales dulces también ficticios.</p>
+        </header>
+
+        <div class="gridMenu">
+          <article class="dish reveal">
+            <h3>Tarta de naranja</h3>
+            <p>Bizcocho esponjoso y crema suave.</p>
+            <span class="dish__tag dish__tag--orange">Clásico</span>
+          </article>
+
+          <article class="dish reveal">
+            <h3>Helado artesano</h3>
+            <p>Sabores rotativos: vainilla, cacao y fruta.</p>
+            <span class="dish__tag dish__tag--blue">Frío</span>
+          </article>
+
+          <article class="dish reveal">
+            <h3>Crema marina</h3>
+            <p>Textura ligera con caramelo salado.</p>
+            <span class="dish__tag">Nuevo</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOSOTROS -->
+    <section class="section" id="nosotros">
+      <div class="container">
+        <header class="section__header reveal">
+          <h2>Nosotros</h2>
+          <p>
+            Somos un restaurante familiar de ambiente alegre: comedor interior, terraza y un rincón mini‑aventura
+            para los peques. Todo este texto es inventado.
+          </p>
+        </header>
+
+        <div class="cards">
+          <article class="card reveal">
+            <h3>Comedor interior</h3>
+            <p>Espacio acogedor, mesas amplias y una iluminación suave para comidas tranquilas.</p>
+          </article>
+
+          <article class="card reveal">
+            <h3>Terraza</h3>
+            <p>Zona exterior con sombra, brisa y vistas “de postal” (ficticias) para alargar la sobremesa.</p>
+          </article>
+
+          <article class="card reveal">
+            <h3>Piscinas</h3>
+            <p>Dos piscinas de ejemplo: una grande con trampolín y otra pensada para los más pequeños.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORIA -->
+    <section class="section section--tint" id="historia">
+      <div class="container split">
+        <div class="split__left reveal">
+          <p class="kicker">Desde 1975</p>
+          <h2>Nuestra historia</h2>
+          <p>
+            Empezamos como un bar de carretera (ficticio) y hoy somos un punto de encuentro para celebraciones,
+            paellas dominicales y cenas de verano.
+          </p>
+
+          <div class="timeline">
+            <div class="timeline__item">
+              <span class="timeline__year">1975</span>
+              <span class="timeline__text">Apertura del primer local demo.</span>
+            </div>
+            <div class="timeline__item">
+              <span class="timeline__year">1998</span>
+              <span class="timeline__text">Ampliación con terraza y parrilla demo.</span>
+            </div>
+            <div class="timeline__item">
+              <span class="timeline__year">2024</span>
+              <span class="timeline__text">Nueva carta estacional y postres artesanos demo.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="split__right reveal">
+          <div class="photoMock" role="img" aria-label="Imagen decorativa simulada">
+            <div class="photoMock__label">Foto simulada</div>
+          </div>
+          <p class="hint">Consejo: cambia este bloque por una imagen real usando <code>&lt;img&gt;</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESERVAS -->
+    <section class="section section--tint" id="reservas">
+      <div class="container">
+        <header class="section__header reveal">
+          <h2>Reservas</h2>
+          <p>Formulario de ejemplo (no envía datos).</p>
+        </header>
+
+        <form class="form reveal" onsubmit="event.preventDefault(); alert('Demo: reserva enviada (ficticio).');">
+          <label>
+            Nombre
+            <input type="text" name="nombre" placeholder="Tu nombre" required />
+          </label>
+
+          <label>
+            Personas
+            <input type="number" name="personas" min="1" max="20" value="2" required />
+          </label>
+
+          <label>
+            Día
+            <input type="date" name="dia" required />
+          </label>
+
+          <button class="btn" type="submit">Enviar</button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <p>© 2026 Restaurante Demo. Contenido ficticio para practicar.</p>
+        <a class="link" href="#top">Volver arriba</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
