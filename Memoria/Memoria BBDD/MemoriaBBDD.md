@@ -1077,7 +1077,7 @@ FROM DESCUENTOS
 WHERE fecha_caducidad IS NULL;
 ```
 
-![Cuarta consulta con una sola tabla](/Consultas/image-4.png)
+![Cuarta consulta con una sola tabla](./Consultas/image-4.png)
 
 - Devuelve el cif y nombre de los proveedores que esten en una calle
 
@@ -1087,7 +1087,7 @@ FROM proveedores
 WHERE lower(direccion) LIKE ('c/%');
 ```
 
-![Quinta consulta con una sola tabla](/Consultas/image-5.png)
+![Quinta consulta con una sola tabla](./Consultas/image-5.png)
 
 ### Actualizaciones y borrados en cualquier tabla
 
@@ -1132,7 +1132,7 @@ FROM clientes c, reservas r
 WHERE c.id = r.id_cli;
 ```
 
-![Primera consulta con mas de 1 tabla](/Consultas/image-6.png)
+![Primera consulta con mas de 1 tabla](./Consultas/image-6.png)
 
 - Devuelve el nombre de los proveedor y el nombre de los ingredientes que suministran
 
@@ -1142,7 +1142,7 @@ FROM proveedores pro, suministrar sus
 WHERE pro.cif = sus.cif_provee;
 ```
 
-![Segunda consulta con mas de 1 tabla](/Consultas/image-7.png)
+![Segunda consulta con mas de 1 tabla](./Consultas/image-7.png)
 
 - Muestra el nombre de la zona junto a su bartender
 
@@ -1153,7 +1153,7 @@ WHERE e.dni = s.dni_bartender
 AND s.n_zona = z.n_zona;
 ```
 
-![Tercera consulta con mas de 1 tabla](/Consultas/image-8.png)
+![Tercera consulta con mas de 1 tabla](./Consultas/image-8.png)
 
 ### Consultas usando funciones
 
@@ -1164,7 +1164,7 @@ SELECT count(*) AS cantidad_reservas
 FROM RESERVAS;
 ```
 
-![Primera consulta usando funciones](/Consultas/image-9.png)
+![Primera consulta usando funciones](./Consultas/image-9.png)
 
 - Muestra la cantidad de platos con el tipo 'arroces'
 
@@ -1174,7 +1174,7 @@ FROM platos
 WHERE lower(tipo) LIKE 'arroces%';
 ```
 
-![Segunda consulta usando funciones](/Consultas/image-10.png)
+![Segunda consulta usando funciones](./Consultas/image-10.png)
 
 - Suma todas las existencias de los alimentos frescos
 
@@ -1184,7 +1184,7 @@ FROM ingredientes i
 WHERE upper(tipo) LIKE 'FRESCOS';
 ```
 
-![Tercera consulta usando funciones](/Consultas/image-11.png)
+![Tercera consulta usando funciones](./Consultas/image-11.png)
 
 ### Consultas usando Group By
 
@@ -1198,7 +1198,7 @@ GROUP BY cli.id, cli.nombre
 ORDER BY cli.id;
 ```
 
-![Primera consulta usando Group By](/Consultas/image-12.png)
+![Primera consulta usando Group By](./Consultas/image-12.png)
 
 - Muestra el nombre del jefe y la cantidad de empleados que tiene a su supervision
 
@@ -1209,7 +1209,7 @@ WHERE o.dni_jefe = j.dni
 GROUP BY j.nombre;
 ```
 
-![Segunda consulta usando Group By](/Consultas/image-13.png)
+![Segunda consulta usando Group By](./Consultas/image-13.png)
 
 ### Consultas usando Subconsultas
 
@@ -1224,7 +1224,7 @@ WHERE p.id IN (
 );
 ```
 
-![Primera consulta usando Subconsultas](/Consultas/image-14.png)
+![Primera consulta usando Subconsultas](./Consultas/image-14.png)
 
 - Clientes que han pedido un plato en concreto
 
@@ -1240,7 +1240,7 @@ WHERE c.id IN (
         WHERE t.n_plato = '001'));
 ```
 
-![Segunda consulta usando Subconsultas](/Consultas/image-15.png)
+![Segunda consulta usando Subconsultas](./Consultas/image-15.png)
 
 - El cliente que ha realiado mas pedidos
 
@@ -1255,7 +1255,7 @@ HAVING count(re.*) = (SELECT MAX(t.n)
 					GROUP BY re.id_cli) t);
 ```
 
-![Superconsulta](/Consultas/image-16.png)
+![Superconsulta](./Consultas/image-16.png)
 
 ### Consultas con Having
 
@@ -1268,7 +1268,7 @@ GROUP BY r.id_cli
 HAVING COUNT(*) > 3;
 ```
 
-![Primera consulta con Having](/Consultas/image-17.png)
+![Primera consulta con Having](./Consultas/image-17.png)
 
 - Mesas con mas pedidos que la media
 
@@ -1282,7 +1282,7 @@ HAVING COUNT(*) >= (SELECT AVG(cnt_pedidos)FROM (
     GROUP BY n_mesa));
 ```
 
-![alt text](/Consultas/image-18.png)
+![alt text](./Consultas/image-18.png)
 
 ### Actualizaciones usando subconsultas en Where y Set
 
