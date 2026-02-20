@@ -4,7 +4,7 @@
 
 ## Metadatos
 
-- **Autor:** Jaime Pérez Such, Óscar Berenguer, Alejandro Robledillo
+- **Autor:** Jaime Pérez, Óscar Berenguer, Alejandro Robledillo
 - **Fecha:** 17/02/2026
 - **Versión:** V2
 - **Curso:** Desarrollo de Aplicaciones Multiplataforma
@@ -20,17 +20,18 @@
   - [Diseño perceptivo de requisitos](#diseño-perceptivo-de-requisitos)
   - [Diseño conceptual](#diseño-conceptual)
     - [Diseño lógico](#diseño-lógico)
-    - [DDL del Proyecto](#ddl-del-proyecto)
-      - [Cambios realizados](#cambios-realizados)
-    - [DML del Proyecto](#dml-del-proyecto)
-    - [Consultas](#consultas)
-      - [Consultas simples de una sola tabla](#consultas-simples-de-una-sola-tabla)
-      - [Actualizaciones y borrados en cualquier tabla](#actualizaciones-y-borrados-en-cualquier-tabla)
-      - [Consultas con mas de 1 tabla](#consultas-con-mas-de-1-tabla)
-      - [Consultas usando funciones](#consultas-usando-funciones)
-      - [Consultas usando Group By](#consultas-usando-group-by)
-      - [Consultas usando Subconsultas](#consultas-usando-subconsultas)
-      - [Consultas con Having](#consultas-con-having)
+  - [DDL del Proyecto](#ddl-del-proyecto)
+    - [Cambios realizados](#cambios-realizados)
+  - [DML del Proyecto](#dml-del-proyecto)
+  - [Consultas](#consultas)
+    - [Consultas simples de una sola tabla](#consultas-simples-de-una-sola-tabla)
+    - [Actualizaciones y borrados en cualquier tabla](#actualizaciones-y-borrados-en-cualquier-tabla)
+    - [Consultas con mas de 1 tabla](#consultas-con-mas-de-1-tabla)
+    - [Consultas usando funciones](#consultas-usando-funciones)
+    - [Consultas usando Group By](#consultas-usando-group-by)
+    - [Consultas usando Subconsultas](#consultas-usando-subconsultas)
+    - [Consultas con Having](#consultas-con-having)
+    - [Actualizaciones usando subconsultas en Where y Set](#actualizaciones-usando-subconsultas-en-where-y-set)
 
 ---
 
@@ -224,7 +225,7 @@ UK(código_des)
 FK(id_cli, id_res) → RESERVAR
 FK(código_des) → DESCUENTOS
 
-### DDL del Proyecto
+## DDL del Proyecto
 
 A la hora de crear las tablas, necesitamos un DDL (Data Definition Language). Para ello usaremos el diseño lógico de antes y lo pasaremos al lenguaje de SQL.
 
@@ -441,7 +442,7 @@ FOREIGN KEY (codigo_des) REFERENCES DESCUENTOS(codigo)
 );
 ```
 
-#### Cambios realizados
+### Cambios realizados
 
 Se han realizado cambios respecto al módelo lógico, añadiendo unas columnas en diferentes tablas
 
@@ -451,11 +452,20 @@ Se han realizado cambios respecto al módelo lógico, añadiendo unas columnas e
 
 > Se agrega la columna fecha_caducidad, del tipo DATE en DESCUENTOS
 
-### DML del Proyecto
+## DML del Proyecto
 
 Realizamos los inserts en la base de datos:
 
 ```SQL
+TRUNCATE TABLE 
+CLIENTES, RESERVAS, MESAS, PEDIDOS, REALIZAR, RECIBOS, PLATOS, TENER, 
+INGREDIENTES, PROVEEDORES, SUMINISTRAR, ALERGENOS, CONTIENE, JEFES, 
+ZONAS, EMPLEADOS, COCINERO, CAMAREROS, ANOTAR, COCINAR, BARTENDERS, 
+ORGANIZAR, SERVIR, DESCUENTOS, OFRECER 
+RESTART IDENTITY CASCADE;
+
+-- Truncate nos reinicia los valores a 0 de todas las tablas.
+
 INSERT INTO CLIENTES
 VALUES
 ('0000', 'Cliente', null, null, null),
@@ -489,6 +499,77 @@ VALUES
 ('0028', 'Marcos', 'Prieto', '632345678', 'marpri@gmail.com'),
 ('0029', 'Aitana', 'Suarez', '633456789', 'aitsua@gmail.com');
 
+INSERT INTO MESAS
+VALUES
+(1, 4),
+(2, 4),
+(3, 4),
+(4, 4),
+(5, 6),
+(6, 6),
+(7, 6),
+(8, 6),
+(9, 15),
+(10, 15),
+(11, 6),
+(12, 6),
+(13, 8),
+(14, 6),
+(15, 11); 
+
+INSERT INTO PEDIDOS (hora, n_mesa) VALUES
+('2026-01-04 13:11:21', 2),
+('2026-01-04 14:05:10', 7),
+('2026-01-05 09:22:48', 1),
+('2026-01-05 10:47:33', 10),
+('2026-01-06 12:15:00', 4),
+('2026-01-06 13:58:19', 6),
+('2026-01-07 20:03:45', 3),
+('2026-01-08 21:30:12', 8),
+('2026-01-09 11:09:09', 5),
+('2026-01-10 15:42:27', 9),
+('2026-01-11 16:25:51', 2),
+('2026-01-12 19:10:36', 7),
+('2026-01-13 13:05:44', 1),
+('2026-01-14 14:49:02', 10),
+('2026-01-15 22:12:55', 6),
+('2026-01-16 12:33:18', 4),
+('2026-01-18 09:58:41', 8),
+('2026-01-20 17:20:07', 3),
+('2026-01-23 20:40:29', 9),
+('2026-01-27 13:27:13', 5);
+
+
+
+INSERT INTO REALIZAR (id_cli, id_pedi) VALUES
+('0025', 1), ('0000', 2), ('0016', 3), ('0002', 4), ('0000', 5),
+('0010', 6), ('0028', 7), ('0004', 8), ('0008', 9), ('0000', 10),
+('0018', 11),('0023', 12),('0012', 13),('0001', 14),('0000', 15),
+('0027', 16),('0003', 17),('0000', 18),('0019', 19),('0000', 20);
+
+
+INSERT INTO RECIBOS (fecha, hora, id_pedido) VALUES
+('2026-01-04', '13:15:30', 1),
+('2026-01-04', '13:13:05', 2),
+('2026-01-05', '09:25:10', 3),
+('2026-01-05', '10:50:02', 4),
+('2026-01-06', '12:17:40', 5),
+('2026-01-06', '14:00:15', 6),
+('2026-01-07', '20:06:12', 7),
+('2026-01-08', '21:33:08', 8),
+('2026-01-09', '11:12:44', 9),
+('2026-01-10', '15:45:03', 10),
+('2026-01-11', '16:28:27', 11),
+('2026-01-12', '19:13:55', 12),
+('2026-01-13', '13:08:11', 13),
+('2026-01-14', '14:52:36', 14),
+('2026-01-15', '22:15:20', 15),
+('2026-01-16', '12:35:49', 16),
+('2026-01-18', '10:01:22', 17),
+('2026-01-20', '17:23:40', 18),
+('2026-01-23', '20:43:18', 19),
+('2026-01-27', '13:30:05', 20);
+
 INSERT INTO RESERVAS
 (n_personas, tipo_reserva, fecha, id_cli)
 VALUES
@@ -510,95 +591,6 @@ VALUES
 (11, 'Cumpleaños', '17-02-2026 18:00:00', '0001'),
 (5, 'Comida familiar', '18-02-2026 14:15:00', '0027');
 
-INSERT INTO MESAS
-VALUES
-(1, 4),
-(2, 4),
-(3, 4),
-(4, 4),
-(5, 6),
-(6, 6),
-(7, 6),
-(8, 6),
-(9, 15),
-(10, 15),
-(11, 6),
-(12, 6),
-(13, 8),
-(14, 6),
-(15, 11); 
-
-INSERT INTO PEDIDOS
-(hora, n_mesa)
-VALUES
-('04-01-2026 13:11:21', 2),
-('04-01-2026 14:05:10', 7),
-('05-01-2026 09:22:48', 1),
-('05-01-2026 10:47:33', 10),
-('06-01-2026 12:15:00', 4),
-('06-01-2026 13:58:19', 6),
-('07-01-2026 20:03:45', 3),
-('08-01-2026 21:30:12', 8),
-('09-01-2026 11:09:09', 5),
-('10-01-2026 15:42:27', 9),
-('11-01-2026 16:25:51', 2),
-('12-01-2026 19:10:36', 7),
-('13-01-2026 13:05:44', 1),
-('14-01-2026 14:49:02', 10),
-('15-01-2026 22:12:55', 6),
-('16-01-2026 12:33:18', 4),
-('18-01-2026 09:58:41', 8),
-('20-01-2026 17:20:07', 3),
-('23-01-2026 20:40:29', 9),
-('27-01-2026 13:27:13', 5);
-
-INSERT INTO REALIZAR
-(id_cli, id_pedi)
-VALUES
-('0025', 261),
-('0000', 262),
-('0016', 263),
-('0002', 264),
-('0000', 265),
-('0010', 266),
-('0028', 267),
-('0004', 268),
-('0008', 269),
-('0000', 270),
-('0018', 271),
-('0023', 272),
-('0012', 273),
-('0001', 274),
-('0000', 275),
-('0027', 276),
-('0003', 277),
-('0000', 278),
-('0019', 279),
-('0000', 280);
-
-INSERT INTO RECIBOS
-(fecha, hora, id_pedido)
-VALUES
-('2026-01-04', '13:15:30', 261),
-('2026-01-04', '13:13:05', 262),
-('2026-01-05', '09:25:10', 263),
-('2026-01-05', '10:50:02', 264),
-('2026-01-06', '12:17:40', 265),
-('2026-01-06', '14:00:15', 266),
-('2026-01-07', '20:06:12', 267),
-('2026-01-08', '21:33:08', 268),
-('2026-01-09', '11:12:44', 269),
-('2026-01-10', '15:45:03', 270),
-('2026-01-11', '16:28:27', 271),
-('2026-01-12', '19:13:55', 272),
-('2026-01-13', '13:08:11', 273),
-('2026-01-14', '14:52:36', 274),
-('2026-01-15', '22:15:20', 275),
-('2026-01-16', '12:35:49', 276),
-('2026-01-18', '10:01:22', 277),
-('2026-01-20', '17:23:40', 278),
-('2026-01-23', '20:43:18', 279),
-('2026-01-27', '13:30:05', 280);
 
 INSERT INTO PLATOS
 VALUES
@@ -876,18 +868,18 @@ VALUES
 ('VIP25', 25.00, 'Descuento VIP para clientes habituales', NULL),
 ('BLACKFRIDAY', 30.00, 'Descuento Black Friday', '2026-11-30');
 
-INSERT INTO OFRECER 
-VALUES
-('0004',227 , 'HAPPY2026'),  
-('0002', 237, 'FAMILIA'),       
-('0008', 234,  'GRUPO20'),     
-('0006', 223,  'CUMPLEAÑOS'),   
-('0005', 229,  'VERANO2026'),   
-('0006', 232,   'PRIMERAVISO'),  
-('0010', 231,  'HAPPY2027'),    
-('0009', 228,   'BLACKFRIDAY'),   
-('0012', 238,  'VIP25'),    
-('0011', 222,  'HAPPYHOLIDAY');  
+INSERT INTO OFRECER (id_cli, id_res, codigo_des) VALUES
+('0004', 1, 'HAPPY2026'),
+('0002', 2, 'FAMILIA'),
+('0008', 3, 'GRUPO20'),
+('0006', 4, 'CUMPLEAÑOS'),
+('0005', 5, 'VERANO2026'),
+('0006', 6, 'PRIMERAVISO'),
+('0010', 7, 'HAPPY2027'),
+('0009', 8, 'BLACKFRIDAY'),
+('0012', 9, 'VIP25'),
+('0011', 10, 'HAPPYHOLIDAY');
+
 
 INSERT INTO COCINAR 
 VALUES
@@ -970,77 +962,51 @@ VALUES
 ('077', '33333333C'),
 ('078', '33333333C');
 
-INSERT INTO ANOTAR 
-VALUES
-('44444444D', 261), 
-('66666666F', 262), 
-('77777777G', 263), 
-('44444444D', 264), 
-('66666666F', 265), 
-('77777777G', 266), 
-('44444444D', 267), 
-('66666666F', 268), 
-('77777777G', 269), 
-('44444444D', 270),
-('55555555E', 271), 
-('88888888H', 272),
-('99999999J', 273),
-('55555555E', 274),
-('88888888H', 275),
-('99999999J', 276),
-('55555555E', 277),
-('88888888H', 278),
-('99999999J', 279),
-('00000000K', 280);  
+INSERT INTO ANOTAR (id_camarero, id_pedidos) VALUES
+('44444444D', 1),
+('66666666F', 2),
+('77777777G', 3),
+('44444444D', 4),
+('66666666F', 5),
+('77777777G', 6),
+('44444444D', 7),
+('66666666F', 8),
+('77777777G', 9),
+('44444444D', 10),
+('55555555E', 11),
+('88888888H', 12),
+('99999999J', 13),
+('55555555E', 14),
+('88888888H', 15),
+('99999999J', 16),
+('55555555E', 17),
+('88888888H', 18),
+('99999999J', 19),
+('00000000K', 20);
+ 
 
-INSERT INTO TENER
-VALUES
-(261, '005'),
-(261, '001'),
-(262, '001'),
-(262, '006'),
-(263, '006'),
-(263, '025'),
-(263, '026'),
-(264, '025'),
-(264, '026'),
-(265, '026'),
-(265, '028'),
-(266, '028'),
-(266, '012'),
-(266, '013'),
-(267, '012'),
-(267, '013'),
-(268, '013'),
-(268, '014'),
-(269, '014'),
-(269, '020'),
-(269, '021'),
-(270, '020'),
-(270, '021'),
-(271, '021'),
-(271, '022'),
-(272, '022'),
-(272, '023'),
-(272, '024'),
-(273, '023'),
-(273, '024'),
-(274, '024'),
-(274, '027'),
-(275, '027'),
-(275, '030'),
-(275, '005'),
-(276, '030'),
-(276, '005'),
-(277, '005'),
-(277, '001'),
-(278, '001'),
-(278, '006'),
-(278, '025'),
-(279, '006'),
-(279, '025'),
-(280, '025'),
-(280, '026');
+INSERT INTO TENER (id_pedido, n_plato) VALUES
+(1, '005'), (1, '001'),
+(2, '001'), (2, '006'),
+(3, '006'), (3, '025'), (3, '026'),
+(4, '025'), (4, '026'),
+(5, '026'), (5, '028'),
+(6, '028'), (6, '012'), (6, '013'),
+(7, '012'), (7, '013'),
+(8, '013'), (8, '014'),
+(9, '014'), (9, '020'), (9, '021'),
+(10, '020'), (10, '021'),
+(11, '021'), (11, '022'),
+(12, '022'), (12, '023'), (12, '024'),
+(13, '023'), (13, '024'),
+(14, '024'), (14, '027'),
+(15, '027'), (15, '030'), (15, '005'),
+(16, '030'), (16, '005'),
+(17, '005'), (17, '001'),
+(18, '001'), (18, '006'), (18, '025'),
+(19, '006'), (19, '025'),
+(20, '025'), (20, '026');
+
 
 INSERT INTO SUMINISTRAR
 VALUES
@@ -1071,9 +1037,9 @@ VALUES
 ('005', 'Ajo', 'E56789012', 2.45, '2026-01-06', '09:23:13');
 ```
 
-### Consultas 
+## Consultas 
 
-#### Consultas simples de una sola tabla
+### Consultas simples de una sola tabla
 
 - Devuelve los nombres de todos los platos
 
@@ -1082,12 +1048,16 @@ SELECT nombre
 FROM platos;
 ```
 
+![Primera Consulta con una sola tabla](./Consultas/image-1.png)
+
 - Devuelve el id y el nombre de los clientes
 
 ```SQL
 SELECT id, nombre
 FROM CLIENTES;
 ```
+
+![Segunda consulta con una sola tabla](./Consultas/image-2.png)
 
 - Devuelve el id de los pedidos realizados los dias 14
 
@@ -1097,6 +1067,8 @@ FROM PEDIDOS
 WHERE to_char(hora, 'dd') = '14';
 ```
 
+![Tercera consulta con una sola tabla](./Consultas/image-3.png)
+
 - Devuelve el codigo de los descuentos cual fecha de caducidad sea nula
 
 ```SQL
@@ -1104,6 +1076,8 @@ SELECT codigo
 FROM DESCUENTOS
 WHERE fecha_caducidad IS NULL;
 ```
+
+![Cuarta consulta con una sola tabla](/Consultas/image-4.png)
 
 - Devuelve el cif y nombre de los proveedores que esten en una calle
 
@@ -1113,9 +1087,41 @@ FROM proveedores
 WHERE lower(direccion) LIKE ('c/%');
 ```
 
-#### Actualizaciones y borrados en cualquier tabla
+![Quinta consulta con una sola tabla](/Consultas/image-5.png)
 
-#### Consultas con mas de 1 tabla
+### Actualizaciones y borrados en cualquier tabla
+
+- Actualiza el telefono del cliente con id '0010'
+
+```SQL
+UPDATE CLIENTES
+SET telefono = '623423197'
+WHERE id = '0010';
+```
+
+- Actualiza el precio del plato con n_plato '003'
+
+```SQL
+UPDATE PLATOS
+SET precio = 12.50
+WHERE n_plato = '003';
+```
+
+- Elimina el cliente con id '0009'
+
+```SQL
+DELETE FROM CLIENTES
+WHERE id = '0009';
+```
+
+- Elimina la reserva con el id 7
+
+```SQL
+DELETE FROM RESERVAS
+WHERE id = 7;
+```
+
+### Consultas con mas de 1 tabla
 
 - Devuelve el nombre de los clientes, el tipo de reserva y la 
 fecha de esta
@@ -1126,6 +1132,8 @@ FROM clientes c, reservas r
 WHERE c.id = r.id_cli;
 ```
 
+![Primera consulta con mas de 1 tabla](/Consultas/image-6.png)
+
 - Devuelve el nombre de los proveedor y el nombre de los ingredientes que suministran
 
 ```SQL
@@ -1133,6 +1141,8 @@ SELECT pro.nombre, sus.nombre_ingre
 FROM proveedores pro, suministrar sus
 WHERE pro.cif = sus.cif_provee;
 ```
+
+![Segunda consulta con mas de 1 tabla](/Consultas/image-7.png)
 
 - Muestra el nombre de la zona junto a su bartender
 
@@ -1143,7 +1153,9 @@ WHERE e.dni = s.dni_bartender
 AND s.n_zona = z.n_zona;
 ```
 
-#### Consultas usando funciones
+![Tercera consulta con mas de 1 tabla](/Consultas/image-8.png)
+
+### Consultas usando funciones
 
 - Muestra la cantidad de reservas
 
@@ -1151,6 +1163,8 @@ AND s.n_zona = z.n_zona;
 SELECT count(*) AS cantidad_reservas
 FROM RESERVAS;
 ```
+
+![Primera consulta usando funciones](/Consultas/image-9.png)
 
 - Muestra la cantidad de platos con el tipo 'arroces'
 
@@ -1160,6 +1174,8 @@ FROM platos
 WHERE lower(tipo) LIKE 'arroces%';
 ```
 
+![Segunda consulta usando funciones](/Consultas/image-10.png)
+
 - Suma todas las existencias de los alimentos frescos
 
 ```SQL
@@ -1168,7 +1184,9 @@ FROM ingredientes i
 WHERE upper(tipo) LIKE 'FRESCOS';
 ```
 
-#### Consultas usando Group By
+![Tercera consulta usando funciones](/Consultas/image-11.png)
+
+### Consultas usando Group By
 
 - Muestra el nombre del cliente y la cantidad de pedidos totales que ha realizado
 
@@ -1180,6 +1198,8 @@ GROUP BY cli.id, cli.nombre
 ORDER BY cli.id;
 ```
 
+![Primera consulta usando Group By](/Consultas/image-12.png)
+
 - Muestra el nombre del jefe y la cantidad de empleados que tiene a su supervision
 
 ```SQL
@@ -1189,7 +1209,9 @@ WHERE o.dni_jefe = j.dni
 GROUP BY j.nombre;
 ```
 
-#### Consultas usando Subconsultas
+![Segunda consulta usando Group By](/Consultas/image-13.png)
+
+### Consultas usando Subconsultas
 
 - Pedidos que tienen clientes asociados
 
@@ -1201,6 +1223,8 @@ WHERE p.id IN (
     FROM REALIZAR r
 );
 ```
+
+![Primera consulta usando Subconsultas](/Consultas/image-14.png)
 
 - Clientes que han pedido un plato en concreto
 
@@ -1216,6 +1240,8 @@ WHERE c.id IN (
         WHERE t.n_plato = '001'));
 ```
 
+![Segunda consulta usando Subconsultas](/Consultas/image-15.png)
+
 - El cliente que ha realiado mas pedidos
 
 ```SQL
@@ -1229,7 +1255,9 @@ HAVING count(re.*) = (SELECT MAX(t.n)
 					GROUP BY re.id_cli) t);
 ```
 
-#### Consultas con Having
+![Superconsulta](/Consultas/image-16.png)
+
+### Consultas con Having
 
 - Clientes con mas de 3 pedidos
 
@@ -1240,14 +1268,52 @@ GROUP BY r.id_cli
 HAVING COUNT(*) > 3;
 ```
 
+![Primera consulta con Having](/Consultas/image-17.png)
+
 - Mesas con mas pedidos que la media
 
 ```SQL
 SELECT p.n_mesa, COUNT(*) AS num_pedidos
 FROM PEDIDOS p
 GROUP BY p.n_mesa
-HAVING COUNT(*) > (SELECT AVG(cnt_pedidos)FROM (
+HAVING COUNT(*) >= (SELECT AVG(cnt_pedidos)FROM (
     SELECT n_mesa, COUNT(*) AS cnt_pedidos
     FROM PEDIDOS
     GROUP BY n_mesa));
+```
+
+![alt text](/Consultas/image-18.png)
+
+### Actualizaciones usando subconsultas en Where y Set
+
+- Pon el precio de los platos al precio medio de los precios de los proveedores
+
+```SQL
+UPDATE PLATOS p
+SET precio = (
+    SELECT AVG(precio)
+    FROM SUMINISTRAR S
+    WHERE s.n_plato = p.n_plato
+);
+```
+
+- Actualiza el colectivo de empleados que sean cocineros
+
+```SQL
+UPDATE EMPLEADOS
+SET colectivo = 'COCINA'
+WHERE dni IN (
+    SELECT dni_empleado
+    FROM COCINERO
+);
+```
+
+- Actualiza el campo 'n_personas' de una mesa al máximo de personas que aparecen en reservas.
+
+```SQL
+UPDATE MESAS
+SET n_personas = (
+    SELECT MAX(n_personas)
+    FROM RESERVAS
+);
 ```
