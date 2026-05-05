@@ -1,14 +1,14 @@
 package controlador;
 
 import dao.ClienteDAO;
+import dao.MesaDAO;
 import dao.PlatoDAO;
 import dao.ReservaDAO;
 import modelo.Cliente;
+import modelo.Mesa;
 import modelo.Plato;
 import modelo.Reserva;
 import util.EntradaTexto;
-
-import java.sql.Timestamp;
 
 public class MenuPrincipal {
 
@@ -16,6 +16,7 @@ public class MenuPrincipal {
     private static final ClienteDAO cDao = new ClienteDAO();
     private static final ReservaDAO rDao = new ReservaDAO();
     private static final PlatoDAO pDao = new PlatoDAO();
+    private static final MesaDAO mDao = new MesaDAO();
 
     public static void main(String[] args){
         int opcion = 0;
@@ -157,8 +158,57 @@ public class MenuPrincipal {
                         }
                     } while (opReserva != 0);
                     break;
+                case 4:
+                    int opMesa;
+                    do {
+                        mDao.menu();
+                        opMesa = EntradaTexto.pedirInt("Opción: ");
+
+                        switch(opMesa) {
+                            case 1:
+                                mDao.listar();
+                                break;
+                            case 2:
+                                mDao.insertar(mDao.generarMesa());
+                                break;
+                            case 3:
+                                Mesa m = mDao.buscarPorId(EntradaTexto.pedirInt("ID de la mesa buscada"));
+                                System.out.println(m != null ? m : "No existe una mesa con ese ID");
+                                break;
+                            case 4:
+                                int eliMesa = EntradaTexto.pedirInt("Id de la reserva");
+                                mDao.eliminar(eliMesa);
+                                break;
+                            case 5:
+                                int id = EntradaTexto.pedirInt("ID de la reserva a actualizar: ");
+                                Reserva r = rDao.buscarPorId(id);
+                                if (r != null) {
+                                    r.setnPersonas(EntradaTexto.pedirInt("Nueva cantidad de comensales (" + r.getnPersonas() + "): "));
+                                    r.setTipoReserva(EntradaTexto.pedirString("Nuevo tipo de reserva (" + r.getTipoReserva() + "): "));
+                                    do {
+                                        String idCliReserva = EntradaTexto.pedirString("ID cliente: ");
+                                        Cliente clienteReserva = cDao.buscarPorId(idCliReserva);
+                                        if (clienteReserva != null) {
+                                            r.setIdCliente(idCliReserva);
+                                        } else {
+                                            System.out.println("No hay cliente con ese ID");
+                                        }
+                                        break;
+                                    } while (true);
+                                    rDao.actualizar(id, r);
+                                }
+                                break;
+                            case 0:
+                                System.out.println("Saliendo de las mesas...");
+                                break;
+                            default:
+                                System.out.println("Opción no válida");
+                                break;
+                        }
+                    } while (opMesa != 0);
+                    break;
                 default:
-                    System.out.println("Opcion no válida");
+                    System.out.println("Opción no válida");
                     break;
             }
         }while(opcion != 0);
