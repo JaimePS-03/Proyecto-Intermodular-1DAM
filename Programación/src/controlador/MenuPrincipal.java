@@ -222,10 +222,7 @@ public class MenuPrincipal {
                 "1) Clientes\n" +
                 "2) Platos\n" +
                 "3) Reservas\n" +
-                "4) WIP\n" +
-                "5) WIP\n" +
-                "6) WIP\n" +
-                "7) WIP\n" +
+                "4) Mesas\n" +
                 "0) Salir");
     }
 
