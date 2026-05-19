@@ -3,6 +3,8 @@ package vista;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
 import dao.PlatoDAO;
 import modelo.Plato;
 
@@ -11,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import java.awt.Font;
 
 public class VentanaPlatos extends JFrame {
@@ -22,7 +23,8 @@ public class VentanaPlatos extends JFrame {
     private JTextField txtNombre;
     private JTextField txtPrecio;
     private JTextField txtTipo;
-    private JTextArea txtResultado;
+    private JTable tablaPlatos;
+    private DefaultTableModel modeloTabla;
 
     private PlatoDAO pDao = new PlatoDAO();
 
@@ -102,14 +104,28 @@ public class VentanaPlatos extends JFrame {
         scrollPane.setBounds(30, 260, 720, 180);
         contentPane.add(scrollPane);
 
-        txtResultado = new JTextArea();
-        scrollPane.setViewportView(txtResultado);
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("ID");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Precio");
+        modeloTabla.addColumn("Tipo");
+
+        tablaPlatos = new JTable(modeloTabla);
+        scrollPane.setViewportView(tablaPlatos);
 
         btnListar.addActionListener(e -> {
             try {
-                txtResultado.setText("");
-                pDao.listar();
-                txtResultado.setText("Se ha ejecutado listar(). Si imprime en consola, luego tendrás que adaptarlo para mostrar listas en pantalla.");
+                modeloTabla.setRowCount(0);
+
+                for (Plato p : pDao.getPlatos()) {
+                    Object[] fila = {
+                        p.getId(),
+                        p.getNombre(),
+                        p.getPrecio(),
+                        p.getTipo()
+                    };
+                    modeloTabla.addRow(fila);
+                }
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -122,9 +138,8 @@ public class VentanaPlatos extends JFrame {
                     txtNombre.setText(p.getNombre());
                     txtPrecio.setText(String.valueOf(p.getPrecio()));
                     txtTipo.setText(p.getTipo());
-                    txtResultado.setText(p.toString());
                 } else {
-                    txtResultado.setText("No existe ese plato");
+                    JOptionPane.showMessageDialog(this, "No existe ese plato");
                 }
             } catch (Exception ex) {
                 mostrarError(ex);
@@ -141,7 +156,7 @@ public class VentanaPlatos extends JFrame {
                 Plato p = new Plato(id, nombre, precio, tipo);
                 pDao.insertar(p);
 
-                txtResultado.setText("Plato insertado correctamente: " + p.toString());
+                JOptionPane.showMessageDialog(this, "Plato insertado correctamente");
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -158,9 +173,9 @@ public class VentanaPlatos extends JFrame {
                     p.setTipo(txtTipo.getText().trim());
 
                     pDao.actualizar(id, p);
-                    txtResultado.setText("Plato actualizado correctamente");
+                    JOptionPane.showMessageDialog(this, "Plato actualizado correctamente");
                 } else {
-                    txtResultado.setText("No existe ese plato");
+                    JOptionPane.showMessageDialog(this, "No existe ese plato");
                 }
             } catch (Exception ex) {
                 mostrarError(ex);
@@ -170,7 +185,7 @@ public class VentanaPlatos extends JFrame {
         btnEliminar.addActionListener(e -> {
             try {
                 boolean eliminado = pDao.eliminar(txtId.getText().trim());
-                txtResultado.setText(eliminado ? "Plato eliminado correctamente" : "No existe el plato");
+                JOptionPane.showMessageDialog(this, eliminado ? "Plato eliminado correctamente" : "No existe el plato");
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -184,7 +199,7 @@ public class VentanaPlatos extends JFrame {
         txtNombre.setText("");
         txtPrecio.setText("");
         txtTipo.setText("");
-        txtResultado.setText("");
+        modeloTabla.setRowCount(0);
     }
 
     private void mostrarError(Exception ex) {

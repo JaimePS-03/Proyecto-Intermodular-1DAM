@@ -38,10 +38,14 @@ public class PedidoDAO {
     /**
      * Nos permite mostrar todos los pedidos
      */
-    public void listar(){
-        for(Pedido p: pedidos){
-            System.out.println(p);
+    public String listar() {
+        String texto = "";
+
+        for (Pedido p : pedidos) {
+            texto = texto + p + "\n";
         }
+
+        return texto;
     }
 
     /**

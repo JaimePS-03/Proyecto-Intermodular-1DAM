@@ -31,10 +31,14 @@ public class ReservaDAO {
     /**
      * Nos permite listar las Reservas que están en el ArrayList
      */
-    public void listar(){
-        for(Reserva r : reservas){
-            System.out.println(r);
+    public String listar() {
+        String texto = "";
+
+        for (Reserva r : reservas) {
+            texto = texto + r + "\n";
         }
+
+        return texto;
     }
 
     /**
@@ -91,17 +95,18 @@ public class ReservaDAO {
      * @param idCliente Id del cliente a buscar las reservas
      * @return Si tiene, devuelve un ArrayList con las reservas, si no encuentra, devuelve null
      */
-    public ArrayList<Reserva> listarPorCliente(String idCliente){
+    public ArrayList<Reserva> listarPorCliente(String idCliente) {
         ArrayList<Reserva> reservaPorCliente = new ArrayList<>();
-        for(Reserva r : reservas){
-            if(r.getIdCliente().equals(idCliente)){
+
+        for (Reserva r : reservas) {
+            if (r.getIdCliente().equals(idCliente)) {
                 reservaPorCliente.add(r);
             }
         }
 
-        if(reservaPorCliente.isEmpty()){
+        if (reservaPorCliente.isEmpty()) {
             return null;
-        }else{
+        } else {
             return reservaPorCliente;
         }
     }
@@ -135,5 +140,10 @@ public class ReservaDAO {
                 "4) Eliminar reserva\n" +
                 "5) Actualizar platos\n" +
                 "0) Volver");
+    }
+    
+ // Método para devolver el Array para la tabla de la Ventana de Reservas
+    public ArrayList<Reserva> getReservas() {
+        return reservas;
     }
 }

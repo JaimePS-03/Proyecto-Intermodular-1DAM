@@ -3,6 +3,8 @@ package vista;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
 import dao.ClienteDAO;
 import modelo.Cliente;
 
@@ -11,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import java.awt.Font;
 
 public class VentanaClientes extends JFrame {
@@ -23,7 +24,8 @@ public class VentanaClientes extends JFrame {
     private JTextField txtApellidos;
     private JTextField txtTelefono;
     private JTextField txtEmail;
-    private JTextArea txtResultado;
+    private JTable tablaClientes;
+    private DefaultTableModel modeloTabla;
 
     private ClienteDAO cDao = new ClienteDAO();
 
@@ -112,14 +114,31 @@ public class VentanaClientes extends JFrame {
         scrollPane.setBounds(30, 290, 720, 180);
         contentPane.add(scrollPane);
 
-        txtResultado = new JTextArea();
-        scrollPane.setViewportView(txtResultado);
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("DNI");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellidos");
+        modeloTabla.addColumn("Teléfono");
+        modeloTabla.addColumn("Email");
+
+        tablaClientes = new JTable(modeloTabla);
+        scrollPane.setViewportView(tablaClientes);
 
         btnListar.addActionListener(e -> {
             try {
-                txtResultado.setText("");
-                cDao.listar();
-                txtResultado.setText("Se ha ejecutado listar().\nSi tu listar() imprime por consola, conviértelo luego para que devuelva una lista.");
+                modeloTabla.setRowCount(0);
+
+                for (Cliente c : cDao.getClientes()) {
+                    Object[] fila = {
+                        c.getId(),
+                        c.getNombre(),
+                        c.getApellidos(),
+                        c.getTelefono(),
+                        c.getEmail()
+                    };
+                    modeloTabla.addRow(fila);
+                }
+
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -129,14 +148,14 @@ public class VentanaClientes extends JFrame {
             try {
                 String id = txtDni.getText().trim();
                 Cliente c = cDao.buscarPorId(id);
+
                 if (c != null) {
-                    txtResultado.setText(c.toString());
                     txtNombre.setText(c.getNombre());
                     txtApellidos.setText(c.getApellidos());
                     txtTelefono.setText(c.getTelefono());
                     txtEmail.setText(c.getEmail());
                 } else {
-                    txtResultado.setText("Cliente no encontrado");
+                    JOptionPane.showMessageDialog(this, "Cliente no encontrado");
                 }
             } catch (Exception ex) {
                 mostrarError(ex);
@@ -154,7 +173,7 @@ public class VentanaClientes extends JFrame {
                 );
 
                 cDao.insertar(nuevo);
-                txtResultado.setText("Cliente insertado correctamente");
+                JOptionPane.showMessageDialog(this, "Cliente insertado correctamente");
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -172,9 +191,9 @@ public class VentanaClientes extends JFrame {
                     cliente.setEmail(txtEmail.getText().trim());
 
                     cDao.actualizar(id, cliente);
-                    txtResultado.setText("Cliente actualizado correctamente");
+                    JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente");
                 } else {
-                    txtResultado.setText("No existe el cliente");
+                    JOptionPane.showMessageDialog(this, "No existe el cliente");
                 }
             } catch (Exception ex) {
                 mostrarError(ex);
@@ -185,7 +204,7 @@ public class VentanaClientes extends JFrame {
             try {
                 String id = txtDni.getText().trim();
                 boolean eliminado = cDao.eliminar(id);
-                txtResultado.setText(eliminado ? "Cliente eliminado correctamente" : "No se encontró el cliente");
+                JOptionPane.showMessageDialog(this, eliminado ? "Cliente eliminado correctamente" : "No se encontró el cliente");
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -200,7 +219,7 @@ public class VentanaClientes extends JFrame {
         txtApellidos.setText("");
         txtTelefono.setText("");
         txtEmail.setText("");
-        txtResultado.setText("");
+        modeloTabla.setRowCount(0);
     }
 
     private void mostrarError(Exception ex) {

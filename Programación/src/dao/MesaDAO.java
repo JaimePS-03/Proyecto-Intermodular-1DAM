@@ -40,10 +40,14 @@ public class MesaDAO {
     /**
      * Nos permite mostrar todas las mesas junto a la información de estas
      */
-    public void listar(){
-        for(Mesa m: mesas){
-            System.out.println(m);
+    public String listar() {
+        String texto = "";
+
+        for (Mesa m : mesas) {
+            texto = texto + m + "\n";
         }
+
+        return texto;
     }
 
     /**
@@ -108,5 +112,10 @@ public class MesaDAO {
                 "4) Eliminar mesa\n" +
                 "5) Actualizar mesa\n" +
                 "0) Volver");
+    }
+    
+ // Método para devolver el Array para la tabla de la Ventana de Mesas
+    public ArrayList<Mesa> getMesas() {
+        return mesas;
     }
 }

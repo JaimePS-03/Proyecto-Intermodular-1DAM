@@ -3,6 +3,8 @@ package vista;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
 import dao.ClienteDAO;
 import dao.ReservaDAO;
 import modelo.Cliente;
@@ -13,9 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import java.awt.Font;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class VentanaReservas extends JFrame {
 
@@ -26,7 +28,8 @@ public class VentanaReservas extends JFrame {
     private JTextField txtTipo;
     private JTextField txtFecha;
     private JTextField txtIdCliente;
-    private JTextArea txtResultado;
+    private JTable tablaReservas;
+    private DefaultTableModel modeloTabla;
 
     private ReservaDAO rDao = new ReservaDAO();
     private ClienteDAO cDao = new ClienteDAO();
@@ -120,14 +123,30 @@ public class VentanaReservas extends JFrame {
         scrollPane.setBounds(30, 300, 770, 180);
         contentPane.add(scrollPane);
 
-        txtResultado = new JTextArea();
-        scrollPane.setViewportView(txtResultado);
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("ID");
+        modeloTabla.addColumn("Nº personas");
+        modeloTabla.addColumn("Tipo reserva");
+        modeloTabla.addColumn("Fecha");
+        modeloTabla.addColumn("ID cliente");
+
+        tablaReservas = new JTable(modeloTabla);
+        scrollPane.setViewportView(tablaReservas);
 
         btnListar.addActionListener(e -> {
             try {
-                txtResultado.setText("");
-                rDao.listar();
-                txtResultado.setText("Se ha ejecutado listar(). Si el DAO imprime por consola, tendrás que adaptarlo más tarde.");
+                modeloTabla.setRowCount(0);
+
+                for (Reserva r : rDao.getReservas()) {
+                    Object[] fila = {
+                        r.getId(),
+                        r.getnPersonas(),
+                        r.getTipoReserva(),
+                        r.getFecha(),
+                        r.getIdCliente()
+                    };
+                    modeloTabla.addRow(fila);
+                }
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -143,9 +162,8 @@ public class VentanaReservas extends JFrame {
                     txtTipo.setText(r.getTipoReserva());
                     txtFecha.setText(String.valueOf(r.getFecha()));
                     txtIdCliente.setText(r.getIdCliente());
-                    txtResultado.setText(r.toString());
                 } else {
-                    txtResultado.setText("No existe la reserva");
+                    JOptionPane.showMessageDialog(this, "No existe la reserva");
                 }
             } catch (Exception ex) {
                 mostrarError(ex);
@@ -158,7 +176,7 @@ public class VentanaReservas extends JFrame {
                 Cliente c = cDao.buscarPorId(idCliente);
 
                 if (c == null) {
-                    txtResultado.setText("No hay cliente con ese ID");
+                    JOptionPane.showMessageDialog(this, "No hay cliente con ese ID");
                     return;
                 }
 
@@ -170,7 +188,7 @@ public class VentanaReservas extends JFrame {
                 r.setIdCliente(idCliente);
 
                 rDao.insertar(r);
-                txtResultado.setText("Reserva insertada correctamente");
+                JOptionPane.showMessageDialog(this, "Reserva insertada correctamente");
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -186,7 +204,7 @@ public class VentanaReservas extends JFrame {
                     Cliente c = cDao.buscarPorId(idCliente);
 
                     if (c == null) {
-                        txtResultado.setText("No hay cliente con ese ID");
+                        JOptionPane.showMessageDialog(this, "No hay cliente con ese ID");
                         return;
                     }
 
@@ -196,9 +214,9 @@ public class VentanaReservas extends JFrame {
                     r.setIdCliente(idCliente);
 
                     rDao.actualizar(id, r);
-                    txtResultado.setText("Reserva actualizada correctamente");
+                    JOptionPane.showMessageDialog(this, "Reserva actualizada correctamente");
                 } else {
-                    txtResultado.setText("No existe la reserva");
+                    JOptionPane.showMessageDialog(this, "No existe la reserva");
                 }
             } catch (Exception ex) {
                 mostrarError(ex);
@@ -209,7 +227,7 @@ public class VentanaReservas extends JFrame {
             try {
                 int id = Integer.parseInt(txtId.getText().trim());
                 boolean eliminado = rDao.eliminar(id);
-                txtResultado.setText(eliminado ? "Reserva eliminada correctamente" : "No existe la reserva");
+                JOptionPane.showMessageDialog(this, eliminado ? "Reserva eliminada correctamente" : "No existe la reserva");
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -218,16 +236,23 @@ public class VentanaReservas extends JFrame {
         btnListarCliente.addActionListener(e -> {
             try {
                 String idCliente = txtIdCliente.getText().trim();
-                var lista = rDao.listarPorCliente(idCliente);
+                ArrayList<Reserva> lista = rDao.listarPorCliente(idCliente);
+
+                modeloTabla.setRowCount(0);
 
                 if (lista != null && !lista.isEmpty()) {
-                    StringBuilder sb = new StringBuilder();
                     for (Reserva r : lista) {
-                        sb.append(r).append("\n");
+                        Object[] fila = {
+                            r.getId(),
+                            r.getnPersonas(),
+                            r.getTipoReserva(),
+                            r.getFecha(),
+                            r.getIdCliente()
+                        };
+                        modeloTabla.addRow(fila);
                     }
-                    txtResultado.setText(sb.toString());
                 } else {
-                    txtResultado.setText("Sin reservas para ese cliente");
+                    JOptionPane.showMessageDialog(this, "Sin reservas para ese cliente");
                 }
             } catch (Exception ex) {
                 mostrarError(ex);
@@ -243,7 +268,7 @@ public class VentanaReservas extends JFrame {
         txtTipo.setText("");
         txtFecha.setText("");
         txtIdCliente.setText("");
-        txtResultado.setText("");
+        modeloTabla.setRowCount(0);
     }
 
     private void mostrarError(Exception ex) {

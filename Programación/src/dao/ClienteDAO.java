@@ -38,11 +38,16 @@ public class ClienteDAO {
     /**
      * Nos permite listar todos los Clientes que están en el ArrayList
      */
-    public void listar(){
-        for(Cliente c : clientes){
-            System.out.println(c);
+    public String listar() {
+        String texto = "";
+
+        for (Cliente c : clientes) {
+            texto = texto + c + "\n";
         }
+
+        return texto;
     }
+
 
     /**
      * Nos permite buscar los Clientes por su ID
@@ -116,6 +121,11 @@ public class ClienteDAO {
         String email = EntradaTexto.pedirString("Dame el email del cliente");
 
         return new Cliente(generarId(),nombre, apellidos, telefono, email);
+    }
+    
+    // Método para devolver el Array para la tabla de la Ventana de Clientes
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
     }
 
 }

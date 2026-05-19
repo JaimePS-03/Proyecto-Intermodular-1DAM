@@ -3,6 +3,8 @@ package vista;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
 import dao.MesaDAO;
 import modelo.Mesa;
 
@@ -11,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import java.awt.Font;
 
 public class VentanaMesas extends JFrame {
@@ -20,7 +21,8 @@ public class VentanaMesas extends JFrame {
     private JPanel contentPane;
     private JTextField txtIdMesa;
     private JTextField txtPersonas;
-    private JTextArea txtResultado;
+    private JTable tablaMesas;
+    private DefaultTableModel modeloTabla;
 
     private MesaDAO mDao = new MesaDAO();
 
@@ -84,14 +86,24 @@ public class VentanaMesas extends JFrame {
         scrollPane.setBounds(30, 250, 700, 170);
         contentPane.add(scrollPane);
 
-        txtResultado = new JTextArea();
-        scrollPane.setViewportView(txtResultado);
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Nº mesa");
+        modeloTabla.addColumn("Capacidad");
+
+        tablaMesas = new JTable(modeloTabla);
+        scrollPane.setViewportView(tablaMesas);
 
         btnListar.addActionListener(e -> {
             try {
-                txtResultado.setText("");
-                mDao.listar();
-                txtResultado.setText("Se ha ejecutado listar(). Si aún lista por consola, luego habrá que adaptarlo.");
+                modeloTabla.setRowCount(0);
+
+                for (Mesa m : mDao.getMesas()) {
+                    Object[] fila = {
+                        m.getnMesa(),
+                        m.getnPersonas()
+                    };
+                    modeloTabla.addRow(fila);
+                }
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -104,9 +116,8 @@ public class VentanaMesas extends JFrame {
 
                 if (m != null) {
                     txtPersonas.setText(String.valueOf(m.getnPersonas()));
-                    txtResultado.setText(m.toString());
                 } else {
-                    txtResultado.setText("No existe una mesa con ese ID");
+                    JOptionPane.showMessageDialog(this, "No existe una mesa con ese ID");
                 }
             } catch (Exception ex) {
                 mostrarError(ex);
@@ -121,7 +132,7 @@ public class VentanaMesas extends JFrame {
                 mDao.insertar(m);
 
                 txtIdMesa.setText(String.valueOf(m.getnMesa()));
-                txtResultado.setText("Mesa insertada correctamente: " + m.toString());
+                JOptionPane.showMessageDialog(this, "Mesa insertada correctamente");
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -135,9 +146,9 @@ public class VentanaMesas extends JFrame {
                 if (m != null) {
                     m.setnPersonas(Integer.parseInt(txtPersonas.getText().trim()));
                     mDao.actualizar(id, m);
-                    txtResultado.setText("Mesa actualizada correctamente");
+                    JOptionPane.showMessageDialog(this, "Mesa actualizada correctamente");
                 } else {
-                    txtResultado.setText("No existe la mesa");
+                    JOptionPane.showMessageDialog(this, "No existe la mesa");
                 }
             } catch (Exception ex) {
                 mostrarError(ex);
@@ -148,7 +159,7 @@ public class VentanaMesas extends JFrame {
             try {
                 int id = Integer.parseInt(txtIdMesa.getText().trim());
                 boolean eliminado = mDao.eliminar(id);
-                txtResultado.setText(eliminado ? "Mesa eliminada correctamente" : "No existe la mesa");
+                JOptionPane.showMessageDialog(this, eliminado ? "Mesa eliminada correctamente" : "No existe la mesa");
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -160,7 +171,7 @@ public class VentanaMesas extends JFrame {
     private void limpiarCampos() {
         txtIdMesa.setText("");
         txtPersonas.setText("");
-        txtResultado.setText("");
+        modeloTabla.setRowCount(0);
     }
 
     private void mostrarError(Exception ex) {

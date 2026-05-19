@@ -1,5 +1,6 @@
 package dao;
 
+
 import modelo.Plato;
 import util.EntradaTexto;
 
@@ -40,10 +41,14 @@ public class PlatoDAO {
     /**
      * Nos permite listar todos los Platos del ArrayList
      */
-    public void listar(){
-        for(Plato p: platos) {
-            System.out.println(p);
+    public String listar() {
+        String texto = "";
+
+        for (Plato p : platos) {
+            texto = texto + p + "\n";
         }
+
+        return texto;
     }
 
     /**
@@ -118,5 +123,10 @@ public class PlatoDAO {
                 "4) Eliminar platos\n" +
                 "5) Actualizar platos\n" +
                 "0) Volver");
+    }
+    
+ // Método para devolver el Array para la tabla de la Ventana de Platos
+    public ArrayList<Plato> getPlatos() {
+        return platos;
     }
 }
