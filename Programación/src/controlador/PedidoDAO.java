@@ -1,4 +1,4 @@
-package dao;
+package controlador;
 
 import modelo.Pedido;
 import util.EntradaTexto;
