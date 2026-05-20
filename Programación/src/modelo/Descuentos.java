@@ -2,18 +2,32 @@ package modelo;
 
 public class Descuentos {
     // Atributos de la clase
+    private String codigo;
     private String idCliente;
     private int reserva;
     private String codigoDescuento;
 
     // Constructor de la clase
-    public Descuentos(String idCliente, int reserva, String codigoDescuento) {
+
+
+    public Descuentos(String codigo, String idCliente, int reserva, String codigoDescuento) {
+        this.codigo = codigo;
         this.idCliente = idCliente;
         this.reserva = reserva;
         this.codigoDescuento = codigoDescuento;
     }
 
     // Getters y Setters de la clase
+
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
     public String getIdCliente() {
         return idCliente;
     }
@@ -38,11 +52,11 @@ public class Descuentos {
         this.codigoDescuento = codigoDescuento;
     }
 
-    // ToString adaptado a la clase
     @Override
     public String toString() {
         return "Descuentos{" +
-                "idCliente='" + idCliente + '\'' +
+                "codigo='" + codigo + '\'' +
+                ", idCliente='" + idCliente + '\'' +
                 ", reserva=" + reserva +
                 ", codigoDescuento='" + codigoDescuento + '\'' +
                 '}';

@@ -5,8 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
-import dao.ClienteDAO;
-import dao.ReservaDAO;
+import controlador.ClienteDAO;
+import controlador.ReservaDAO;
 import modelo.Cliente;
 import modelo.Reserva;
 

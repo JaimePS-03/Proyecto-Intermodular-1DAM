@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
-import dao.MesaDAO;
+import controlador.MesaDAO;
 import modelo.Mesa;
 
 import javax.swing.JLabel;

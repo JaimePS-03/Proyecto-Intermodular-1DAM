@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
-import dao.ClienteDAO;
+import controlador.ClienteDAO;
 import modelo.Cliente;
 
 import javax.swing.JLabel;
