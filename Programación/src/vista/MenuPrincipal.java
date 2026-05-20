@@ -1,9 +1,9 @@
-package controlador;
+package vista;
 
-import dao.ClienteDAO;
-import dao.MesaDAO;
-import dao.PlatoDAO;
-import dao.ReservaDAO;
+import controlador.ClienteDAO;
+import controlador.MesaDAO;
+import controlador.PlatoDAO;
+import controlador.ReservaDAO;
 import modelo.Cliente;
 import modelo.Mesa;
 import modelo.Plato;
