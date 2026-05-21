@@ -91,32 +91,28 @@ public class VentanaReservas extends JFrame {
         txtIdCliente.setBounds(140, 230, 180, 25);
         contentPane.add(txtIdCliente);
 
-        JButton btnListar = new JButton("Listar");
-        btnListar.setBounds(380, 70, 130, 30);
-        contentPane.add(btnListar);
-
         JButton btnBuscar = new JButton("Buscar por ID");
-        btnBuscar.setBounds(530, 70, 130, 30);
+        btnBuscar.setBounds(380, 70, 130, 30);
         contentPane.add(btnBuscar);
 
         JButton btnInsertar = new JButton("Insertar");
-        btnInsertar.setBounds(380, 120, 130, 30);
+        btnInsertar.setBounds(530, 70, 130, 30);
         contentPane.add(btnInsertar);
 
         JButton btnActualizar = new JButton("Actualizar");
-        btnActualizar.setBounds(530, 120, 130, 30);
+        btnActualizar.setBounds(380, 120, 130, 30);
         contentPane.add(btnActualizar);
 
         JButton btnEliminar = new JButton("Eliminar");
-        btnEliminar.setBounds(380, 170, 130, 30);
+        btnEliminar.setBounds(530, 120, 130, 30);
         contentPane.add(btnEliminar);
 
         JButton btnListarCliente = new JButton("Reservas por cliente");
-        btnListarCliente.setBounds(530, 170, 160, 30);
+        btnListarCliente.setBounds(455, 170, 180, 30);
         contentPane.add(btnListarCliente);
 
         JButton btnLimpiar = new JButton("Limpiar");
-        btnLimpiar.setBounds(380, 220, 130, 30);
+        btnLimpiar.setBounds(455, 220, 180, 30);
         contentPane.add(btnLimpiar);
 
         JScrollPane scrollPane = new JScrollPane();
@@ -132,25 +128,6 @@ public class VentanaReservas extends JFrame {
 
         tablaReservas = new JTable(modeloTabla);
         scrollPane.setViewportView(tablaReservas);
-
-        btnListar.addActionListener(e -> {
-            try {
-                modeloTabla.setRowCount(0);
-
-                for (Reserva r : rDao.getReservas()) {
-                    Object[] fila = {
-                        r.getId(),
-                        r.getnPersonas(),
-                        r.getTipoReserva(),
-                        r.getFecha(),
-                        r.getIdCliente()
-                    };
-                    modeloTabla.addRow(fila);
-                }
-            } catch (Exception ex) {
-                mostrarError(ex);
-            }
-        });
 
         btnBuscar.addActionListener(e -> {
             try {
@@ -189,6 +166,8 @@ public class VentanaReservas extends JFrame {
 
                 rDao.insertar(r);
                 JOptionPane.showMessageDialog(this, "Reserva insertada correctamente");
+                limpiarCampos();
+                cargarTabla();
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -196,28 +175,33 @@ public class VentanaReservas extends JFrame {
 
         btnActualizar.addActionListener(e -> {
             try {
-                int id = Integer.parseInt(txtId.getText().trim());
-                Reserva r = rDao.buscarPorId(id);
+                int fila = tablaReservas.getSelectedRow();
 
-                if (r != null) {
-                    String idCliente = txtIdCliente.getText().trim();
-                    Cliente c = cDao.buscarPorId(idCliente);
-
-                    if (c == null) {
-                        JOptionPane.showMessageDialog(this, "No hay cliente con ese ID");
-                        return;
-                    }
-
-                    r.setnPersonas(Integer.parseInt(txtPersonas.getText().trim()));
-                    r.setTipoReserva(txtTipo.getText().trim());
-                    r.setFecha(Timestamp.valueOf(txtFecha.getText().trim()));
-                    r.setIdCliente(idCliente);
-
-                    rDao.actualizar(id, r);
-                    JOptionPane.showMessageDialog(this, "Reserva actualizada correctamente");
-                } else {
-                    JOptionPane.showMessageDialog(this, "No existe la reserva");
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecciona una fila de la tabla");
+                    return;
                 }
+
+                int id = Integer.parseInt(tablaReservas.getValueAt(fila, 0).toString());
+                String idCliente = txtIdCliente.getText().trim();
+                Cliente c = cDao.buscarPorId(idCliente);
+
+                if (c == null) {
+                    JOptionPane.showMessageDialog(this, "No hay cliente con ese ID");
+                    return;
+                }
+
+                Reserva r = new Reserva();
+                r.setId(id);
+                r.setnPersonas(Integer.parseInt(txtPersonas.getText().trim()));
+                r.setTipoReserva(txtTipo.getText().trim());
+                r.setFecha(Timestamp.valueOf(txtFecha.getText().trim()));
+                r.setIdCliente(idCliente);
+
+                rDao.actualizar(id, r);
+                JOptionPane.showMessageDialog(this, "Reserva actualizada correctamente");
+                limpiarCampos();
+                cargarTabla();
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -225,9 +209,23 @@ public class VentanaReservas extends JFrame {
 
         btnEliminar.addActionListener(e -> {
             try {
-                int id = Integer.parseInt(txtId.getText().trim());
+                int fila = tablaReservas.getSelectedRow();
+
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecciona una fila de la tabla");
+                    return;
+                }
+
+                int id = Integer.parseInt(tablaReservas.getValueAt(fila, 0).toString());
                 boolean eliminado = rDao.eliminar(id);
-                JOptionPane.showMessageDialog(this, eliminado ? "Reserva eliminada correctamente" : "No existe la reserva");
+
+                if (eliminado) {
+                    JOptionPane.showMessageDialog(this, "Reserva eliminada correctamente");
+                    limpiarCampos();
+                    cargarTabla();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No existe la reserva");
+                }
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -260,6 +258,8 @@ public class VentanaReservas extends JFrame {
         });
 
         btnLimpiar.addActionListener(e -> limpiarCampos());
+
+        cargarTabla();
     }
 
     private void limpiarCampos() {
@@ -268,10 +268,30 @@ public class VentanaReservas extends JFrame {
         txtTipo.setText("");
         txtFecha.setText("");
         txtIdCliente.setText("");
-        modeloTabla.setRowCount(0);
     }
 
     private void mostrarError(Exception ex) {
         JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    // Este método recarga todas las reservas en la tabla para que siempre se
+    // vea la información actual después de insertar, actualizar o eliminar.
+    private void cargarTabla() {
+        try {
+            modeloTabla.setRowCount(0);
+
+            for (Reserva r : rDao.getReservas()) {
+                Object[] fila = {
+                    r.getId(),
+                    r.getnPersonas(),
+                    r.getTipoReserva(),
+                    r.getFecha(),
+                    r.getIdCliente()
+                };
+                modeloTabla.addRow(fila);
+            }
+        } catch (Exception ex) {
+            mostrarError(ex);
+        }
     }
 }

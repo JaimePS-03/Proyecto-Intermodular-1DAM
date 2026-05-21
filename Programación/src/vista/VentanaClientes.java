@@ -86,28 +86,24 @@ public class VentanaClientes extends JFrame {
         txtEmail.setBounds(120, 230, 180, 25);
         contentPane.add(txtEmail);
 
-        JButton btnListar = new JButton("Listar");
-        btnListar.setBounds(350, 70, 130, 30);
-        contentPane.add(btnListar);
-
         JButton btnBuscar = new JButton("Buscar por ID");
-        btnBuscar.setBounds(500, 70, 130, 30);
+        btnBuscar.setBounds(350, 70, 130, 30);
         contentPane.add(btnBuscar);
 
         JButton btnInsertar = new JButton("Insertar");
-        btnInsertar.setBounds(350, 120, 130, 30);
+        btnInsertar.setBounds(500, 70, 130, 30);
         contentPane.add(btnInsertar);
 
         JButton btnActualizar = new JButton("Actualizar");
-        btnActualizar.setBounds(500, 120, 130, 30);
+        btnActualizar.setBounds(350, 120, 130, 30);
         contentPane.add(btnActualizar);
 
         JButton btnEliminar = new JButton("Eliminar");
-        btnEliminar.setBounds(350, 170, 130, 30);
+        btnEliminar.setBounds(500, 120, 130, 30);
         contentPane.add(btnEliminar);
 
         JButton btnLimpiar = new JButton("Limpiar");
-        btnLimpiar.setBounds(500, 170, 130, 30);
+        btnLimpiar.setBounds(425, 170, 130, 30);
         contentPane.add(btnLimpiar);
 
         JScrollPane scrollPane = new JScrollPane();
@@ -123,26 +119,6 @@ public class VentanaClientes extends JFrame {
 
         tablaClientes = new JTable(modeloTabla);
         scrollPane.setViewportView(tablaClientes);
-
-        btnListar.addActionListener(e -> {
-            try {
-                modeloTabla.setRowCount(0);
-
-                for (Cliente c : cDao.getClientes()) {
-                    Object[] fila = {
-                        c.getId(),
-                        c.getNombre(),
-                        c.getApellidos(),
-                        c.getTelefono(),
-                        c.getEmail()
-                    };
-                    modeloTabla.addRow(fila);
-                }
-
-            } catch (Exception ex) {
-                mostrarError(ex);
-            }
-        });
 
         btnBuscar.addActionListener(e -> {
             try {
@@ -174,6 +150,8 @@ public class VentanaClientes extends JFrame {
 
                 cDao.insertar(nuevo);
                 JOptionPane.showMessageDialog(this, "Cliente insertado correctamente");
+                limpiarCampos();
+                cargarTabla();
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -181,20 +159,27 @@ public class VentanaClientes extends JFrame {
 
         btnActualizar.addActionListener(e -> {
             try {
-                String id = txtDni.getText().trim();
-                Cliente cliente = cDao.buscarPorId(id);
+                int fila = tablaClientes.getSelectedRow();
 
-                if (cliente != null) {
-                    cliente.setNombre(txtNombre.getText().trim());
-                    cliente.setApellidos(txtApellidos.getText().trim());
-                    cliente.setTelefono(txtTelefono.getText().trim());
-                    cliente.setEmail(txtEmail.getText().trim());
-
-                    cDao.actualizar(id, cliente);
-                    JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente");
-                } else {
-                    JOptionPane.showMessageDialog(this, "No existe el cliente");
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecciona una fila de la tabla");
+                    return;
                 }
+
+                String id = tablaClientes.getValueAt(fila, 0).toString();
+
+                Cliente cliente = new Cliente(
+                    id,
+                    txtNombre.getText().trim(),
+                    txtApellidos.getText().trim(),
+                    txtTelefono.getText().trim(),
+                    txtEmail.getText().trim()
+                );
+
+                cDao.actualizar(id, cliente);
+                JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente");
+                limpiarCampos();
+                cargarTabla();
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -202,15 +187,31 @@ public class VentanaClientes extends JFrame {
 
         btnEliminar.addActionListener(e -> {
             try {
-                String id = txtDni.getText().trim();
+                int fila = tablaClientes.getSelectedRow();
+
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecciona una fila de la tabla");
+                    return;
+                }
+
+                String id = tablaClientes.getValueAt(fila, 0).toString();
                 boolean eliminado = cDao.eliminar(id);
-                JOptionPane.showMessageDialog(this, eliminado ? "Cliente eliminado correctamente" : "No se encontró el cliente");
+
+                if (eliminado) {
+                    JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente");
+                    limpiarCampos();
+                    cargarTabla();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró el cliente");
+                }
             } catch (Exception ex) {
                 mostrarError(ex);
             }
         });
 
         btnLimpiar.addActionListener(e -> limpiarCampos());
+
+        cargarTabla();
     }
 
     private void limpiarCampos() {
@@ -219,10 +220,31 @@ public class VentanaClientes extends JFrame {
         txtApellidos.setText("");
         txtTelefono.setText("");
         txtEmail.setText("");
-        modeloTabla.setRowCount(0);
     }
 
     private void mostrarError(Exception ex) {
         JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    // Este método vuelve a cargar todos los clientes en la tabla para que
+    // siempre se vea la información actual después de insertar, actualizar o borrar.
+    private void cargarTabla() {
+        try {
+            modeloTabla.setRowCount(0);
+
+            for (Cliente c : cDao.getClientes()) {
+                Object[] fila = {
+                    c.getId(),
+                    c.getNombre(),
+                    c.getApellidos(),
+                    c.getTelefono(),
+                    c.getEmail()
+                };
+                modeloTabla.addRow(fila);
+            }
+
+        } catch (Exception ex) {
+            mostrarError(ex);
+        }
     }
 }

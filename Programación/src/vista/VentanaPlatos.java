@@ -76,28 +76,24 @@ public class VentanaPlatos extends JFrame {
         txtTipo.setBounds(120, 190, 180, 25);
         contentPane.add(txtTipo);
 
-        JButton btnListar = new JButton("Listar");
-        btnListar.setBounds(350, 70, 130, 30);
-        contentPane.add(btnListar);
-
         JButton btnBuscar = new JButton("Buscar por ID");
-        btnBuscar.setBounds(500, 70, 130, 30);
+        btnBuscar.setBounds(350, 70, 130, 30);
         contentPane.add(btnBuscar);
 
         JButton btnInsertar = new JButton("Insertar");
-        btnInsertar.setBounds(350, 120, 130, 30);
+        btnInsertar.setBounds(500, 70, 130, 30);
         contentPane.add(btnInsertar);
 
         JButton btnActualizar = new JButton("Actualizar");
-        btnActualizar.setBounds(500, 120, 130, 30);
+        btnActualizar.setBounds(350, 120, 130, 30);
         contentPane.add(btnActualizar);
 
         JButton btnEliminar = new JButton("Eliminar");
-        btnEliminar.setBounds(350, 170, 130, 30);
+        btnEliminar.setBounds(500, 120, 130, 30);
         contentPane.add(btnEliminar);
 
         JButton btnLimpiar = new JButton("Limpiar");
-        btnLimpiar.setBounds(500, 170, 130, 30);
+        btnLimpiar.setBounds(425, 170, 130, 30);
         contentPane.add(btnLimpiar);
 
         JScrollPane scrollPane = new JScrollPane();
@@ -113,27 +109,10 @@ public class VentanaPlatos extends JFrame {
         tablaPlatos = new JTable(modeloTabla);
         scrollPane.setViewportView(tablaPlatos);
 
-        btnListar.addActionListener(e -> {
-            try {
-                modeloTabla.setRowCount(0);
-
-                for (Plato p : pDao.getPlatos()) {
-                    Object[] fila = {
-                        p.getId(),
-                        p.getNombre(),
-                        p.getPrecio(),
-                        p.getTipo()
-                    };
-                    modeloTabla.addRow(fila);
-                }
-            } catch (Exception ex) {
-                mostrarError(ex);
-            }
-        });
-
         btnBuscar.addActionListener(e -> {
             try {
                 Plato p = pDao.buscarPorId(txtId.getText().trim());
+
                 if (p != null) {
                     txtNombre.setText(p.getNombre());
                     txtPrecio.setText(String.valueOf(p.getPrecio()));
@@ -157,6 +136,8 @@ public class VentanaPlatos extends JFrame {
                 pDao.insertar(p);
 
                 JOptionPane.showMessageDialog(this, "Plato insertado correctamente");
+                limpiarCampos();
+                cargarTabla();
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -164,19 +145,26 @@ public class VentanaPlatos extends JFrame {
 
         btnActualizar.addActionListener(e -> {
             try {
-                String id = txtId.getText().trim();
-                Plato p = pDao.buscarPorId(id);
+                int fila = tablaPlatos.getSelectedRow();
 
-                if (p != null) {
-                    p.setNombre(txtNombre.getText().trim());
-                    p.setPrecio(Double.parseDouble(txtPrecio.getText().trim()));
-                    p.setTipo(txtTipo.getText().trim());
-
-                    pDao.actualizar(id, p);
-                    JOptionPane.showMessageDialog(this, "Plato actualizado correctamente");
-                } else {
-                    JOptionPane.showMessageDialog(this, "No existe ese plato");
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecciona una fila de la tabla");
+                    return;
                 }
+
+                String id = tablaPlatos.getValueAt(fila, 0).toString();
+
+                Plato p = new Plato(
+                    id,
+                    txtNombre.getText().trim(),
+                    Double.parseDouble(txtPrecio.getText().trim()),
+                    txtTipo.getText().trim()
+                );
+
+                pDao.actualizar(id, p);
+                JOptionPane.showMessageDialog(this, "Plato actualizado correctamente");
+                limpiarCampos();
+                cargarTabla();
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -184,14 +172,32 @@ public class VentanaPlatos extends JFrame {
 
         btnEliminar.addActionListener(e -> {
             try {
-                boolean eliminado = pDao.eliminar(txtId.getText().trim());
-                JOptionPane.showMessageDialog(this, eliminado ? "Plato eliminado correctamente" : "No existe el plato");
+                int fila = tablaPlatos.getSelectedRow();
+
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecciona una fila de la tabla");
+                    return;
+                }
+
+                String id = tablaPlatos.getValueAt(fila, 0).toString();
+                boolean eliminado = pDao.eliminar(id);
+
+                if (eliminado) {
+                    JOptionPane.showMessageDialog(this, "Plato eliminado correctamente");
+                    limpiarCampos();
+                    cargarTabla();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No existe el plato");
+                }
+
             } catch (Exception ex) {
                 mostrarError(ex);
             }
         });
 
         btnLimpiar.addActionListener(e -> limpiarCampos());
+
+        cargarTabla();
     }
 
     private void limpiarCampos() {
@@ -199,10 +205,29 @@ public class VentanaPlatos extends JFrame {
         txtNombre.setText("");
         txtPrecio.setText("");
         txtTipo.setText("");
-        modeloTabla.setRowCount(0);
     }
 
     private void mostrarError(Exception ex) {
         JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    // Este método vacía la tabla y la vuelve a rellenar con los datos actuales
+    // que vienen del DAO, para que siempre se vea en pantalla el estado real.
+    private void cargarTabla() {
+        try {
+            modeloTabla.setRowCount(0);
+
+            for (Plato p : pDao.getPlatos()) {
+                Object[] fila = {
+                    p.getId(),
+                    p.getNombre(),
+                    p.getPrecio(),
+                    p.getTipo()
+                };
+                modeloTabla.addRow(fila);
+            }
+        } catch (Exception ex) {
+            mostrarError(ex);
+        }
     }
 }

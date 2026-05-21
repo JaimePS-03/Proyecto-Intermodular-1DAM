@@ -58,28 +58,24 @@ public class VentanaMesas extends JFrame {
         txtPersonas.setBounds(120, 110, 180, 25);
         contentPane.add(txtPersonas);
 
-        JButton btnListar = new JButton("Listar");
-        btnListar.setBounds(360, 70, 130, 30);
-        contentPane.add(btnListar);
-
         JButton btnBuscar = new JButton("Buscar por ID");
-        btnBuscar.setBounds(510, 70, 130, 30);
+        btnBuscar.setBounds(360, 70, 130, 30);
         contentPane.add(btnBuscar);
 
         JButton btnInsertar = new JButton("Insertar");
-        btnInsertar.setBounds(360, 120, 130, 30);
+        btnInsertar.setBounds(510, 70, 130, 30);
         contentPane.add(btnInsertar);
 
         JButton btnActualizar = new JButton("Actualizar");
-        btnActualizar.setBounds(510, 120, 130, 30);
+        btnActualizar.setBounds(360, 120, 130, 30);
         contentPane.add(btnActualizar);
 
         JButton btnEliminar = new JButton("Eliminar");
-        btnEliminar.setBounds(360, 170, 130, 30);
+        btnEliminar.setBounds(510, 120, 130, 30);
         contentPane.add(btnEliminar);
 
         JButton btnLimpiar = new JButton("Limpiar");
-        btnLimpiar.setBounds(510, 170, 130, 30);
+        btnLimpiar.setBounds(435, 170, 130, 30);
         contentPane.add(btnLimpiar);
 
         JScrollPane scrollPane = new JScrollPane();
@@ -92,22 +88,6 @@ public class VentanaMesas extends JFrame {
 
         tablaMesas = new JTable(modeloTabla);
         scrollPane.setViewportView(tablaMesas);
-
-        btnListar.addActionListener(e -> {
-            try {
-                modeloTabla.setRowCount(0);
-
-                for (Mesa m : mDao.getMesas()) {
-                    Object[] fila = {
-                        m.getnMesa(),
-                        m.getnPersonas()
-                    };
-                    modeloTabla.addRow(fila);
-                }
-            } catch (Exception ex) {
-                mostrarError(ex);
-            }
-        });
 
         btnBuscar.addActionListener(e -> {
             try {
@@ -133,6 +113,7 @@ public class VentanaMesas extends JFrame {
 
                 txtIdMesa.setText(String.valueOf(m.getnMesa()));
                 JOptionPane.showMessageDialog(this, "Mesa insertada correctamente");
+                cargarTabla();
             } catch (Exception ex) {
                 mostrarError(ex);
             }
@@ -140,13 +121,41 @@ public class VentanaMesas extends JFrame {
 
         btnActualizar.addActionListener(e -> {
             try {
-                int id = Integer.parseInt(txtIdMesa.getText().trim());
-                Mesa m = mDao.buscarPorId(id);
+                int fila = tablaMesas.getSelectedRow();
 
-                if (m != null) {
-                    m.setnPersonas(Integer.parseInt(txtPersonas.getText().trim()));
-                    mDao.actualizar(id, m);
-                    JOptionPane.showMessageDialog(this, "Mesa actualizada correctamente");
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecciona una fila de la tabla");
+                    return;
+                }
+
+                int id = Integer.parseInt(tablaMesas.getValueAt(fila, 0).toString());
+                Mesa m = new Mesa(id, Integer.parseInt(txtPersonas.getText().trim()));
+
+                mDao.actualizar(id, m);
+                JOptionPane.showMessageDialog(this, "Mesa actualizada correctamente");
+                limpiarCampos();
+                cargarTabla();
+            } catch (Exception ex) {
+                mostrarError(ex);
+            }
+        });
+
+        btnEliminar.addActionListener(e -> {
+            try {
+                int fila = tablaMesas.getSelectedRow();
+
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecciona una fila de la tabla");
+                    return;
+                }
+
+                int id = Integer.parseInt(tablaMesas.getValueAt(fila, 0).toString());
+                boolean eliminado = mDao.eliminar(id);
+
+                if (eliminado) {
+                    JOptionPane.showMessageDialog(this, "Mesa eliminada correctamente");
+                    limpiarCampos();
+                    cargarTabla();
                 } else {
                     JOptionPane.showMessageDialog(this, "No existe la mesa");
                 }
@@ -155,26 +164,35 @@ public class VentanaMesas extends JFrame {
             }
         });
 
-        btnEliminar.addActionListener(e -> {
-            try {
-                int id = Integer.parseInt(txtIdMesa.getText().trim());
-                boolean eliminado = mDao.eliminar(id);
-                JOptionPane.showMessageDialog(this, eliminado ? "Mesa eliminada correctamente" : "No existe la mesa");
-            } catch (Exception ex) {
-                mostrarError(ex);
-            }
-        });
-
         btnLimpiar.addActionListener(e -> limpiarCampos());
+
+        cargarTabla();
     }
 
     private void limpiarCampos() {
         txtIdMesa.setText("");
         txtPersonas.setText("");
-        modeloTabla.setRowCount(0);
     }
 
     private void mostrarError(Exception ex) {
         JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    // Este método borra las filas actuales del modelo y vuelve a cargar
+    // todas las mesas desde el DAO para que la tabla siempre esté al día.
+    private void cargarTabla() {
+        try {
+            modeloTabla.setRowCount(0);
+
+            for (Mesa m : mDao.getMesas()) {
+                Object[] fila = {
+                    m.getnMesa(),
+                    m.getnPersonas()
+                };
+                modeloTabla.addRow(fila);
+            }
+        } catch (Exception ex) {
+            mostrarError(ex);
+        }
     }
 }
