@@ -1,113 +1,122 @@
 package controlador;
 
-import util.EntradaTexto;
-
-import java.util.ArrayList;
 import modelo.Usuario;
+import java.util.ArrayList;
 
-public class UsuarioDAO {
-
-    // ArrayList con los Usuarios. Nos permite manejar los Usuarios de forma dinámica usando Casting
-    private static ArrayList<Usuario> empleados = new ArrayList<>();
-
-    // Controlador de las ID para que no se repitan
-    private static int nextId = 1;
+/**
+ * Controlador genérico para gestionar objetos de tipo Usuario y sus subclases.
+ *
+ * @param <T> Tipo de objeto que hereda de Usuario
+ */
+public class UsuarioDAO<T extends Usuario> {
 
     /**
-     * Constructor del Controlador de Usuarios
+     * Lista dinámica donde se almacenan los usuarios.
+     */
+    protected ArrayList<T> listaUsuarios;
+
+    /**
+     * Constructor del controlador genérico de usuarios.
+     * Inicializa la lista vacía.
      */
     public UsuarioDAO() {
+        listaUsuarios = new ArrayList<>();
     }
 
     /**
-     * Generador de ID. Este nos permite generar un ID con un formato
-     * @return Nos devuelve el ID para poder usarlo con los diferentes Usuarios
+     * Inserta un nuevo usuario en la lista.
+     *
+     * @param usuario Objeto usuario que se desea añadir
      */
-    public int generarId() {
-        return nextId++;
+    public void insertar(T usuario) {
+        listaUsuarios.add(usuario);
     }
 
     /**
-     * Nos permite insertar los Usuarios al ArrayList de empleados, ya que es privada
-     * @param a Empleado que añadimos al ArrayList
-     */
-    public void insertar(Usuario a){empleados.add(a);
-    }
-
-    /**
-     * Nos permite listar todos los Alergenos que están en el ArrayList
+     * Devuelve un texto con todos los usuarios almacenados.
+     *
+     * @return Cadena con el listado de usuarios
      */
     public String listar() {
-        String texto = "";
+        StringBuilder sb = new StringBuilder();
 
-        for (Usuario a : empleados) {
-            texto = texto + a + "\n";
+        for (T usuario : listaUsuarios) {
+            sb.append(usuario).append("\n");
         }
 
-        return texto;
+        return sb.toString();
     }
 
-
     /**
-     * Nos permite buscar los Usuarios por su ID
-     * @param id El ID del Usuario al buscarlo
-     * @return Si encuentra el Usuario nos devuelve el Alergeno seleccionado. Si no, nos devuelve null (no nos devuelve nada)
+     * Busca un usuario por su DNI.
+     *
+     * @param dni DNI del usuario a buscar
+     * @return El usuario encontrado o null si no existe
      */
-    public Usuario buscarPorId(String id){
-        for(Usuario a : empleados){
-            if(a.getDni().equals(id)){
-                return a;
+    public T buscarPorDni(String dni) {
+        for (T usuario : listaUsuarios) {
+            if (usuario.getDni().equalsIgnoreCase(dni)) {
+                return usuario;
             }
         }
         return null;
     }
 
     /**
-     * Nos permite borrar un Usuario del ArrayList
-     * @param id Id del Usuario que vamos a buscar
-     * @return Si no encuentra al Usuario, nos devuelve False. Si lo encuentra, lo elimina y devuelve True
+     * Elimina un usuario de la lista a partir de su DNI.
+     *
+     * @param dni DNI del usuario a eliminar
+     * @return true si se eliminó correctamente, false si no existe
      */
-    public boolean eliminar(String id){
-        if(buscarPorId(id) == null){
-            return false;
-        }else{
-            empleados.remove(buscarPorId(id));
+    public boolean eliminar(String dni) {
+        T usuarioEncontrado = buscarPorDni(dni);
+
+        if (usuarioEncontrado != null) {
+            listaUsuarios.remove(usuarioEncontrado);
             return true;
         }
+
+        return false;
     }
 
     /**
-     * Nos permite actualizar la información de un usuario. Si encuentra el usuario, guarda el índice del usuario para sobreescribir los datos luego.
-     * @param idBuscado ID del Usuario que vamos a actualizar los datos
-     * @param aActualizado Información del usuario (Pasada por un objeto usuario) para actualizar
+     * Actualiza los datos de un usuario existente buscando por su DNI.
+     *
+     * @param dniBuscado DNI del usuario que se quiere actualizar
+     * @param usuarioActualizado Nuevo objeto con los datos actualizados
+     * @return true si se actualizó, false si no se encontró el usuario
      */
-    public void actualizar(String idBuscado, Usuario aActualizado) {
-        Usuario existente = buscarPorId(idBuscado);
-        if (existente != null) {
-            int index = empleados.indexOf(existente);
-            empleados.set(index, aActualizado);
+    public boolean actualizar(String dniBuscado, T usuarioActualizado) {
+        T usuarioExistente = buscarPorDni(dniBuscado);
+
+        if (usuarioExistente != null) {
+            int indice = listaUsuarios.indexOf(usuarioExistente);
+            listaUsuarios.set(indice, usuarioActualizado);
+            return true;
         }
+
+        return false;
     }
 
     /**
-     * Nos permite imprimir el submenú para controlar Usuarios
+     * Devuelve la lista completa de usuarios.
+     *
+     * @return ArrayList con los usuarios almacenados
      */
-    public void menu(){
-        System.out.println("--- Usuarios ---");
-        System.out.println("1) Listar Usuarios");
-        System.out.println("2) Nuevo Usuario");
-        System.out.println("3) Buscar Usuarios");
-        System.out.println("4) Actualizar Usuarios");
-        System.out.println("5) Eliminar Usuarios");
+    public ArrayList<T> getListaUsuarios() {
+        return listaUsuarios;
+    }
+
+    /**
+     * Muestra por pantalla el menú genérico de usuarios.
+     */
+    public void menu() {
+        System.out.println("--- Gestión de Usuarios ---");
+        System.out.println("1) Listar");
+        System.out.println("2) Insertar");
+        System.out.println("3) Buscar por DNI");
+        System.out.println("4) Actualizar");
+        System.out.println("5) Eliminar");
         System.out.println("0) Volver");
     }
-
-    /**
-     * Nos permite devolver el ArrayList para las ventanas
-     * @return ArrayList para las ventanas
-     */
-    public ArrayList<Usuario> getCAlergeno() {
-        return empleados;
-    }
-
 }

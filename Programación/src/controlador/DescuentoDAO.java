@@ -107,7 +107,7 @@ public class DescuentoDAO {
      * Nos permite crear un Descuento y devolverlo
      * @return El Descuento que hemos creado
      */
-    public Descuentos crearAlergeno(){
+    public Descuentos crearDescuento(){
         String cliente = EntradaTexto.pedirString("Cliente");
         int reserva = EntradaTexto.pedirInt("Numero de la reserva");
         String descripcion = EntradaTexto.pedirString("Descripcion del descuento");
