@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Restaurante Fuentes del Algar</title>
-  <meta name="description" content="Demo ficticia inspirada en un restaurante familiar con terraza, piscinas y cocina mediterránea." />
+  <meta name="description" content="Restaurante Don Joan." />
 
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/header.css" />
@@ -12,15 +13,20 @@
   <link rel="stylesheet" href="css/sections.css" />
   <link rel="stylesheet" href="css/menu.css" />
   <link rel="stylesheet" href="css/animations.css" />
+  <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+
+  <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 
 <body>
   <header class="site-header">
     <a class="brand" href="#top" aria-label="Ir al inicio">
-      <span class="brand__dot" aria-hidden="true"></span>
+      <img src="img/logo.jpeg" alt="Logo del restaurante" class="brand__logo" loading="lazy" />
       <span class="brandtext">Fuentes del Algars</span>
     </a>
 
+    <!-- NAV -->
     <div class="nav-clip" id="navClip">
       <nav class="nav-desktop" id="navDesktop" aria-label="Navegación principal">
         <button class="theme-switch" id="themeSwitch" type="button" aria-label="Cambiar tema" aria-pressed="false">
@@ -29,13 +35,17 @@
         <a href="#nosotros">Nosotros</a>
         <a href="#historia">Historia</a>
         <a href="menu.html">Menú</a>
-        <a class="btn btn--small" href="#reservas">Reservas</a>
+        <button class="reserve-btn" id="reserveBtn" aria-label="Reservas">
+          <i data-lucide="calendar-days"></i>
+          <span>Reservar</span>
+        </button>
       </nav>
     </div>
   </header>
 
   <main id="top">
 
+    <!-- CARRUSEL -->
     <section class="carousel" aria-label="Carrusel de fotos del restaurante">
       <div class="container">
         <div class="carousel__viewport" id="carousel">
@@ -73,12 +83,12 @@
         </div>
 
         <div class="cta__actions">
-          <a class="btn btn--contrast" href="#reservas">Explorar el menú</a>
+          <a class="btn btn--contrast" href="menu.html">Explorar el menú</a>
         </div>
       </div>
     </section>
 
-        <!-- PLATOS -->
+    <!-- PLATOS -->
     <section class="section" id="platos">
       <div class="container">
         <header class="section__header reveal">
@@ -140,7 +150,7 @@
           <h2>Nosotros</h2>
           <p>
             Somos un restaurante familiar de ambiente alegre: comedor interior, terraza y un rincón mini‑aventura
-            para los peques. Todo este texto es inventado.
+            para los peques.
           </p>
         </header>
 
@@ -152,90 +162,191 @@
 
           <article class="card reveal">
             <h3>Terraza</h3>
-            <p>Zona exterior con sombra, brisa y vistas “de postal” (ficticias) para alargar la sobremesa.</p>
+            <p>Zona exterior con sombra, brisa y vistas “de postal” para alargar la sobremesa.</p>
           </article>
 
           <article class="card reveal">
-            <h3>Piscinas</h3>
-            <p>Dos piscinas de ejemplo: una grande con trampolín y otra pensada para los más pequeños.</p>
+            <h3>Reservas</h3>
+            <p>Un lugar perfecto para celebrar ocasiones especiales con amigos y familiares.</p>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- MAPA -->
+    <div class="mapa" data-aos="zoom-in">
+      <div id="map"></div>
+    </div>
+
     <!-- HISTORIA -->
     <section class="section section--tint" id="historia">
       <div class="container split">
         <div class="split__left reveal">
-          <p class="kicker">Desde 1975</p>
+          <p class="kicker">Desde 2025</p>
           <h2>Nuestra historia</h2>
           <p>
-            Empezamos como un bar de carretera (ficticio) y hoy somos un punto de encuentro para celebraciones,
-            paellas dominicales y cenas de verano.
+            Nuestro proyecto intermodular comenzó con la idea de crear un espacio gastronómico que combinara tradición y
+            modernidad, ofreciendo platos inspirados en la cocina mediterránea con un toque creativo. Desde nuestra
+            apertura, hemos trabajado con pasión para ofrecer una experiencia culinaria única, utilizando ingredientes
+            frescos y de proximidad para garantizar la calidad en cada plato.
           </p>
 
           <div class="timeline">
             <div class="timeline__item">
-              <span class="timeline__year">1975</span>
-              <span class="timeline__text">Apertura del primer local demo.</span>
+              <span class="timeline__year">2025</span>
+              <span class="timeline__text">Apertura del primer local.</span>
             </div>
             <div class="timeline__item">
-              <span class="timeline__year">1998</span>
-              <span class="timeline__text">Ampliación con terraza y parrilla demo.</span>
+              <span class="timeline__year">2026</span>
+              <span class="timeline__text">Ampliación con terraza y parrilla.</span>
             </div>
             <div class="timeline__item">
-              <span class="timeline__year">2024</span>
-              <span class="timeline__text">Nueva carta estacional y postres artesanos demo.</span>
+              <span class="timeline__year">2026</span>
+              <span class="timeline__text">Presentacion de nuestro proyecto intermodular</span>
             </div>
           </div>
         </div>
 
         <div class="split__right reveal">
           <div class="photoMock" role="img" aria-label="Imagen decorativa simulada">
-            <div class="photoMock__label">Foto simulada</div>
+            <div class="photoMock__label">IES Pere Maria i Orts</div>
+            <img src="img/logo_ies.png" alt="Plato destacado" class="photoMock__image" loading="lazy" />
           </div>
-          <p class="hint">Consejo: cambia este bloque por una imagen real usando <code>&lt;img&gt;</code>.</p>
+
         </div>
-      </div>
-    </section>
-
-    <!-- RESERVAS -->
-    <section class="section section--tint" id="reservas">
-      <div class="container">
-        <header class="section__header reveal">
-          <h2>Reservas</h2>
-          <p>Formulario de ejemplo (no envía datos).</p>
-        </header>
-
-        <form class="form reveal" onsubmit="event.preventDefault(); alert('Demo: reserva enviada (ficticio).');">
-          <label>
-            Nombre
-            <input type="text" name="nombre" placeholder="Tu nombre" required />
-          </label>
-
-          <label>
-            Personas
-            <input type="number" name="personas" min="1" max="20" value="2" required />
-          </label>
-
-          <label>
-            Día
-            <input type="date" name="dia" required />
-          </label>
-
-          <button class="btn" type="submit">Enviar</button>
-        </form>
       </div>
     </section>
 
     <footer class="footer">
       <div class="container footer__grid">
-        <p>© 2026 Restaurante Demo. Contenido ficticio para practicar.</p>
+        <p>© 2026 Restaurante Demo. Proyecto Intermodular</p>
         <a class="link" href="#top">Volver arriba</a>
       </div>
     </footer>
   </main>
 
+  <!-- LOGIN / RESERVAS MODAL -->
+  <div class="modal-overlay" id="loginOverlay">
+
+    <!-- MODAL RESERVA -->
+    <div class="modal-card hidden" id="reservationModal">
+
+      <h2>Reservar mesa</h2>
+
+      <form id="reservationForm" novalidate>
+
+        <div class="form-group">
+          <label for="reservationDate">Fecha</label>
+
+          <input type="date" id="reservationDate" required />
+        </div>
+
+        <div class="form-group">
+          <label for="reservationTime">Hora</label>
+
+          <input type="time" id="reservationTime" required />
+        </div>
+
+        <div class="form-group">
+          <label for="reservationGuests">Número de personas</label>
+
+          <input type="number" id="reservationGuests" min="1" max="12" placeholder="2" required />
+        </div>
+
+        <div class="form-group">
+          <label for="reservationPhone">
+            Teléfono de contacto (opcional)
+          </label>
+
+          <input type="tel" id="reservationPhone" placeholder="+34 600 000 000" />
+        </div>
+
+        <p class="form-message" id="reservationMessage"></p>
+
+        <div class="modal-actions">
+
+          <button type="submit" class="btn-primary">
+            Confirmar reserva
+          </button>
+
+          <button type="button" class="btn-secondary" id="cancelReservation">
+            Cancelar
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+    <!-- Pantalla inicial -->
+    <div class="modal-card" id="welcomeModal">
+
+      <h2>¿Quieres hacer una reserva?</h2>
+
+      <p>
+        Inicia sesión antes de reservar una mesa.
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn-primary" id="openLoginForm">
+          Iniciar sesión
+        </button>
+
+        <button class="btn-secondary" id="closeOverlay">
+          Cancelar
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Login -->
+    <div class="modal-card hidden" id="loginModal">
+
+      <h2>Iniciar sesión</h2>
+
+      <form id="loginForm" novalidate>
+
+        <div class="form-group">
+          <label for="username">Usuario</label>
+
+          <input type="text" id="username" name="username" placeholder="Tu usuario" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+
+          <input type="email" id="email" name="email" placeholder="ejemplo@email.com"
+            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+
+          <input type="password" id="password" name="password" placeholder="••••••••" minlength="6" required />
+        </div>
+
+        <p class="form-message" id="formMessage"></p>
+
+        <div class="modal-actions">
+
+          <button type="submit" class="btn-primary">
+            Acceder
+          </button>
+
+          <button type="button" class="btn-secondary" id="cancelLogin">
+            Cancelar
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
   <script src="js/main.js"></script>
 </body>
+
 </html>
