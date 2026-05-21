@@ -181,3 +181,199 @@ SET n_personas = (
     SELECT MAX(n_personas)
     FROM RESERVAS
 );
+
+
+-- 4 VISTAS
+-- Muestra cada pedido con la mesa, la hora, la cantidad de platos y su total.
+CREATE OR REPLACE VIEW vista_resumen_pedidos AS
+SELECT 
+    p.id AS id_pedido,
+    p.hora,
+    p.n_mesa,
+    COUNT(t.n_plato) AS cantidad_platos,
+    COALESCE(SUM(pl.precio), 0) AS total_pedido
+FROM PEDIDOS p
+LEFT JOIN TENER t ON p.id = t.id_pedido
+LEFT JOIN PLATOS pl ON t.n_plato = pl.n_plato
+GROUP BY p.id, p.hora, p.n_mesa;
+
+
+-- Muestra por cliente cuántas reservas y pedidos ha realizado.
+CREATE OR REPLACE VIEW vista_clientes_actividad AS
+SELECT
+    c.id,
+    c.nombre,
+    c.apellidos,
+    COUNT(DISTINCT r.id) AS total_reservas,
+    COUNT(DISTINCT re.id_pedi) AS total_pedidos
+FROM CLIENTES c
+LEFT JOIN RESERVAS r ON c.id = r.id_cli
+LEFT JOIN REALIZAR re ON c.id = re.id_cli
+GROUP BY c.id, c.nombre, c.apellidos;
+
+
+-- 5 FUNCIONES
+-- Devuelve la suma de precios de todos los platos de un pedido.
+CREATE OR REPLACE FUNCTION fn_total_pedido(p_id_pedido INT)
+RETURNS NUMERIC(8,2)
+AS $$
+DECLARE
+    v_total NUMERIC(8,2);
+BEGIN
+    SELECT COALESCE(SUM(pl.precio), 0)
+    INTO v_total
+    FROM TENER t
+    JOIN PLATOS pl ON t.n_plato = pl.n_plato
+    WHERE t.id_pedido = p_id_pedido;
+
+    RETURN v_total;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Devuelve el número total de pedidos hechos por un cliente.
+CREATE OR REPLACE FUNCTION fn_num_pedidos_cliente(p_id_cli VARCHAR(4))
+RETURNS INT
+AS $$
+DECLARE
+    v_total INT;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_total
+    FROM REALIZAR
+    WHERE id_cli = p_id_cli;
+
+    RETURN v_total;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Comprueba si un código de descuento existe y no está caducado.
+CREATE OR REPLACE FUNCTION fn_descuento_vigente(p_codigo VARCHAR(20))
+RETURNS BOOLEAN
+AS $$
+DECLARE
+    v_existe INT;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_existe
+    FROM DESCUENTOS
+    WHERE codigo = p_codigo
+      AND (fecha_caducidad IS NULL OR fecha_caducidad >= CURRENT_DATE);
+
+    RETURN v_existe > 0;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Recorre los platos de un pedido y descuenta 1 unidad de cada ingrediente asociado.
+CREATE OR REPLACE FUNCTION fn_descontar_existencias_pedido(p_id_pedido INT)
+RETURNS VOID
+AS $$
+DECLARE
+    v_ingrediente VARCHAR(20);
+
+    cur_ingredientes CURSOR FOR
+        SELECT DISTINCT s.nombre_ingre
+        FROM TENER t
+        JOIN SUMINISTRAR s ON t.n_plato = s.n_plato
+        WHERE t.id_pedido = p_id_pedido;
+BEGIN
+    OPEN cur_ingredientes;
+    LOOP
+        FETCH cur_ingredientes INTO v_ingrediente;
+        EXIT WHEN NOT FOUND;
+
+        UPDATE INGREDIENTES
+        SET existencias = existencias - 1
+        WHERE nombre = v_ingrediente
+          AND existencias > 0;
+    END LOOP;
+    CLOSE cur_ingredientes;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- 6 TRIGGERS
+-- Evita borrar un cliente si tiene reservas o pedidos asociados.
+CREATE OR REPLACE FUNCTION trg_validar_borrado_cliente()
+RETURNS TRIGGER
+AS $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM RESERVAS WHERE id_cli = OLD.id) THEN
+        RAISE EXCEPTION 'No se puede borrar el cliente %, tiene reservas asociadas', OLD.id;
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM REALIZAR WHERE id_cli = OLD.id) THEN
+        RAISE EXCEPTION 'No se puede borrar el cliente %, tiene pedidos asociados', OLD.id;
+    END IF;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_no_borrar_cliente_con_historial
+BEFORE DELETE ON CLIENTES
+FOR EACH ROW
+EXECUTE FUNCTION trg_validar_borrado_cliente();
+
+
+-- Comprueba que la mesa indicada en el pedido exista en MESAS.
+CREATE OR REPLACE FUNCTION trg_validar_mesa_pedido()
+RETURNS TRIGGER
+AS $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM MESAS
+        WHERE n_mesa = NEW.n_mesa
+    ) THEN
+        RAISE EXCEPTION 'La mesa % no existe', NEW.n_mesa;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_validar_mesa_en_pedido
+BEFORE INSERT ON PEDIDOS
+FOR EACH ROW
+EXECUTE FUNCTION trg_validar_mesa_pedido();
+
+
+-- Si no se indica hora en el pedido, asigna automáticamente la fecha y hora actuales.
+CREATE OR REPLACE FUNCTION trg_asignar_hora_pedido()
+RETURNS TRIGGER
+AS $$
+BEGIN
+    IF NEW.hora IS NULL THEN
+        NEW.hora := CURRENT_TIMESTAMP;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_asignar_hora_pedido
+BEFORE INSERT ON PEDIDOS
+FOR EACH ROW
+EXECUTE FUNCTION trg_asignar_hora_pedido();
+
+
+-- Evita insertar un descuento caducado o inexistente en la tabla OFRECER.
+CREATE OR REPLACE FUNCTION trg_validar_ofrecer_descuento()
+RETURNS TRIGGER
+AS $$
+BEGIN
+    IF NOT fn_descuento_vigente(NEW.codigo_des) THEN
+        RAISE EXCEPTION 'El descuento % no existe o está caducado', NEW.codigo_des;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_validar_descuento_ofrecer
+BEFORE INSERT ON OFRECER
+FOR EACH ROW
+EXECUTE FUNCTION trg_validar_ofrecer_descuento();
