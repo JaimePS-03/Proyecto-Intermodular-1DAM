@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,21 +10,28 @@
   <link rel="stylesheet" href="css/header.css" />
   <link rel="stylesheet" href="css/animations.css" />
   <link rel="stylesheet" href="css/menu-page.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 
 <body>
   <header class="site-header">
     <a class="brand" href="#top" aria-label="Ir al inicio">
-      <span class="brand__dot" aria-hidden="true"></span>
-      <span class="brand__text">Restaurante Demo</span>
+      <img src="img/logo.jpeg" alt="Logo del restaurante" class="brand__logo" loading="lazy">
+      <span class="brandtext">Fuentes del Algars</span>
     </a>
 
+    <!-- NAV -->
     <div class="nav-clip" id="navClip">
       <nav class="nav-desktop" id="navDesktop" aria-label="Navegación principal">
+        <button class="theme-switch" id="themeSwitch" type="button" aria-label="Cambiar tema" aria-pressed="false">
+          <span class="theme-switch__thumb" aria-hidden="true"></span>
+        </button>
         <a href="index.html">Inicio</a>
-        <a href="#historia">Historia</a>
         <a href="menu.html">Menú</a>
-        <a class="btn btn--small" href="#reservas">Reservas</a>
+        <button class="reserve-btn" id="reserveBtn" aria-label="Reservas">
+          <i data-lucide="calendar-days"></i>
+          <span>Reservar</span>
+        </button>
       </nav>
     </div>
   </header>
@@ -55,6 +63,7 @@
 
     <section class="menu-page">
       <div class="container menu-layout">
+
         <!-- Izquierda: categorías -->
         <aside class="menu-categories reveal" aria-label="Categorías">
           <h2 class="menu-panel-title">Categorías</h2>
@@ -70,10 +79,10 @@
         </section>
       </div>
     </section>
-    
+
     <footer class="footer">
       <div class="container footer__grid">
-        <p>© 2026 Restaurante Demo. Contenido ficticio para practicar.</p>
+        <p>© 2026 Restaurante Demo. Proyecto Intermodular</p>
         <a class="link" href="#top">Volver arriba</a>
       </div>
     </footer>
@@ -82,4 +91,5 @@
   <script src="js/main.js"></script>
   <script src="js/menu-page.js"></script>
 </body>
+
 </html>

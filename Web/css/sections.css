@@ -1,88 +1,123 @@
-.card { background: var(--glass-bg) !important; border-color: var(--glass-border) !important; }
-.timelineitem { background: var(--glass-light); border-color: var(--glass-border); }
+/* ======================
+   CARDS
+   ====================== */
 
-.cards{
+.cards {
   margin-top: 22px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 
-.card{
-  border-radius: var(--radius);
-  background: rgba(255,255,255,.85);
-  border: 1px solid rgba(15,76,129,.12);
+.card {
   padding: 16px;
-  box-shadow: 0 12px 32px rgba(11,42,74,.10);
-  transition: transform .25s ease, box-shadow .25s ease;
+  border-radius: var(--radius);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  transition: .25s ease;
 }
-.card:hover{
-  transform: translateY(-3px);
-  box-shadow: 0 18px 42px rgba(11,42,74,.14);
-}
-.card h3{ margin: 0 0 8px; color: var(--blue-900); }
-.card p{ margin: 0; color: var(--muted); line-height: 1.6; }
 
-.split{
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card h3 {
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ======================
+   SPLIT LAYOUT
+   ====================== */
+
+.split {
   display: grid;
   grid-template-columns: 1.1fr .9fr;
   gap: 26px;
   align-items: start;
 }
 
-.timeline{
+/* ======================
+   TIMELINE
+   ====================== */
+
+.timeline {
   margin-top: 18px;
   display: grid;
   gap: 10px;
 }
-.timeline__item{
+
+.timeline__item {
   display: grid;
   grid-template-columns: 70px 1fr;
   gap: 12px;
   align-items: center;
-  padding: 12px 12px;
+  padding: 12px;
   border-radius: 14px;
-  background: rgba(233,242,255,.55);
-  border: 1px solid rgba(15,76,129,.10);
-}
-.timeline__year{
-  font-weight: 950;
-  color: var(--blue-900);
-}
-.timeline__text{
-  color: var(--muted);
-  font-weight: 650;
+  background: var(--bg-soft);
+  border: 1px solid var(--glass-border);
 }
 
-.photoMock{
+.timeline__year {
+  font-weight: 900;
+  color: var(--text);
+}
+
+.timeline__text {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ======================
+   PHOTO MOCK
+   ====================== */
+
+.photoMock {
   height: 290px;
   border-radius: var(--radius);
-  border: 1px solid rgba(15,76,129,.14);
+  border: 1px solid var(--glass-border);
   background:
-    linear-gradient(135deg, rgba(15,76,129,.18), rgba(255,122,24,.14)),
-    radial-gradient(400px 240px at 70% 20%, rgba(255,255,255,.9), transparent 55%);
+    linear-gradient(135deg, rgba(15, 76, 129, .18), rgba(255, 122, 24, .14)),
+    radial-gradient(400px 240px at 70% 20%, rgba(255, 255, 255, .9), transparent 55%);
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
 }
-.photoMock__label{
+
+.photoMock__label {
   position: absolute;
   bottom: 14px;
   left: 14px;
   padding: 8px 10px;
   border-radius: 999px;
-  background: rgba(255,255,255,.85);
-  border: 1px solid rgba(15,76,129,.12);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
   font-weight: 900;
-  color: var(--blue-900);
+  color: var(--text);
+  z-index: 10;
 }
 
-.hint{
-  margin: 10px 0 0;
-  color: var(--muted);
+.photoMock__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-@media (max-width: 900px){
-  .cards{ grid-template-columns: 1fr; }
-  .split{ grid-template-columns: 1fr; }
+/* ======================
+   RESPONSIVE
+   ====================== */
+
+@media (max-width:900px) {
+
+  .cards,
+  .split {
+    grid-template-columns: 1fr;
+  }
 }
