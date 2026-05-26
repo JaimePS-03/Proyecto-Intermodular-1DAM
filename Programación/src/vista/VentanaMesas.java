@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
-import controlador.MesaDAO;
+import dao.MesaDAO;
 import modelo.Mesa;
 
 import javax.swing.JLabel;
@@ -106,9 +106,10 @@ public class VentanaMesas extends JFrame {
 
         btnInsertar.addActionListener(e -> {
             try {
+                int id = Integer.parseInt(txtIdMesa.getText().trim());
                 int personas = Integer.parseInt(txtPersonas.getText().trim());
 
-                Mesa m = new Mesa(mDao.generarId(), personas);
+                Mesa m = new Mesa(id, personas);
                 mDao.insertar(m);
 
                 txtIdMesa.setText(String.valueOf(m.getnMesa()));
