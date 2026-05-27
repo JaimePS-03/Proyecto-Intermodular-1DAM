@@ -339,3 +339,61 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
 });
+
+/* =========================
+   ES/EN
+   ========================= */
+
+// 1. Diccionario de traducciones
+const translations = {
+  es: {
+    nav_about: "Nosotros",
+    nav_history: "Historia",
+    nav_menu: "Menú",
+    nav_reserve: "Reservar",
+    history_kicker: "Desde 2025",
+    history_title: "Nuestra historia",
+    history_text: "Nuestro proyecto intermodular comenzó con la idea de crear un espacio gastronómico que combinara tradición y modernidad , ofreciendo platos inspirados en la cocina mediterránea con un toque creativo. Desde nuestra apertura, hemos trabajado con pasión para ofrecer una experiencia culinaria única, utilizando ingredientes frescos y de proximidad para garantizar la calidad en cada plato."
+  },
+  en: {
+    nav_about: "About Us",
+    nav_history: "History",
+    nav_menu: "Menu",
+    nav_reserve: "Reserve",
+    history_kicker: "Since 2025",
+    history_title: "Our History",
+    history_text: "Our intermodular project began with the idea of ​​creating a gastronomic space that combined tradition and modernity, offering dishes inspired by Mediterranean cuisine with a creative touch. Since our opening, we have worked passionately to offer a unique culinary experience, using fresh, locally sourced ingredients to guarantee quality in every dish."
+  }
+};
+
+// 2. Comprobar si el usuario ya eligió un idioma antes (persistencia)
+let currentLang = localStorage.getItem('app_lang') || 'es';
+
+// 3. Función principal para cambiar el idioma
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('app_lang', lang); // Guarda la elección en el navegador
+  document.documentElement.lang = lang; // Cambia el <html lang="es"> a "en"
+
+  // Buscar todos los elementos que tienen el atributo data-i18n
+  const elements = document.querySelectorAll('[data-i18n]');
+  
+  elements.forEach(element => {
+    const key = element.getAttribute('data-i18n');
+    // Si la clave existe en nuestro diccionario, actualizamos el texto
+    if (translations[lang][key]) {
+      element.textContent = translations[lang][key];
+    }
+  });
+
+  // Actualizar el estilo visual de los botones (opcional, para saber cuál está activo)
+  document.getElementById('btn-es').style.fontWeight = lang === 'es' ? 'bold' : 'normal';
+  document.getElementById('btn-en').style.fontWeight = lang === 'en' ? 'bold' : 'normal';
+}
+
+// 4. Asignar los eventos a los botones
+document.getElementById('btn-es').addEventListener('click', () => setLanguage('es'));
+document.getElementById('btn-en').addEventListener('click', () => setLanguage('en'));
+
+// 5. Iniciar la web con el idioma correcto
+setLanguage(currentLang);

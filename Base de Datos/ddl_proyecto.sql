@@ -12,7 +12,7 @@ n_personas NUMERIC(2),
 tipo_reserva VARCHAR(30),
 fecha TIMESTAMP,
 id_cli VARCHAR(4) NOT NULL,
- 
+
 FOREIGN KEY (id_cli) REFERENCES CLIENTES(id)
 );
 
@@ -22,7 +22,7 @@ n_personas NUMERIC (2)
 );
 
 CREATE TABLE PEDIDOS(
-id INT PRIMARY KEY,
+id SERIAL PRIMARY KEY,
 hora TIMESTAMP,
 n_mesa NUMERIC(2),
 
