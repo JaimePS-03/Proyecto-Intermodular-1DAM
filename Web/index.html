@@ -32,9 +32,13 @@
         <button class="theme-switch" id="themeSwitch" type="button" aria-label="Cambiar tema" aria-pressed="false">
           <span class="theme-switch__thumb" aria-hidden="true"></span>
         </button>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#historia">Historia</a>
-        <a href="menu.html">Menú</a>
+        <div class="lang-switch" style="display: flex; gap: 10px; margin-right: 15px;">
+          <button id="btn-es" style="cursor: pointer; background: none; border: none; font-weight: bold;">🇪🇸</button>
+          <button id="btn-en" style="cursor: pointer; background: none; border: none;">🇬🇧</button>
+        </div>
+        <a href="#nosotros" data-i18n="nav_about">Nosotros</a>
+        <a href="#historia" data-i18n="nav_history">Historia</a>
+        <a href="menu.html" data-i18n="nav_menu">Menú</a>
         <button class="reserve-btn" id="reserveBtn" aria-label="Reservas">
           <i data-lucide="calendar-days"></i>
           <span>Reservar</span>
@@ -182,9 +186,9 @@
     <section class="section section--tint" id="historia">
       <div class="container split">
         <div class="split__left reveal">
-          <p class="kicker">Desde 2025</p>
-          <h2>Nuestra historia</h2>
-          <p>
+          <p class="kicker" data-i18n="history_kicker">Desde 2025</p>
+          <h2 data-i18n="history_title">Nuestra historia</h2>
+          <p data-i18n="history_text" 1>
             Nuestro proyecto intermodular comenzó con la idea de crear un espacio gastronómico que combinara tradición y
             modernidad, ofreciendo platos inspirados en la cocina mediterránea con un toque creativo. Desde nuestra
             apertura, hemos trabajado con pasión para ofrecer una experiencia culinaria única, utilizando ingredientes

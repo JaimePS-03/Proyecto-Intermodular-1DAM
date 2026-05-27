@@ -80,7 +80,35 @@ dishes.push(
     name: "Pizza Margarita",
     price: "11,90 €",
     people: "1-2",
-    category: "Pizzas",
+    category: "Popi",
+    image: "img/logo.jpeg"
+  },  {
+    id: "002",
+    name: "Pizza Margarita",
+    price: "11,90 €",
+    people: "1-2",
+    category: "Popi",
+    image: "img/logo.jpeg"
+  },{
+    id: "002",
+    name: "Pizza Margarita",
+    price: "11,90 €",
+    people: "1-2",
+    category: "Popi2",
+    image: "img/logo.jpeg"
+  },  {
+    id: "002",
+    name: "Pizza Margarita",
+    price: "11,90 €",
+    people: "1-2",
+    category: "Popi",
+    image: "img/logo.jpeg"
+  },  {
+    id: "002",
+    name: "Pizza Margarita",
+    price: "11,90 €",
+    people: "1-2",
+    category: "Popi",
     image: "img/logo.jpeg"
   }
 );
