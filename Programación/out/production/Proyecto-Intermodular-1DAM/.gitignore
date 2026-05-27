@@ -1,4 +1,7 @@
+/.metadata/
+/conexion/
 /controlador/
+/dao/
 /modelo/
 /util/
 /vista/
