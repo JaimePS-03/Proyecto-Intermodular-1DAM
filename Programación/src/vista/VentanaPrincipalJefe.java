@@ -7,6 +7,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaPrincipalJefe extends JFrame {
 
@@ -27,9 +29,21 @@ public class VentanaPrincipalJefe extends JFrame {
 		panel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JButton btnJefes = new JButton("Jefes");
+		btnJefes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaGJefes vGJ = new VentanaGJefes();
+				vGJ.setVisible(true);
+			}
+		});
 		panel.add(btnJefes);
 		
 		JButton btnBartender = new JButton("Bartenders");
+		btnBartender.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaBartender vB = new VentanaBartender();
+				vB.setVisible(true);
+			}
+		});
 		panel.add(btnBartender);
 		
 		JButton btnCamareros = new JButton("Camareros");

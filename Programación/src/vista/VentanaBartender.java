@@ -133,9 +133,9 @@ public class VentanaBartender extends JFrame {
         modeloTabla.addColumn("Nombre");
         modeloTabla.addColumn("Apellido");
         modeloTabla.addColumn("Teléfono");
-        modeloTabla.addColumn("NUSS");
         modeloTabla.addColumn("Colectivo");
         modeloTabla.addColumn("Email");
+        modeloTabla.addColumn("NUSS");
 
         tablaBartenders = new JTable(modeloTabla);
         scrollPane.setViewportView(tablaBartenders);
