@@ -30,7 +30,7 @@ public class VentanaProveedores extends JFrame {
     private ProveedoresDAO pDao = new ProveedoresDAO();
 
     public VentanaProveedores() {
-        setTitle("Gestión de clientes");
+        setTitle("Gestión de Proveedores");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 800, 550);
         setLocationRelativeTo(null);
@@ -40,12 +40,12 @@ public class VentanaProveedores extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JLabel lblTitulo = new JLabel("GESTIÓN DE CLIENTES");
+        JLabel lblTitulo = new JLabel("GESTIÓN DE PROVEEDORES");
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 20));
         lblTitulo.setBounds(255, 10, 280, 30);
         contentPane.add(lblTitulo);
 
-        JLabel lblDni = new JLabel("DNI:");
+        JLabel lblDni = new JLabel("CIF:");
         lblDni.setBounds(30, 70, 80, 20);
         contentPane.add(lblDni);
 
@@ -62,7 +62,7 @@ public class VentanaProveedores extends JFrame {
         txtNombre.setBounds(120, 110, 180, 25);
         contentPane.add(txtNombre);
 
-        JLabel lblApellidos = new JLabel("Apellidos:");
+        JLabel lblApellidos = new JLabel("Dirección:");
         lblApellidos.setBounds(30, 150, 80, 20);
         contentPane.add(lblApellidos);
 
@@ -86,7 +86,7 @@ public class VentanaProveedores extends JFrame {
         txtEmail.setBounds(120, 230, 180, 25);
         contentPane.add(txtEmail);
 
-        JButton btnBuscar = new JButton("Buscar por ID");
+        JButton btnBuscar = new JButton("Buscar por CIF");
         btnBuscar.setBounds(350, 70, 130, 30);
         contentPane.add(btnBuscar);
 
@@ -111,9 +111,9 @@ public class VentanaProveedores extends JFrame {
         contentPane.add(scrollPane);
 
         modeloTabla = new DefaultTableModel();
-        modeloTabla.addColumn("DNI");
+        modeloTabla.addColumn("CIF");
         modeloTabla.addColumn("Nombre");
-        modeloTabla.addColumn("Apellidos");
+        modeloTabla.addColumn("Dirección");
         modeloTabla.addColumn("Teléfono");
         modeloTabla.addColumn("Email");
 
@@ -122,8 +122,8 @@ public class VentanaProveedores extends JFrame {
 
         btnBuscar.addActionListener(e -> {
             try {
-                String id = txtCif.getText().trim();
-                Proveedores c = pDao.buscarPorId(id);
+                String cif = txtCif.getText().trim();
+                Proveedores c = pDao.buscarPorId(cif);
 
                 if (c != null) {
                     txtNombre.setText(c.getNombre());
@@ -166,17 +166,17 @@ public class VentanaProveedores extends JFrame {
                     return;
                 }
 
-                String id = tablaClientes.getValueAt(fila, 0).toString();
+                String cif = tablaClientes.getValueAt(fila, 0).toString();
 
                 Proveedores cliente = new Proveedores(
-                        id,
+                        cif,
                         txtNombre.getText().trim(),
                         txtDireccion.getText().trim(),
                         txtTelefono.getText().trim(),
                         txtEmail.getText().trim()
                 );
 
-                pDao.actualizar(id, cliente);
+                pDao.actualizar(cif, cliente);
                 JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente");
                 limpiarCampos();
                 cargarTabla();
@@ -194,8 +194,8 @@ public class VentanaProveedores extends JFrame {
                     return;
                 }
 
-                String id = tablaClientes.getValueAt(fila, 0).toString();
-                boolean eliminado = pDao.eliminar(id);
+                String cif = tablaClientes.getValueAt(fila, 0).toString();
+                boolean eliminado = pDao.eliminar(cif);
 
                 if (eliminado) {
                     JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente");

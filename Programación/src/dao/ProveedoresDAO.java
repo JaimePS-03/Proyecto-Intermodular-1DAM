@@ -11,7 +11,7 @@ public class ProveedoresDAO {
 
     public List<Proveedores> getProveedores() throws SQLException {
         List<Proveedores> lista = new ArrayList<>();
-        String sql = "SELECT id, nombre, direccion, telefono, email FROM proveedores";
+        String sql = "SELECT cif, nombre, direccion, telefono, email FROM proveedores";
 
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(sql);

@@ -1,6 +1,6 @@
 package modelo;
 
-public class Camareros extends Empleado{
+public class Camarero extends Empleado{
     // Atributos propios de la clase
     private int anoServicio;
     private String dniEmpleado;
@@ -8,7 +8,7 @@ public class Camareros extends Empleado{
     private String camareroJefe;
 
     // Constructor de la clase.
-    public Camareros(String dni, String nombre, String apellidos, String telefono, String email, String NUSS, String colectivo, int anoServicio, String nZona, String camareroJefe) {
+    public Camarero(String dni, String nombre, String apellidos, String telefono, String email, String NUSS, String colectivo, int anoServicio, String nZona, String camareroJefe) {
         super(dni, nombre, apellidos, telefono, email, NUSS, colectivo);
         this.anoServicio = anoServicio;
         this.dniEmpleado = dni;

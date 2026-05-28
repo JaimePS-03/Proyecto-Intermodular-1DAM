@@ -1,11 +1,11 @@
 package controlador;
 
-import modelo.Bartenders;
+import modelo.Bartender;
 
 /**
  * Controlador específico para la gestión de bartenders.
  */
-public class BartenderDAO extends EmpleadoDAO<Bartenders> {
+public class BartenderDAO extends EmpleadoDAO<Bartender> {
 
     /**
      * Constructor del controlador de bartenders.

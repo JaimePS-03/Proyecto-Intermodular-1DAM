@@ -1,11 +1,11 @@
 package modelo;
 
-public class Bartenders extends Empleado{
+public class Bartender extends Empleado{
     // Atributos propios de la clase
     private String dniEmpleado;
 
     // Constructor de la clase.
-    public Bartenders(String dni, String nombre, String apellidos, String telefono, String email, String NUSS, String colectivo) {
+    public Bartender(String dni, String nombre, String apellidos, String telefono, String email, String NUSS, String colectivo) {
         super(dni, nombre, apellidos, telefono, email, NUSS, colectivo);
         this.dniEmpleado = dni;
     }
