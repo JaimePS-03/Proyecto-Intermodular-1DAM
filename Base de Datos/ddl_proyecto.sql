@@ -69,6 +69,8 @@ tipo VARCHAR(20),
 existencias NUMERIC(3)
 );
 
+ALTER TABLE INGREDIENTES ALTER COLUMN nombre TYPE VARCHAR(50);
+
 CREATE TABLE PROVEEDORES(
 cif VARCHAR(9) PRIMARY KEY,
 nombre VARCHAR(30),
@@ -207,4 +209,19 @@ PRIMARY KEY (id_cli, id_res),
 FOREIGN KEY (id_cli) REFERENCES CLIENTES(id),
 FOREIGN KEY (id_res) REFERENCES RESERVAS(id),
 FOREIGN KEY (codigo_des) REFERENCES DESCUENTOS(codigo)
+);
+
+CREATE TABLE USUARIOS (
+id_usuario SERIAL PRIMARY KEY,
+email VARCHAR(50) UNIQUE NOT NULL,
+password VARCHAR(255) NOT NULL,
+rol VARCHAR(20) NOT NULL,
+id_cliente VARCHAR(4) REFERENCES CLIENTES(id) ON DELETE CASCADE,
+dni_empleado VARCHAR(9) REFERENCES EMPLEADOS(dni) ON DELETE CASCADE,
+
+-- Restriccion para asegurar que el usuario es O un cliente O un empleado, no ambos
+CONSTRAINT chk_tipo_usuario CHECK (
+    (id_cliente IS NOT NULL AND dni_empleado IS NULL) OR
+    (id_cliente IS NULL AND dni_empleado IS NOT NULL)
+ )
 );

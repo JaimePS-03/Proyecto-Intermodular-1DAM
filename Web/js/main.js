@@ -115,40 +115,27 @@ $$(".reveal").forEach(el =>
 })();
 
 /* =========================
-   LOGIN MODAL
+   LOGIN & RESERVATION MODAL
    ========================= */
 lucide.createIcons();
 
 (() => {
-
   const reserveBtn = document.getElementById('reserveBtn');
-
   const overlay = document.getElementById('loginOverlay');
-
   const welcomeModal = document.getElementById('welcomeModal');
   const loginModal = document.getElementById('loginModal');
-
   const openLoginForm = document.getElementById('openLoginForm');
-
   const closeOverlay = document.getElementById('closeOverlay');
   const cancelLogin = document.getElementById('cancelLogin');
-
   const loginForm = document.getElementById('loginForm');
   const formMessage = document.getElementById('formMessage');
 
-  const reservationModal =
-    document.getElementById('reservationModal');
+  const reservationModal = document.getElementById('reservationModal');
+  const reservationForm = document.getElementById('reservationForm');
+  const reservationMessage = document.getElementById('reservationMessage');
+  const cancelReservation = document.getElementById('cancelReservation');
 
-  const reservationForm =
-    document.getElementById('reservationForm');
-
-  const reservationMessage =
-    document.getElementById('reservationMessage');
-
-  const cancelReservation =
-    document.getElementById('cancelReservation');
-
-  let isLogged = false;
+  let isLogged = sessionStorage.getItem('isLogged') === 'true';
 
   const openModal = () => {
     overlay.classList.add('active');
@@ -156,36 +143,23 @@ lucide.createIcons();
   };
 
   const closeModal = () => {
-
     overlay.classList.remove('active');
-
     document.body.style.overflow = '';
-
     welcomeModal.classList.remove('hidden');
-
     loginModal.classList.add('hidden');
-
     reservationModal.classList.add('hidden');
-
     loginForm.reset();
-
     formMessage.textContent = '';
   };
 
   reserveBtn.addEventListener('click', () => {
-
     if (isLogged) {
-
       welcomeModal.classList.add('hidden');
       loginModal.classList.add('hidden');
-
       reservationModal.classList.remove('hidden');
-
       openModal();
-
       return;
     }
-
     openModal();
   });
 
@@ -195,8 +169,8 @@ lucide.createIcons();
   });
 
   closeOverlay.addEventListener('click', closeModal);
-
   cancelLogin.addEventListener('click', closeModal);
+  cancelReservation.addEventListener('click', closeModal);
 
   overlay.addEventListener('click', e => {
     if (e.target === overlay) {
@@ -204,84 +178,129 @@ lucide.createIcons();
     }
   });
 
-  loginForm.addEventListener('submit', e => {
+  /* =======================================================
+     1. FORMULARIO DE RESERVAS
+     ======================================================= */
+  reservationForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const date = document.getElementById('reservationDate').value;
+    const time = document.getElementById('reservationTime').value;
+    const guests = document.getElementById('reservationGuests').value;
+    const tipo = document.getElementById('reservationType').value;
 
-    cancelReservation.addEventListener('click', closeModal);
+    if (!date || !time || !guests || !tipo) {
+      reservationMessage.style.color = '#ef4444';
+      reservationMessage.textContent = 'Completa todos los campos obligatorios.';
+      return;
+    }
 
-    reservationForm.addEventListener('submit', e => {
+    const reservationData = new FormData();
+    reservationData.append('date', date);
+    reservationData.append('time', time);
+    reservationData.append('guests', guests);
+    reservationData.append('tipo', tipo);
 
-      e.preventDefault();
+    reservationMessage.style.color = '#3b82f6';
+    reservationMessage.textContent = 'Procesando reserva...';
 
-      const date =
-        document.getElementById('reservationDate').value;
+    fetch('../src/guardar_reserva.php', {
+      method: 'POST',
+      body: reservationData
+    })
+    .then(response => response.json().then(data => ({ status: response.status, data })))
+    .then(res => {
+      if (res.status === 200) {
+        reservationMessage.style.color = '#22c55e';
+        reservationMessage.textContent = res.data.mensaje;
 
-      const time =
-        document.getElementById('reservationTime').value;
-
-      const guests =
-        document.getElementById('reservationGuests').value;
-
-      if (!date || !time || !guests) {
-
-        reservationMessage.textContent =
-          'Completa los campos obligatorios.';
-
-        return;
+        setTimeout(() => {
+          closeModal();
+          reservationForm.reset();
+        }, 1400);
+      } else {
+        reservationMessage.style.color = '#ef4444';
+        reservationMessage.textContent = res.data.mensaje;
       }
-
-      reservationMessage.style.color = '#22c55e';
-
-      reservationMessage.textContent =
-        'Reserva realizada correctamente.';
-
-      setTimeout(() => {
-
-        closeModal();
-
-        reservationForm.reset();
-
-      }, 1400);
-
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      reservationMessage.style.color = '#ef4444';
+      reservationMessage.textContent = 'Error de comunicación con el servidor.';
     });
+  });
 
+  /* =======================================================
+     2. FORMULARIO DE LOGIN
+     ======================================================= */
+
+  if (loginForm && loginForm.email) {
+    loginForm.email.value = localStorage.getItem('usuario_correo') || '';
+  }
+
+  loginForm.addEventListener('submit', e => {
     e.preventDefault();
 
-    const username = loginForm.username.value.trim();
     const email = loginForm.email.value.trim();
     const password = loginForm.password.value.trim();
-
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!username || !email || !password) {
+    if (!email || !password) {
+      formMessage.style.color = '#ef4444';
       formMessage.textContent = 'Completa todos los campos.';
       return;
     }
 
     if (!emailPattern.test(email)) {
+      formMessage.style.color = '#ef4444';
       formMessage.textContent = 'Introduce un correo válido.';
       return;
     }
 
     if (password.length < 6) {
-      formMessage.textContent =
-        'La contraseña debe tener mínimo 6 caracteres.';
+      formMessage.style.color = '#ef4444';
+      formMessage.textContent = 'La contraseña debe tener mínimo 6 caracteres.';
       return;
     }
 
-    isLogged = true;
+    localStorage.setItem('usuario_correo', email);
 
-    formMessage.style.color = '#22c55e';
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
 
-    formMessage.textContent = 'Inicio de sesión correcto.';
+    formMessage.style.color = '#3b82f6';
+    formMessage.textContent = 'Comprobando credenciales...';
 
-    setTimeout(() => {
+    fetch('../src/login.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      return response.json().then(data => ({ status: response.status, data }));
+    })
+    .then(res => {
+      if (res.status === 200) {
+        isLogged = true;
+        sessionStorage.setItem('isLogged', 'true');
+        formMessage.style.color = '#22c55e';
+        formMessage.textContent = res.data.mensaje;
 
-      loginModal.classList.add('hidden');
+        setTimeout(() => {
+          loginModal.classList.add('hidden');
+          reservationModal.classList.remove('hidden');
+          formMessage.textContent = '';
+        }, 900);
 
-      reservationModal.classList.remove('hidden');
-
-    }, 900);
-
+      } else {
+        formMessage.style.color = '#ef4444';
+        formMessage.textContent = res.data.mensaje;
+      }
+    })
+    .catch(error => {
+      console.error("Error en la petición:", error);
+      formMessage.style.color = '#ef4444';
+      formMessage.textContent = 'Error al conectar con el servidor de autenticación.';
+    });
   });
 
 })();

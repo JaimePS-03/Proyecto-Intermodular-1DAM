@@ -146,6 +146,63 @@
   white-space: nowrap;
 }
 
+/* Contenedor de alérgenos dentro de la tarjeta */
+.allergen-wrapper {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  /* Los empuja a la derecha de la tarjeta de forma elegante */
+}
+
+/* Base redonda e idéntica para todos los alérgenos */
+.allergen-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: help;
+  user-select: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Colores específicos asignados internacionalmente a la hostelería */
+.ale-gluten {
+  background-color: #eab308;
+}
+
+/* Amarillo/Trigo */
+.ale-crustaceos {
+  background-color: #ef4444;
+}
+
+/* Rojo Marisco */
+.ale-huevos {
+  background-color: #f97316;
+  color: #fff;
+}
+
+/* Naranja Huevo */
+.ale-pescado {
+  background-color: #3b82f6;
+}
+
+/* Azul Mar */
+.ale-leche {
+  background-color: #a855f7;
+}
+
+/* Morado */
+.ale-moluscos {
+  background-color: #ec4899;
+}
+
+/* Rosa */
+
 /* =========================
    META BADGE
    ========================= */

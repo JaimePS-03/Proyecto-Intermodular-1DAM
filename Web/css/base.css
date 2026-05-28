@@ -129,16 +129,8 @@ a {
 
 .btn--contrast {
   background: linear-gradient(135deg, var(--accent), #ff9a3d);
-  color: #1a120b;
 }
 
-.btn-es {
-  color: var(--text);
-}
-
-.btn-en {
-  color: var(--text);
-}
 
 /* =========================
    SELECTOR DE IDIOMA
