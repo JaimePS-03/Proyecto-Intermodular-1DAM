@@ -32,9 +32,13 @@
         <button class="theme-switch" id="themeSwitch" type="button" aria-label="Cambiar tema" aria-pressed="false">
           <span class="theme-switch__thumb" aria-hidden="true"></span>
         </button>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#historia">Historia</a>
-        <a href="menu.html">Menú</a>
+        <div class="lang-switch" style="display: flex; gap: 10px; margin-right: 15px;">
+          <button id="btn-es" style="cursor: pointer; background: none; border: none; font-weight: bold;">🇪🇸</button>
+          <button id="btn-en" style="cursor: pointer; background: none; border: none;">🇬🇧</button>
+        </div>
+        <a href="#nosotros" data-i18n="nav_about">Nosotros</a>
+        <a href="#historia" data-i18n="nav_history">Historia</a>
+        <a href="menu.html" data-i18n="nav_menu">Menú</a>
         <button class="reserve-btn" id="reserveBtn" aria-label="Reservas">
           <i data-lucide="calendar-days"></i>
           <span>Reservar</span>
@@ -182,9 +186,9 @@
     <section class="section section--tint" id="historia">
       <div class="container split">
         <div class="split__left reveal">
-          <p class="kicker">Desde 2025</p>
-          <h2>Nuestra historia</h2>
-          <p>
+          <p class="kicker" data-i18n="history_kicker">Desde 2025</p>
+          <h2 data-i18n="history_title">Nuestra historia</h2>
+          <p data-i18n="history_text" 1>
             Nuestro proyecto intermodular comenzó con la idea de crear un espacio gastronómico que combinara tradición y
             modernidad, ofreciendo platos inspirados en la cocina mediterránea con un toque creativo. Desde nuestra
             apertura, hemos trabajado con pasión para ofrecer una experiencia culinaria única, utilizando ingredientes
@@ -230,120 +234,84 @@
 
     <!-- MODAL RESERVA -->
     <div class="modal-card hidden" id="reservationModal">
-
       <h2>Reservar mesa</h2>
-
-      <form id="reservationForm" novalidate>
-
+      <form id="reservationForm">
         <div class="form-group">
-          <label for="reservationDate">Fecha</label>
-
-          <input type="date" id="reservationDate" required />
+          <label for="reservationGuests">Número de personas:</label>
+          <input type="number" id="reservationGuests" min="1" max="20" placeholder="EJ:2" required>
         </div>
-
         <div class="form-group">
-          <label for="reservationTime">Hora</label>
-
-          <input type="time" id="reservationTime" required />
+          <label for="reservationType">Tipo de reserva:</label>
+          <select id="reservationType" required>
+            <option value="" disabled selected>Selecciona una opción...</option>
+            <option value="Cena">Cena</option>
+            <option value="Comida">Comida</option>
+            <option value="Cita">Cita</option>
+            <option value="Cumpleaños">Cumpleaños</option>
+            <option value="Comida familiar">Comida familiar</option>
+            <option value="Reunion de trabajo">Reunión de trabajo</option>
+            <option value="Comida de empresa">Comida de empresa</option>
+            <option value="Aniversario">Aniversario</option>
+          </select>
         </div>
-
         <div class="form-group">
-          <label for="reservationGuests">Número de personas</label>
-
-          <input type="number" id="reservationGuests" min="1" max="12" placeholder="2" required />
+          <label for="reservationDate">Fecha:</label>
+          <input type="date" id="reservationDate" required>
         </div>
-
         <div class="form-group">
-          <label for="reservationPhone">
-            Teléfono de contacto (opcional)
-          </label>
-
-          <input type="tel" id="reservationPhone" placeholder="+34 600 000 000" />
+          <label for="reservationTime">Hora:</label>
+          <input type="time" id="reservationTime" required>
         </div>
-
-        <p class="form-message" id="reservationMessage"></p>
-
-        <div class="modal-actions">
-
-          <button type="submit" class="btn-primary">
-            Confirmar reserva
-          </button>
-
-          <button type="button" class="btn-secondary" id="cancelReservation">
-            Cancelar
-          </button>
-
-        </div>
-
+        <button type="submit" id="submitReservation" class="btn btn--contrast">Confirmar Reserva</button>
+        <button type="button" id="cancelReservation" class="btn">Cancelar</button>
+        <p id="reservationMessage"></p>
       </form>
-
     </div>
 
     <!-- Pantalla inicial -->
     <div class="modal-card" id="welcomeModal">
-
       <h2>¿Quieres hacer una reserva?</h2>
-
       <p>
         Inicia sesión antes de reservar una mesa.
       </p>
-
       <div class="modal-actions">
         <button class="btn-primary" id="openLoginForm">
           Iniciar sesión
         </button>
-
         <button class="btn-secondary" id="closeOverlay">
           Cancelar
         </button>
       </div>
-
     </div>
 
     <!-- Login -->
     <div class="modal-card hidden" id="loginModal">
-
       <h2>Iniciar sesión</h2>
-
       <form id="loginForm" novalidate>
-
         <div class="form-group">
           <label for="username">Usuario</label>
-
           <input type="text" id="username" name="username" placeholder="Tu usuario" required />
         </div>
-
         <div class="form-group">
           <label for="email">Correo electrónico</label>
-
           <input type="email" id="email" name="email" placeholder="ejemplo@email.com"
             pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required />
         </div>
-
         <div class="form-group">
           <label for="password">Contraseña</label>
-
           <input type="password" id="password" name="password" placeholder="••••••••" minlength="6" required />
         </div>
-
         <p class="form-message" id="formMessage"></p>
-
         <div class="modal-actions">
-
           <button type="submit" class="btn-primary">
             Acceder
           </button>
-
           <button type="button" class="btn-secondary" id="cancelLogin">
             Cancelar
           </button>
-
         </div>
-
       </form>
-
     </div>
-
   </div>
 
   <script src="js/main.js"></script>

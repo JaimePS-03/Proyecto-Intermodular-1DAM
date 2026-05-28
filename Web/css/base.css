@@ -129,7 +129,51 @@ a {
 
 .btn--contrast {
   background: linear-gradient(135deg, var(--accent), #ff9a3d);
-  color: #1a120b;
+}
+
+
+/* =========================
+   SELECTOR DE IDIOMA
+   ========================= */
+
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-soft);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 2px;
+  margin-right: 15px;
+}
+
+.lang-btn {
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.lang-btn:hover:not(.active) {
+  color: var(--text);
+  background: var(--glass);
+}
+
+.lang-btn.active {
+  /* Usamos el degradado naranja que ya tienes en tu diseño */
+  background: linear-gradient(135deg, var(--accent), #ff9a3d);
+  /* Una sombra sutil con el tono naranja para darle profundidad */
+  box-shadow: 0 4px 10px rgba(250, 108, 7, 0.3);
+}
+
+/* En el modo oscuro, hacemos que la sombra naranja destaque un poquito más */
+html.theme-dark .lang-btn.active {
+  box-shadow: 0 4px 15px rgba(250, 108, 7, 0.5);
 }
 
 /* =========================

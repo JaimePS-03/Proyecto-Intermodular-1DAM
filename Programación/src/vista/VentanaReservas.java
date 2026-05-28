@@ -5,8 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
-import controlador.ClienteDAO;
-import controlador.ReservaDAO;
+import dao.ClienteDAO;
+import dao.ReservasDAO;
 import modelo.Cliente;
 import modelo.Reserva;
 
@@ -31,7 +31,7 @@ public class VentanaReservas extends JFrame {
     private JTable tablaReservas;
     private DefaultTableModel modeloTabla;
 
-    private ReservaDAO rDao = new ReservaDAO();
+    private ReservasDAO rDao = new ReservasDAO();
     private ClienteDAO cDao = new ClienteDAO();
 
     public VentanaReservas() {

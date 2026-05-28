@@ -115,40 +115,27 @@ $$(".reveal").forEach(el =>
 })();
 
 /* =========================
-   LOGIN MODAL
+   LOGIN & RESERVATION MODAL
    ========================= */
 lucide.createIcons();
 
 (() => {
-
   const reserveBtn = document.getElementById('reserveBtn');
-
   const overlay = document.getElementById('loginOverlay');
-
   const welcomeModal = document.getElementById('welcomeModal');
   const loginModal = document.getElementById('loginModal');
-
   const openLoginForm = document.getElementById('openLoginForm');
-
   const closeOverlay = document.getElementById('closeOverlay');
   const cancelLogin = document.getElementById('cancelLogin');
-
   const loginForm = document.getElementById('loginForm');
   const formMessage = document.getElementById('formMessage');
 
-  const reservationModal =
-    document.getElementById('reservationModal');
+  const reservationModal = document.getElementById('reservationModal');
+  const reservationForm = document.getElementById('reservationForm');
+  const reservationMessage = document.getElementById('reservationMessage');
+  const cancelReservation = document.getElementById('cancelReservation');
 
-  const reservationForm =
-    document.getElementById('reservationForm');
-
-  const reservationMessage =
-    document.getElementById('reservationMessage');
-
-  const cancelReservation =
-    document.getElementById('cancelReservation');
-
-  let isLogged = false;
+  let isLogged = sessionStorage.getItem('isLogged') === 'true';
 
   const openModal = () => {
     overlay.classList.add('active');
@@ -156,36 +143,23 @@ lucide.createIcons();
   };
 
   const closeModal = () => {
-
     overlay.classList.remove('active');
-
     document.body.style.overflow = '';
-
     welcomeModal.classList.remove('hidden');
-
     loginModal.classList.add('hidden');
-
     reservationModal.classList.add('hidden');
-
     loginForm.reset();
-
     formMessage.textContent = '';
   };
 
   reserveBtn.addEventListener('click', () => {
-
     if (isLogged) {
-
       welcomeModal.classList.add('hidden');
       loginModal.classList.add('hidden');
-
       reservationModal.classList.remove('hidden');
-
       openModal();
-
       return;
     }
-
     openModal();
   });
 
@@ -195,8 +169,8 @@ lucide.createIcons();
   });
 
   closeOverlay.addEventListener('click', closeModal);
-
   cancelLogin.addEventListener('click', closeModal);
+  cancelReservation.addEventListener('click', closeModal);
 
   overlay.addEventListener('click', e => {
     if (e.target === overlay) {
@@ -204,84 +178,129 @@ lucide.createIcons();
     }
   });
 
-  loginForm.addEventListener('submit', e => {
+  /* =======================================================
+     1. FORMULARIO DE RESERVAS
+     ======================================================= */
+  reservationForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const date = document.getElementById('reservationDate').value;
+    const time = document.getElementById('reservationTime').value;
+    const guests = document.getElementById('reservationGuests').value;
+    const tipo = document.getElementById('reservationType').value;
 
-    cancelReservation.addEventListener('click', closeModal);
+    if (!date || !time || !guests || !tipo) {
+      reservationMessage.style.color = '#ef4444';
+      reservationMessage.textContent = 'Completa todos los campos obligatorios.';
+      return;
+    }
 
-    reservationForm.addEventListener('submit', e => {
+    const reservationData = new FormData();
+    reservationData.append('date', date);
+    reservationData.append('time', time);
+    reservationData.append('guests', guests);
+    reservationData.append('tipo', tipo);
 
-      e.preventDefault();
+    reservationMessage.style.color = '#3b82f6';
+    reservationMessage.textContent = 'Procesando reserva...';
 
-      const date =
-        document.getElementById('reservationDate').value;
+    fetch('../src/guardar_reserva.php', {
+      method: 'POST',
+      body: reservationData
+    })
+    .then(response => response.json().then(data => ({ status: response.status, data })))
+    .then(res => {
+      if (res.status === 200) {
+        reservationMessage.style.color = '#22c55e';
+        reservationMessage.textContent = res.data.mensaje;
 
-      const time =
-        document.getElementById('reservationTime').value;
-
-      const guests =
-        document.getElementById('reservationGuests').value;
-
-      if (!date || !time || !guests) {
-
-        reservationMessage.textContent =
-          'Completa los campos obligatorios.';
-
-        return;
+        setTimeout(() => {
+          closeModal();
+          reservationForm.reset();
+        }, 1400);
+      } else {
+        reservationMessage.style.color = '#ef4444';
+        reservationMessage.textContent = res.data.mensaje;
       }
-
-      reservationMessage.style.color = '#22c55e';
-
-      reservationMessage.textContent =
-        'Reserva realizada correctamente.';
-
-      setTimeout(() => {
-
-        closeModal();
-
-        reservationForm.reset();
-
-      }, 1400);
-
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      reservationMessage.style.color = '#ef4444';
+      reservationMessage.textContent = 'Error de comunicación con el servidor.';
     });
+  });
 
+  /* =======================================================
+     2. FORMULARIO DE LOGIN
+     ======================================================= */
+
+  if (loginForm && loginForm.email) {
+    loginForm.email.value = localStorage.getItem('usuario_correo') || '';
+  }
+
+  loginForm.addEventListener('submit', e => {
     e.preventDefault();
 
-    const username = loginForm.username.value.trim();
     const email = loginForm.email.value.trim();
     const password = loginForm.password.value.trim();
-
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!username || !email || !password) {
+    if (!email || !password) {
+      formMessage.style.color = '#ef4444';
       formMessage.textContent = 'Completa todos los campos.';
       return;
     }
 
     if (!emailPattern.test(email)) {
+      formMessage.style.color = '#ef4444';
       formMessage.textContent = 'Introduce un correo válido.';
       return;
     }
 
     if (password.length < 6) {
-      formMessage.textContent =
-        'La contraseña debe tener mínimo 6 caracteres.';
+      formMessage.style.color = '#ef4444';
+      formMessage.textContent = 'La contraseña debe tener mínimo 6 caracteres.';
       return;
     }
 
-    isLogged = true;
+    localStorage.setItem('usuario_correo', email);
 
-    formMessage.style.color = '#22c55e';
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
 
-    formMessage.textContent = 'Inicio de sesión correcto.';
+    formMessage.style.color = '#3b82f6';
+    formMessage.textContent = 'Comprobando credenciales...';
 
-    setTimeout(() => {
+    fetch('../src/login.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      return response.json().then(data => ({ status: response.status, data }));
+    })
+    .then(res => {
+      if (res.status === 200) {
+        isLogged = true;
+        sessionStorage.setItem('isLogged', 'true');
+        formMessage.style.color = '#22c55e';
+        formMessage.textContent = res.data.mensaje;
 
-      loginModal.classList.add('hidden');
+        setTimeout(() => {
+          loginModal.classList.add('hidden');
+          reservationModal.classList.remove('hidden');
+          formMessage.textContent = '';
+        }, 900);
 
-      reservationModal.classList.remove('hidden');
-
-    }, 900);
-
+      } else {
+        formMessage.style.color = '#ef4444';
+        formMessage.textContent = res.data.mensaje;
+      }
+    })
+    .catch(error => {
+      console.error("Error en la petición:", error);
+      formMessage.style.color = '#ef4444';
+      formMessage.textContent = 'Error al conectar con el servidor de autenticación.';
+    });
   });
 
 })();
@@ -339,3 +358,61 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
 });
+
+/* =========================
+   ES/EN
+   ========================= */
+
+// 1. Diccionario de traducciones
+const translations = {
+  es: {
+    nav_about: "Nosotros",
+    nav_history: "Historia",
+    nav_menu: "Menú",
+    nav_reserve: "Reservar",
+    history_kicker: "Desde 2025",
+    history_title: "Nuestra historia",
+    history_text: "Nuestro proyecto intermodular comenzó con la idea de crear un espacio gastronómico que combinara tradición y modernidad , ofreciendo platos inspirados en la cocina mediterránea con un toque creativo. Desde nuestra apertura, hemos trabajado con pasión para ofrecer una experiencia culinaria única, utilizando ingredientes frescos y de proximidad para garantizar la calidad en cada plato."
+  },
+  en: {
+    nav_about: "About Us",
+    nav_history: "History",
+    nav_menu: "Menu",
+    nav_reserve: "Reserve",
+    history_kicker: "Since 2025",
+    history_title: "Our History",
+    history_text: "Our intermodular project began with the idea of ​​creating a gastronomic space that combined tradition and modernity, offering dishes inspired by Mediterranean cuisine with a creative touch. Since our opening, we have worked passionately to offer a unique culinary experience, using fresh, locally sourced ingredients to guarantee quality in every dish."
+  }
+};
+
+// 2. Comprobar si el usuario ya eligió un idioma antes (persistencia)
+let currentLang = localStorage.getItem('app_lang') || 'es';
+
+// 3. Función principal para cambiar el idioma
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('app_lang', lang); // Guarda la elección en el navegador
+  document.documentElement.lang = lang; // Cambia el <html lang="es"> a "en"
+
+  // Buscar todos los elementos que tienen el atributo data-i18n
+  const elements = document.querySelectorAll('[data-i18n]');
+  
+  elements.forEach(element => {
+    const key = element.getAttribute('data-i18n');
+    // Si la clave existe en nuestro diccionario, actualizamos el texto
+    if (translations[lang][key]) {
+      element.textContent = translations[lang][key];
+    }
+  });
+
+  // Actualizar el estilo visual de los botones (opcional, para saber cuál está activo)
+  document.getElementById('btn-es').style.fontWeight = lang === 'es' ? 'bold' : 'normal';
+  document.getElementById('btn-en').style.fontWeight = lang === 'en' ? 'bold' : 'normal';
+}
+
+// 4. Asignar los eventos a los botones
+document.getElementById('btn-es').addEventListener('click', () => setLanguage('es'));
+document.getElementById('btn-en').addEventListener('click', () => setLanguage('en'));
+
+// 5. Iniciar la web con el idioma correcto
+setLanguage(currentLang);

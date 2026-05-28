@@ -1,13 +1,13 @@
 package controlador;
 
-import modelo.Camareros;
+import modelo.Camarero;
 
 import java.util.ArrayList;
 
 /**
  * Controlador específico para la gestión de camareros.
  */
-public class CamareroDAO extends EmpleadoDAO<Camareros> {
+public class CamareroDAO extends EmpleadoDAO<Camarero> {
 
     /**
      * Constructor del controlador de camareros.
@@ -22,10 +22,10 @@ public class CamareroDAO extends EmpleadoDAO<Camareros> {
      * @param zona Zona que se desea buscar
      * @return Lista de camareros que trabajan en esa zona
      */
-    public ArrayList<Camareros> buscarPorZona(String zona) {
-        ArrayList<Camareros> resultado = new ArrayList<>();
+    public ArrayList<Camarero> buscarPorZona(String zona) {
+        ArrayList<Camarero> resultado = new ArrayList<>();
 
-        for (Camareros camarero : listaUsuarios) {
+        for (Camarero camarero : listaUsuarios) {
             if (camarero.getnZona().equalsIgnoreCase(zona)) {
                 resultado.add(camarero);
             }
@@ -40,10 +40,10 @@ public class CamareroDAO extends EmpleadoDAO<Camareros> {
      * @param jefeSala Nombre del jefe de sala
      * @return Lista de camareros asociados a ese jefe de sala
      */
-    public ArrayList<Camareros> buscarPorJefeSala(String jefeSala) {
-        ArrayList<Camareros> resultado = new ArrayList<>();
+    public ArrayList<Camarero> buscarPorJefeSala(String jefeSala) {
+        ArrayList<Camarero> resultado = new ArrayList<>();
 
-        for (Camareros camarero : listaUsuarios) {
+        for (Camarero camarero : listaUsuarios) {
             if (camarero.getCamareroJefe().equalsIgnoreCase(jefeSala)) {
                 resultado.add(camarero);
             }

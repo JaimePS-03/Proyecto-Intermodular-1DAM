@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
-import controlador.PlatoDAO;
+import dao.PlatosDAO;
 import modelo.Plato;
 
 import javax.swing.JLabel;
@@ -26,7 +26,7 @@ public class VentanaPlatos extends JFrame {
     private JTable tablaPlatos;
     private DefaultTableModel modeloTabla;
 
-    private PlatoDAO pDao = new PlatoDAO();
+    private PlatosDAO pDao = new PlatosDAO();
 
     public VentanaPlatos() {
         setTitle("Gestión de platos");

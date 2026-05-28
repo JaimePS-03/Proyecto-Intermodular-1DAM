@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -48,28 +50,50 @@ public class VentanaPrincipal extends JFrame {
 
         JButton btnClientes = new JButton("Clientes");
         btnClientes.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnClientes.setBounds(80, 120, 200, 50);
+        btnClientes.setBounds(52, 94, 172, 50);
         contentPane.add(btnClientes);
 
         JButton btnPlatos = new JButton("Platos");
         btnPlatos.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnPlatos.setBounds(340, 120, 200, 50);
+        btnPlatos.setBounds(234, 94, 172, 50);
         contentPane.add(btnPlatos);
 
         JButton btnReservas = new JButton("Reservas");
         btnReservas.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnReservas.setBounds(80, 220, 200, 50);
+        btnReservas.setBounds(234, 167, 172, 50);
         contentPane.add(btnReservas);
 
         JButton btnMesas = new JButton("Mesas");
         btnMesas.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnMesas.setBounds(340, 220, 200, 50);
+        btnMesas.setBounds(416, 94, 172, 50);
         contentPane.add(btnMesas);
 
         JButton btnSalir = new JButton("Salir");
         btnSalir.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnSalir.setBounds(240, 320, 140, 40);
         contentPane.add(btnSalir);
+        
+        JButton btnEmpleados = new JButton("Empleados");
+        btnEmpleados.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		VentanaLoginEmpleados vj = new VentanaLoginEmpleados();
+        		vj.setVisible(true);
+        	}
+        });
+        btnEmpleados.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnEmpleados.setBounds(52, 167, 172, 50);
+        contentPane.add(btnEmpleados);
+        
+        JButton btnProveedores = new JButton("Proveedores");
+        btnProveedores.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		VentanaProveedores vp = new VentanaProveedores();
+        		vp.setVisible(true);
+        	}
+        });
+        btnProveedores.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnProveedores.setBounds(416, 167, 172, 50);
+        contentPane.add(btnProveedores);
 
         btnClientes.addActionListener(e -> {
             VentanaClientes vc = new VentanaClientes();
