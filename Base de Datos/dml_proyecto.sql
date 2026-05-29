@@ -323,7 +323,7 @@ VALUES
 
 INSERT INTO JEFES
 VALUES
-('15937446P', 'Oscar', 'Perez Berenguer', '666998745', 'oscperben@contacto.com'),
+('48761490H', 'Oscar', 'Perez Berenguer', '666998745', 'oscperben@contacto.com'),
 ('75236947S', 'Antonio', 'Perez Garcia', '665223147', 'antpergar@contacto.com'),
 ('87452136U', 'Elisa', 'Berenguer Carreres', '654321987', 'elibercar@contacto.com');
 
@@ -385,8 +385,8 @@ VALUES
 ('88888888H', '87452136U'),
 ('99999999J', '87452136U'),
 ('00000000K', '87452136U'),
-('85285285L', '15937446P'),
-('87654321M', '15937446P');
+('85285285L', '48761490H'),
+('87654321M', '48761490H');
 
 INSERT INTO SERVIR
 VALUES

@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import javax.swing.JTable;
 import dao.MesaDAO;
 import modelo.Mesa;
@@ -13,6 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 
 public class VentanaMesas extends JFrame {
@@ -27,59 +32,119 @@ public class VentanaMesas extends JFrame {
     private MesaDAO mDao = new MesaDAO();
 
     public VentanaMesas() {
+
+        Color AZUL = new Color(0x0f4c81);
+        Color NARANJA = new Color(0xfa6c07);
+        Color FONDO = new Color(0xf4f6fb);
+        Color BLANCO = Color.WHITE;
+        Color TEXTO = new Color(0x1f2937);
+        Color GRIS = new Color(0xe5e7eb);
+
         setTitle("Gestión de mesas");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 780, 500);
+        setBounds(100, 100, 900, 560);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         contentPane = new JPanel();
+        contentPane.setBackground(FONDO);
         contentPane.setBorder(new EmptyBorder(15, 15, 15, 15));
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
         JLabel lblTitulo = new JLabel("GESTIÓN DE MESAS");
-        lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 20));
-        lblTitulo.setBounds(270, 10, 250, 30);
+        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 24));
+        lblTitulo.setForeground(AZUL);
+        lblTitulo.setBounds(315, 20, 300, 30);
         contentPane.add(lblTitulo);
 
         JLabel lblIdMesa = new JLabel("Nº mesa:");
-        lblIdMesa.setBounds(30, 70, 100, 20);
+        lblIdMesa.setFont(new Font("SansSerif", Font.BOLD, 14));
+        lblIdMesa.setForeground(TEXTO);
+        lblIdMesa.setBounds(40, 80, 100, 20);
         contentPane.add(lblIdMesa);
 
         txtIdMesa = new JTextField();
-        txtIdMesa.setBounds(120, 70, 180, 25);
+        txtIdMesa.setBounds(130, 80, 190, 30);
+        txtIdMesa.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        txtIdMesa.setBorder(BorderFactory.createLineBorder(GRIS));
         contentPane.add(txtIdMesa);
 
         JLabel lblPersonas = new JLabel("Capacidad:");
-        lblPersonas.setBounds(30, 110, 100, 20);
+        lblPersonas.setFont(new Font("SansSerif", Font.BOLD, 14));
+        lblPersonas.setForeground(TEXTO);
+        lblPersonas.setBounds(40, 125, 100, 20);
         contentPane.add(lblPersonas);
 
         txtPersonas = new JTextField();
-        txtPersonas.setBounds(120, 110, 180, 25);
+        txtPersonas.setBounds(130, 125, 190, 30);
+        txtPersonas.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        txtPersonas.setBorder(BorderFactory.createLineBorder(GRIS));
         contentPane.add(txtPersonas);
 
         JButton btnBuscar = new JButton("Buscar por ID");
-        btnBuscar.setBounds(360, 70, 130, 30);
+        btnBuscar.setBounds(380, 80, 150, 35);
+        btnBuscar.setBackground(AZUL);
+        btnBuscar.setForeground(BLANCO);
+        btnBuscar.setFont(new Font("SansSerif", Font.BOLD, 14));
+        btnBuscar.setFocusPainted(false);
+        btnBuscar.setBorderPainted(false);
+        btnBuscar.setContentAreaFilled(true);
+        btnBuscar.setOpaque(true);
+        btnBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         contentPane.add(btnBuscar);
 
         JButton btnInsertar = new JButton("Insertar");
-        btnInsertar.setBounds(510, 70, 130, 30);
+        btnInsertar.setBounds(560, 80, 130, 35);
+        btnInsertar.setBackground(AZUL);
+        btnInsertar.setForeground(BLANCO);
+        btnInsertar.setFont(new Font("SansSerif", Font.BOLD, 14));
+        btnInsertar.setFocusPainted(false);
+        btnInsertar.setBorderPainted(false);
+        btnInsertar.setContentAreaFilled(true);
+        btnInsertar.setOpaque(true);
+        btnInsertar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         contentPane.add(btnInsertar);
 
         JButton btnActualizar = new JButton("Actualizar");
-        btnActualizar.setBounds(360, 120, 130, 30);
+        btnActualizar.setBounds(380, 135, 150, 35);
+        btnActualizar.setBackground(AZUL);
+        btnActualizar.setForeground(BLANCO);
+        btnActualizar.setFont(new Font("SansSerif", Font.BOLD, 14));
+        btnActualizar.setFocusPainted(false);
+        btnActualizar.setBorderPainted(false);
+        btnActualizar.setContentAreaFilled(true);
+        btnActualizar.setOpaque(true);
+        btnActualizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         contentPane.add(btnActualizar);
 
-        JButton btnEliminar = new JButton("Eliminar");
-        btnEliminar.setBounds(510, 120, 130, 30);
-        contentPane.add(btnEliminar);
-
         JButton btnLimpiar = new JButton("Limpiar");
-        btnLimpiar.setBounds(435, 170, 130, 30);
+        btnLimpiar.setBounds(560, 135, 130, 35);
+        btnLimpiar.setBackground(AZUL);
+        btnLimpiar.setForeground(BLANCO);
+        btnLimpiar.setFont(new Font("SansSerif", Font.BOLD, 14));
+        btnLimpiar.setFocusPainted(false);
+        btnLimpiar.setBorderPainted(false);
+        btnLimpiar.setContentAreaFilled(true);
+        btnLimpiar.setOpaque(true);
+        btnLimpiar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         contentPane.add(btnLimpiar);
 
+        JButton btnEliminar = new JButton("Eliminar");
+        btnEliminar.setBounds(470, 190, 130, 35);
+        btnEliminar.setBackground(NARANJA);
+        btnEliminar.setForeground(BLANCO);
+        btnEliminar.setFont(new Font("SansSerif", Font.BOLD, 14));
+        btnEliminar.setFocusPainted(false);
+        btnEliminar.setBorderPainted(false);
+        btnEliminar.setContentAreaFilled(true);
+        btnEliminar.setOpaque(true);
+        btnEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        contentPane.add(btnEliminar);
+
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(30, 250, 700, 170);
+        scrollPane.setBounds(40, 310, 810, 160);
+        scrollPane.setBorder(BorderFactory.createLineBorder(GRIS));
         contentPane.add(scrollPane);
 
         modeloTabla = new DefaultTableModel();
@@ -87,6 +152,27 @@ public class VentanaMesas extends JFrame {
         modeloTabla.addColumn("Capacidad");
 
         tablaMesas = new JTable(modeloTabla);
+        tablaMesas.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        tablaMesas.setRowHeight(28);
+        tablaMesas.setBackground(BLANCO);
+        tablaMesas.setForeground(TEXTO);
+        tablaMesas.setSelectionBackground(new Color(220, 235, 255));
+        tablaMesas.setSelectionForeground(TEXTO);
+        tablaMesas.setGridColor(GRIS);
+        tablaMesas.setShowVerticalLines(false);
+
+        JTableHeader header = tablaMesas.getTableHeader();
+        header.setFont(new Font("SansSerif", Font.BOLD, 13));
+
+        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer();
+        headerRenderer.setBackground(AZUL);
+        headerRenderer.setForeground(BLANCO);
+        headerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        headerRenderer.setOpaque(true);
+
+        tablaMesas.getColumnModel().getColumn(0).setHeaderRenderer(headerRenderer);
+        tablaMesas.getColumnModel().getColumn(1).setHeaderRenderer(headerRenderer);
+
         scrollPane.setViewportView(tablaMesas);
 
         btnBuscar.addActionListener(e -> {
@@ -179,8 +265,6 @@ public class VentanaMesas extends JFrame {
         JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    // Este método borra las filas actuales del modelo y vuelve a cargar
-    // todas las mesas desde el DAO para que la tabla siempre esté al día.
     private void cargarTabla() {
         try {
             modeloTabla.setRowCount(0);
