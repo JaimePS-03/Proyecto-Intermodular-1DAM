@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
+  <link rel="icon" type="image/jpeg" href="img/logo.jpeg">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Restaurante Fuentes del Algar</title>
   <meta name="description" content="Restaurante Don Joan." />
@@ -36,12 +37,12 @@
           <button id="btn-es" style="cursor: pointer; background: none; border: none; font-weight: bold;">🇪🇸</button>
           <button id="btn-en" style="cursor: pointer; background: none; border: none;">🇬🇧</button>
         </div>
-        <a href="#nosotros" data-i18n="nav_about">Nosotros</a>
-        <a href="#historia" data-i18n="nav_history">Historia</a>
-        <a href="menu.html" data-i18n="nav_menu">Menú</a>
+        <a href="#nosotros" data-lang="nav_about">Nosotros</a>
+        <a href="#historia" data-lang="nav_history">Historia</a>
+        <a href="menu.html" data-lang="nav_menu">Menú</a>
         <button class="reserve-btn" id="reserveBtn" aria-label="Reservas">
           <i data-lucide="calendar-days"></i>
-          <span>Reservar</span>
+          <span data-lang="btn_reserve">Reservar</span>
         </button>
       </nav>
     </div>
@@ -68,9 +69,9 @@
           <div class="carousel__overlay" aria-hidden="true"></div>
 
           <div class="carousel__caption reveal">
-            <p class="kicker">Carta</p>
-            <h1 class="carousel__title">Restaurante Demo</h1>
-            <p class="lead">Cocina mediterránea creativa y ambiente familiar.</p>
+            <p class="kicker" data-lang="kicker">Carta</p>
+            <h1 class="carousel__title" data-lang="car_title">Restaurante Demo</h1>
+            <p class="lead" data-lang="lead">Cocina mediterránea creativa y ambiente familiar.</p>
           </div>
         </div>
       </div>
@@ -80,14 +81,14 @@
     <section class="section section--cta" id="menu">
       <div class="container cta reveal">
         <div class="cta__text">
-          <h2>El menú</h2>
-          <p>
+          <h2 data-lang="cta_title">El menú</h2>
+          <p data-lang="cta">
             Menú ficticio con platos de la zona, producto de proximidad y opciones para todos los gustos.
           </p>
         </div>
 
         <div class="cta__actions">
-          <a class="btn btn--contrast" href="menu.html">Explorar el menú</a>
+          <a class="btn btn--contrast" href="menu.html" data-lang="cta_btn">Explorar el menú</a>
         </div>
       </div>
     </section>
@@ -96,52 +97,52 @@
     <section class="section" id="platos">
       <div class="container">
         <header class="section__header reveal">
-          <h2>Platos principales</h2>
-          <p>Selección inventada para practicar maquetación de tarjetas.</p>
+          <h2 data-lang="section1_title">Platos principales</h2>
+          <p data-lang="section1_p">Selección inventada para practicar maquetación de tarjetas.</p>
         </header>
 
         <div class="gridMenu">
           <article class="dish reveal">
-            <h3>Arroz del día</h3>
-            <p>Arroz meloso con “toque cítrico” y caldo de mar (ficticio).</p>
-            <span class="dish__tag">Recomendado</span>
+            <h3 data-lang="dish1_title">Arroz del día</h3>
+            <p data-lang="dish1">Arroz meloso con “toque cítrico” y caldo de mar (ficticio).</p>
+            <span class="dish__tag" data-lang="dish1_tag">Recomendado</span>
           </article>
 
           <article class="dish reveal">
-            <h3>Brasa mediterránea</h3>
-            <p>Corte a la parrilla con guarnición de temporada (inventado).</p>
-            <span class="dish__tag dish__tag--blue">Brasas</span>
+            <h3 data-lang="dish2_title">Brasa mediterránea</h3>
+            <p data-lang="dish2">Corte a la parrilla con guarnición de temporada (inventado).</p>
+            <span class="dish__tag dish__tag--blue" data-lang="dish2_tag">Brasas</span>
           </article>
 
           <article class="dish reveal">
-            <h3>Pescado de lonja demo</h3>
-            <p>Plancha suave, aceite aromático y verduras.</p>
-            <span class="dish__tag">Ligero</span>
+            <h3 data-lang="dish3_title">Pescado de lonja demo</h3>
+            <p data-lang="dish3">Plancha suave, aceite aromático y verduras.</p>
+            <span class="dish__tag" data-lang="dish3_tag">Ligero</span>
           </article>
         </div>
 
         <header class="section__header reveal" style="margin-top: 28px;">
-          <h2>Postres</h2>
-          <p>Pequeños finales dulces también ficticios.</p>
+          <h2 data-lang="section2_title">Postres</h2>
+          <p data-lang="section2_p">Pequeños finales dulces también ficticios.</p>
         </header>
 
         <div class="gridMenu">
           <article class="dish reveal">
-            <h3>Tarta de naranja</h3>
-            <p>Bizcocho esponjoso y crema suave.</p>
-            <span class="dish__tag dish__tag--orange">Clásico</span>
+            <h3 data-lang="dish4_title">Tarta de naranja</h3>
+            <p data-lang="dish4">Bizcocho esponjoso y crema suave.</p>
+            <span class="dish__tag dish__tag--orange" data-lang="dish4_tag">Clásico</span>
           </article>
 
           <article class="dish reveal">
-            <h3>Helado artesano</h3>
-            <p>Sabores rotativos: vainilla, cacao y fruta.</p>
-            <span class="dish__tag dish__tag--blue">Frío</span>
+            <h3 data-lang="dish5_title">Helado artesano</h3>
+            <p data-lang="dish5">Sabores rotativos: vainilla, cacao y fruta.</p>
+            <span class="dish__tag dish__tag--blue" data-lang="dish5_tag">Frío</span>
           </article>
 
           <article class="dish reveal">
-            <h3>Crema marina</h3>
-            <p>Textura ligera con caramelo salado.</p>
-            <span class="dish__tag">Nuevo</span>
+            <h3 data-lang="dish6_title">Crema marina</h3>
+            <p data-lang="dish6">Textura ligera con caramelo salado.</p>
+            <span class="dish__tag" data-lang="dish6_tag">Nuevo</span>
           </article>
         </div>
       </div>
@@ -151,8 +152,8 @@
     <section class="section" id="nosotros">
       <div class="container">
         <header class="section__header reveal">
-          <h2>Nosotros</h2>
-          <p>
+          <h2 data-lang="section3_title">Nosotros</h2>
+          <p data-lang="section3_p">
             Somos un restaurante familiar de ambiente alegre: comedor interior, terraza y un rincón mini‑aventura
             para los peques.
           </p>
@@ -160,18 +161,18 @@
 
         <div class="cards">
           <article class="card reveal">
-            <h3>Comedor interior</h3>
-            <p>Espacio acogedor, mesas amplias y una iluminación suave para comidas tranquilas.</p>
+            <h3 data-lang="card1_title">Comedor interior</h3>
+            <p data-lang="card1">Espacio acogedor, mesas amplias y una iluminación suave para comidas tranquilas.</p>
           </article>
 
           <article class="card reveal">
-            <h3>Terraza</h3>
-            <p>Zona exterior con sombra, brisa y vistas “de postal” para alargar la sobremesa.</p>
+            <h3 data-lang="card2_title">Terraza</h3>
+            <p data-lang="card2">Zona exterior con sombra, brisa y vistas “de postal” para alargar la sobremesa.</p>
           </article>
 
           <article class="card reveal">
-            <h3>Reservas</h3>
-            <p>Un lugar perfecto para celebrar ocasiones especiales con amigos y familiares.</p>
+            <h3 data-lang="card3_title">Reservas</h3>
+            <p data-lang="card3">Un lugar perfecto para celebrar ocasiones especiales con amigos y familiares.</p>
           </article>
         </div>
       </div>
@@ -186,9 +187,9 @@
     <section class="section section--tint" id="historia">
       <div class="container split">
         <div class="split__left reveal">
-          <p class="kicker" data-i18n="history_kicker">Desde 2025</p>
-          <h2 data-i18n="history_title">Nuestra historia</h2>
-          <p data-i18n="history_text" 1>
+          <p class="kicker" data-lang="history_kicker">Desde 2025</p>
+          <h2 data-lang="history_title">Nuestra historia</h2>
+          <p data-lang="history_text" 1>
             Nuestro proyecto intermodular comenzó con la idea de crear un espacio gastronómico que combinara tradición y
             modernidad, ofreciendo platos inspirados en la cocina mediterránea con un toque creativo. Desde nuestra
             apertura, hemos trabajado con pasión para ofrecer una experiencia culinaria única, utilizando ingredientes
@@ -198,15 +199,15 @@
           <div class="timeline">
             <div class="timeline__item">
               <span class="timeline__year">2025</span>
-              <span class="timeline__text">Apertura del primer local.</span>
+              <span class="timeline__text" data-lang="time1">Apertura del primer local.</span>
             </div>
             <div class="timeline__item">
               <span class="timeline__year">2026</span>
-              <span class="timeline__text">Ampliación con terraza y parrilla.</span>
+              <span class="timeline__text" data-lang="time2">Ampliación con terraza y parrilla.</span>
             </div>
             <div class="timeline__item">
               <span class="timeline__year">2026</span>
-              <span class="timeline__text">Presentacion de nuestro proyecto intermodular</span>
+              <span class="timeline__text" data-lang="time3">Presentacion de nuestro proyecto intermodular</span>
             </div>
           </div>
         </div>
@@ -223,8 +224,8 @@
 
     <footer class="footer">
       <div class="container footer__grid">
-        <p>© 2026 Restaurante Demo. Proyecto Intermodular</p>
-        <a class="link" href="#top">Volver arriba</a>
+        <p data-lang="footer">© 2026 Restaurante Demo. Proyecto Intermodular</p>
+        <a class="link" href="#top" data-lang="top">Volver arriba</a>
       </div>
     </footer>
   </main>

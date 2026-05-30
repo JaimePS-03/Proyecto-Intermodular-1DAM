@@ -363,7 +363,6 @@ document.addEventListener("DOMContentLoaded", () => {
    ES/EN
    ========================= */
 
-// 1. Diccionario de traducciones
 const translations = {
   es: {
     nav_about: "Nosotros",
@@ -372,7 +371,49 @@ const translations = {
     nav_reserve: "Reservar",
     history_kicker: "Desde 2025",
     history_title: "Nuestra historia",
-    history_text: "Nuestro proyecto intermodular comenzó con la idea de crear un espacio gastronómico que combinara tradición y modernidad , ofreciendo platos inspirados en la cocina mediterránea con un toque creativo. Desde nuestra apertura, hemos trabajado con pasión para ofrecer una experiencia culinaria única, utilizando ingredientes frescos y de proximidad para garantizar la calidad en cada plato."
+    history_text: "Nuestro proyecto intermodular comenzó con la idea de crear un espacio gastronómico que combinara tradición y modernidad , ofreciendo platos inspirados en la cocina mediterránea con un toque creativo. Desde nuestra apertura, hemos trabajado con pasión para ofrecer una experiencia culinaria única, utilizando ingredientes frescos y de proximidad para garantizar la calidad en cada plato.",
+    kicker: "Carta",
+    car_title: "Restaurante Demo",
+    lead: "Cocina mediterránea creativa y ambiente familiar.",
+    cta_title: "El menú",
+    cta: "Menú ficticio con platos de la zona, producto de proximidad y opciones para todos los gustos.",
+    cta_btn: "Explorar el menú",
+    section1_title: "Platos principales",
+    section1_p: "Selección inventada para practicar maquetación de tarjetas.",
+    dish1_title: "Arroz del día",
+    dish1: "Arroz meloso con “toque cítrico” y caldo de mar (ficticio).",
+    dish1_tag: "Recomendado",
+    dish2_title: "Brasa mediterránea",
+    dish2: "Corte a la parrilla con guarnición de temporada (inventado).",
+    dish2_tag: "Brasas",
+    dish3_title: "Pescado de lonja demo",
+    dish3: "Plancha suave, aceite aromático y verduras.",
+    dish3_tag: "Ligero",
+    dish4_title: "Tarta de naranja",
+    dish4: "Bizcocho esponjoso y crema suave.",
+    dish4_tag: "Clásico",
+    dish5_title: "Helado artesano",
+    dish5: "Sabores rotativos: vainilla, cacao y fruta.",
+    dish5_tag: "Frío",
+    dish6_title: "Crema marina",
+    dish6: "Textura ligera con caramelo salado.",
+    dish6_tag: "Nuevo",
+    section2_title: "Postres",
+    section2_p: "Pequeños finales dulces también ficticios.",
+    section3_title: "Nosotros",
+    section3_p: "Somos un restaurante familiar de ambiente alegre: comedor interior, terraza y un rincón mini‑aventura para los peques.",
+    card1_title: "Comedor interior",
+    card1: "Espacio acogedor, mesas amplias y una iluminación suave para comidas tranquilas.",
+    card2_title: "Terraza",
+    card2: "Zona exterior con sombra, brisa y vistas “de postal” para alargar la sobremesa.",
+    card3_title: "Reservas",
+    card3: "Un lugar perfecto para celebrar ocasiones especiales con amigos y familiares.",
+    time1: "Apertura del primer local.",
+    time2: "Ampliación con terraza y parrilla.",
+    time3: "Presentacion de nuestro proyecto intermodular",
+    footer: "© 2026 Restaurante Demo. Proyecto Intermodular",
+    top: "Volver arriba",
+    btn_reserve: "Reservar"
   },
   en: {
     nav_about: "About Us",
@@ -381,38 +422,74 @@ const translations = {
     nav_reserve: "Reserve",
     history_kicker: "Since 2025",
     history_title: "Our History",
-    history_text: "Our intermodular project began with the idea of ​​creating a gastronomic space that combined tradition and modernity, offering dishes inspired by Mediterranean cuisine with a creative touch. Since our opening, we have worked passionately to offer a unique culinary experience, using fresh, locally sourced ingredients to guarantee quality in every dish."
+    history_text: "Our intermodular project began with the idea of ​​creating a gastronomic space that combined tradition and modernity, offering dishes inspired by Mediterranean cuisine with a creative touch. Since our opening, we have worked passionately to offer a unique culinary experience, using fresh, locally sourced ingredients to guarantee quality in every dish.",
+    kicker: "Menu",
+    car_title: "Demo Restaurant",
+    lead: "Creative Mediterranean cuisine and a family-friendly atmosphere.",
+    cta_title: "The Menu",
+    cta: "Fictional menu featuring local dishes, locally sourced ingredients, and options for everyone.",
+    cta_btn: "Explore the menu",
+    section1_title: "Main Dishes",
+    section1_p: "Fictional selection created to practice card layout.",
+    dish1_title: "Rice of the day",
+    dish1: "Creamy rice with a 'citrus touch' and seafood broth (fictional).",
+    dish1_tag: "Recommended",
+    dish2_title: "Mediterranean grill",
+    dish2: "Grilled cut with seasonal garnish (fictional).",
+    dish2_tag: "Grill",
+    dish3_title: "Demo market fish",
+    dish3: "Gently grilled, aromatic oil, and vegetables.",
+    dish3_tag: "Light",
+    dish4_title: "Orange cake",
+    dish4: "Fluffy sponge cake and smooth cream.",
+    dish4_tag: "Classic",
+    dish5_title: "Artisanal ice cream",
+    dish5: "Rotating flavors: vanilla, cocoa, and fruit.",
+    dish5_tag: "Cold",
+    dish6_title: "Marine cream",
+    dish6: "Light texture with salted caramel.",
+    dish6_tag: "New",
+    section2_title: "Desserts",
+    section2_p: "Small sweet endings, also fictional.",
+    section3_title: "About Us",
+    section3_p: "We are a family restaurant with a cheerful atmosphere: indoor dining room, terrace, and a mini-adventure corner for kids.",
+    card1_title: "Indoor Dining",
+    card1: "Cozy space, spacious tables, and soft lighting for peaceful meals.",
+    card2_title: "Terrace",
+    card2: "Outdoor area with shade, breeze, and 'postcard' views to extend your after-dinner conversation.",
+    card3_title: "Reservations",
+    card3: "A perfect place to celebrate special occasions with friends and family.",
+    time1: "Opening of the first location.",
+    time2: "Expansion with terrace and grill.",
+    time3: "Presentation of our intermodular project",
+    footer: "© 2026 Demo Restaurant. Intermodular Project",
+    top: "Back to top",
+    btn_reserve: "Reserve"
   }
 };
 
-// 2. Comprobar si el usuario ya eligió un idioma antes (persistencia)
+
 let currentLang = localStorage.getItem('app_lang') || 'es';
 
-// 3. Función principal para cambiar el idioma
 function setLanguage(lang) {
   currentLang = lang;
-  localStorage.setItem('app_lang', lang); // Guarda la elección en el navegador
-  document.documentElement.lang = lang; // Cambia el <html lang="es"> a "en"
+  localStorage.setItem('app_lang', lang);
+  document.documentElement.lang = lang;
 
-  // Buscar todos los elementos que tienen el atributo data-i18n
-  const elements = document.querySelectorAll('[data-i18n]');
+  const elements = document.querySelectorAll('[data-lang]');
   
   elements.forEach(element => {
-    const key = element.getAttribute('data-i18n');
-    // Si la clave existe en nuestro diccionario, actualizamos el texto
+    const key = element.getAttribute('data-lang');
     if (translations[lang][key]) {
       element.textContent = translations[lang][key];
     }
   });
 
-  // Actualizar el estilo visual de los botones (opcional, para saber cuál está activo)
   document.getElementById('btn-es').style.fontWeight = lang === 'es' ? 'bold' : 'normal';
   document.getElementById('btn-en').style.fontWeight = lang === 'en' ? 'bold' : 'normal';
 }
 
-// 4. Asignar los eventos a los botones
 document.getElementById('btn-es').addEventListener('click', () => setLanguage('es'));
 document.getElementById('btn-en').addEventListener('click', () => setLanguage('en'));
 
-// 5. Iniciar la web con el idioma correcto
 setLanguage(currentLang);

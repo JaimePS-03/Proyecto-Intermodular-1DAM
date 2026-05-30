@@ -225,6 +225,13 @@ UK(código_des)
 FK(id_cli, id_res) → RESERVAR
 FK(código_des) → DESCUENTOS
 
+USUARIOS(id_usuario, email, password, rol, id_cliente, dni_empleado)
+PK(id_usuario)
+UK(email)
+FK(id_cliente) → CLIENTES
+FK(dni_empleado) → EMPLEADOS
+CK((id_cliente IS NOT NULL AND dni_empleado IS NULL) OR (id_cliente IS NULL AND dni_empleado IS NOT NULL))
+
 ## DDL del Proyecto
 
 A la hora de crear las tablas, necesitamos un DDL (Data Definition Language). Para ello usaremos el diseño lógico de antes y lo pasaremos al lenguaje de SQL.
@@ -439,6 +446,21 @@ PRIMARY KEY (id_cli, id_res),
 FOREIGN KEY (id_cli) REFERENCES CLIENTES(id),
 FOREIGN KEY (id_res) REFERENCES RESERVAS(id),
 FOREIGN KEY (codigo_des) REFERENCES DESCUENTOS(codigo)
+);
+
+CREATE TABLE USUARIOS (
+id_usuario SERIAL PRIMARY KEY,
+email VARCHAR(50) UNIQUE NOT NULL,
+password VARCHAR(255) NOT NULL,
+rol VARCHAR(20) NOT NULL,
+id_cliente VARCHAR(4) REFERENCES CLIENTES(id) ON DELETE CASCADE,
+dni_empleado VARCHAR(9) REFERENCES EMPLEADOS(dni) ON DELETE CASCADE,
+
+-- Restriccion para asegurar que el usuario es O un cliente O un empleado, no ambos
+CONSTRAINT chk_tipo_usuario CHECK (
+    (id_cliente IS NOT NULL AND dni_empleado IS NULL) OR
+    (id_cliente IS NULL AND dni_empleado IS NOT NULL)
+ )
 );
 ```
 

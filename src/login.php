@@ -35,8 +35,7 @@ try {
 
         echo json_encode([
             "mensaje" => "¡Inicio de sesión exitoso!",
-            "rol" => $usuario['rol'],
-            "redireccion" => "dashboard.php" // Página a la que irá tras loguearse
+            "rol" => $usuario['rol']
         ]);
         
     } else {
