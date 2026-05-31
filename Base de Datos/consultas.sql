@@ -185,6 +185,8 @@ SET n_personas = (
 
 -- 4 VISTAS
 -- Muestra cada pedido con la mesa, la hora, la cantidad de platos y su total.
+-- Esta vista se ha diseñado para ofrecer una visión rápida y resumida de cada pedido, permitiendo consultar en una sola tabla la información más importante de la gestión de pedidos.
+-- Su creación se justifica porque facilita el control de ventas y ayuda a visualizar de forma clara el contenido y el importe total de cada pedido sin necesidad de hacer consultas complejas cada vez.
 CREATE OR REPLACE VIEW vista_resumen_pedidos AS
 SELECT 
     p.id AS id_pedido,
@@ -198,7 +200,10 @@ LEFT JOIN PLATOS pl ON t.n_plato = pl.n_plato
 GROUP BY p.id, p.hora, p.n_mesa;
 
 
+
 -- Muestra por cliente cuántas reservas y pedidos ha realizado.
+-- Esta vista se ha diseñado para obtener de forma conjunta la actividad de cada cliente, mostrando en una sola consulta cuántas reservas y pedidos ha realizado.
+-- Su creación se justifica porque permite conocer fácilmente qué clientes usan más el restaurante, además de ser útil para estadísticas, control de actividad y futuras promociones o descuentos.
 CREATE OR REPLACE VIEW vista_clientes_actividad AS
 SELECT
     c.id,
@@ -212,8 +217,11 @@ LEFT JOIN REALIZAR re ON c.id = re.id_cli
 GROUP BY c.id, c.nombre, c.apellidos;
 
 
+
 -- 5 FUNCIONES
 -- Devuelve la suma de precios de todos los platos de un pedido.
+-- Esta función se ha diseñado para calcular el total económico de un pedido de forma automática.
+-- Su creación se justifica porque permite reutilizar el cálculo en distintas partes del programa, evitando repetir la misma lógica cada vez que se quiera conocer el importe total de un pedido.
 CREATE OR REPLACE FUNCTION fn_total_pedido(p_id_pedido INT)
 RETURNS NUMERIC(8,2)
 AS $$
@@ -231,7 +239,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
 -- Devuelve el número total de pedidos hechos por un cliente.
+-- Esta función se ha diseñado para consultar cuántos pedidos ha realizado un cliente concreto.
+-- Su creación se justifica porque resulta útil para controlar la actividad de los clientes y para obtener información rápida sin necesidad de repetir la consulta en varias partes del proyecto.
 CREATE OR REPLACE FUNCTION fn_num_pedidos_cliente(p_id_cli VARCHAR(4))
 RETURNS INT
 AS $$
@@ -248,7 +259,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
 -- Comprueba si un código de descuento existe y no está caducado.
+-- Esta función se ha diseñado para validar si un descuento puede aplicarse correctamente.
+-- Su creación se justifica porque evita usar códigos inválidos o caducados, mejorando el control de los descuentos y asegurando que solo se acepten promociones vigentes.
 CREATE OR REPLACE FUNCTION fn_descuento_vigente(p_codigo VARCHAR(20))
 RETURNS BOOLEAN
 AS $$
@@ -266,7 +280,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
 -- Recorre los platos de un pedido y descuenta 1 unidad de cada ingrediente asociado.
+-- Esta función se ha diseñado para actualizar automáticamente las existencias de ingredientes cuando se procesa un pedido. Para ello se utiliza un cursor, recorriendo uno a uno los ingredientes asociados a los platos del pedido.
+-- Su creación se justifica porque permite mantener el stock actualizado de forma automática y refleja mejor el funcionamiento real de un restaurante.
 CREATE OR REPLACE FUNCTION fn_descontar_existencias_pedido(p_id_pedido INT)
 RETURNS VOID
 AS $$
@@ -294,8 +311,11 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
 -- 6 TRIGGERS
 -- Evita borrar un cliente si tiene reservas o pedidos asociados.
+-- Este trigger se ha diseñado como una validación global para impedir eliminaciones incorrectas.
+-- Su creación se justifica porque evita perder información relacionada con reservas o pedidos, garantizando la integridad de los datos y evitando borrar clientes con historial en el sistema.
 CREATE OR REPLACE FUNCTION trg_validar_borrado_cliente()
 RETURNS TRIGGER
 AS $$
@@ -312,13 +332,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
 CREATE TRIGGER tg_no_borrar_cliente_con_historial
 BEFORE DELETE ON CLIENTES
 FOR EACH ROW
 EXECUTE FUNCTION trg_validar_borrado_cliente();
 
 
+
 -- Comprueba que la mesa indicada en el pedido exista en MESAS.
+-- Este trigger se ha diseñado para validar, antes de insertar un pedido, que la mesa existe realmente.
+-- Su creación se justifica porque evita introducir pedidos asociados a mesas inexistentes, manteniendo la coherencia de los datos entre tablas.
 CREATE OR REPLACE FUNCTION trg_validar_mesa_pedido()
 RETURNS TRIGGER
 AS $$
@@ -335,13 +359,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
 CREATE TRIGGER tg_validar_mesa_en_pedido
 BEFORE INSERT ON PEDIDOS
 FOR EACH ROW
 EXECUTE FUNCTION trg_validar_mesa_pedido();
 
 
+
 -- Si no se indica hora en el pedido, asigna automáticamente la fecha y hora actuales.
+-- Este trigger se ha diseñado para automatizar la inserción de la hora del pedido cuando no se introduce manualmente.
+-- Su creación se justifica porque simplifica el trabajo del usuario y asegura que todos los pedidos queden registrados con una fecha y hora válidas.
 CREATE OR REPLACE FUNCTION trg_asignar_hora_pedido()
 RETURNS TRIGGER
 AS $$
@@ -354,13 +382,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
 CREATE TRIGGER tg_asignar_hora_pedido
 BEFORE INSERT ON PEDIDOS
 FOR EACH ROW
 EXECUTE FUNCTION trg_asignar_hora_pedido();
 
 
+
 -- Evita insertar un descuento caducado o inexistente en la tabla OFRECER.
+-- Este trigger se ha diseñado para validar que solo se puedan asignar descuentos válidos a una reserva.
+-- Su creación se justifica porque impide aplicar promociones caducadas o inexistentes, reforzando el control de los descuentos dentro del sistema.
 CREATE OR REPLACE FUNCTION trg_validar_ofrecer_descuento()
 RETURNS TRIGGER
 AS $$
@@ -372,6 +404,7 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
 
 CREATE TRIGGER tg_validar_descuento_ofrecer
 BEFORE INSERT ON OFRECER
