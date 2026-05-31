@@ -193,6 +193,7 @@ public class VentanaPrincipal extends JFrame {
         });
 
         btnSalir.addActionListener(e -> System.exit(0));
+        
     }
 
     private JButton crearTarjeta(String titulo, String subtitulo, Color fondo, Color texto) {
