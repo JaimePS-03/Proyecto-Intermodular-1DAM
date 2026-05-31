@@ -110,7 +110,7 @@ Cada camarero puede tener un único vigilante, mientras que un vigilante puede s
 
 Y aquí el diseño del modelo entidad relación:
 
-![Modelo Entidad Relación](image.png)
+![alt text](image-1.png)
 
 ### Diseño lógico
 
