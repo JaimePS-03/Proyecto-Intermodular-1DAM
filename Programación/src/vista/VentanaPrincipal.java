@@ -135,7 +135,7 @@ public class VentanaPrincipal extends JFrame {
         JLabel lblTexto = new JLabel("Haz clic en una tarjeta para abrir la gestión correspondiente");
         lblTexto.setForeground(new Color(107, 114, 128));
         lblTexto.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        lblTexto.setBounds(25, 50, 360, 20);
+        lblTexto.setBounds(25, 50, 413, 20);
         panelMain.add(lblTexto);
 
         JButton btnClientes = crearTarjeta("Clientes", "Gestión de clientes registrados", AZUL, AZUL);
