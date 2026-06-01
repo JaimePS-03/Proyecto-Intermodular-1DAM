@@ -55,7 +55,7 @@ public class PlatosDAO {
     }
 
     public boolean insertar(Plato p) throws SQLException {
-        String sql = "INSERT INTO clientes (n_plato, nombre, precio, tipo) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO platos (n_plato, nombre, precio, tipo) VALUES (?, ?, ?, ?)";
 
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {

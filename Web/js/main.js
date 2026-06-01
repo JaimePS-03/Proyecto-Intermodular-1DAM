@@ -194,6 +194,15 @@ lucide.createIcons();
       return;
     }
 
+    const reservationDateTime = new Date(`${date}T${time}`);
+    const now = new Date();
+
+if (reservationDateTime < now) {
+  reservationMessage.style.color = '#ef4444';
+  reservationMessage.textContent = 'No puedes hacer una reserva en una fecha u hora anterior a la actual.';
+  return;
+}
+
     const reservationData = new FormData();
     reservationData.append('date', date);
     reservationData.append('time', time);
