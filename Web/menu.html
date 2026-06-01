@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/jpeg" href="img/logo.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carta | Restaurante Demo</title>
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/menu-page.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Ir al inicio">
+      <img src="img/logo.jpeg" alt="Logo del restaurante" class="brand__logo" loading="lazy">
+      <span class="brandtext">Fuentes del Algars</span>
+    </a>
+
+    <!-- NAV -->
+    <div class="nav-clip" id="navClip">
+      <nav class="nav-desktop" id="navDesktop" aria-label="Navegación principal">
+        <button class="theme-switch" id="themeSwitch" type="button" aria-label="Cambiar tema" aria-pressed="false">
+          <span class="theme-switch__thumb" aria-hidden="true"></span>
+        </button>
+        <a href="index.html">Inicio</a>
+        <a href="menu.html">Menú</a>
+        <button class="reserve-btn" id="reserveBtn" aria-label="Reservas">
+          <i data-lucide="calendar-days"></i>
+          <span>Reservar</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <aside class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-menu__panel">
+      <div class="mobile-menu__top">
+        <div class="mobile-menu__title">Menú</div>
+        <button class="mobile-menu__close" id="closeMenuBtn" type="button" aria-label="Cerrar menú">✕</button>
+      </div>
+
+      <a href="index.html#nosotros" class="mobile-menu__link">Nosotros</a>
+      <a href="index.html#historia" class="mobile-menu__link">Historia</a>
+      <a href="menu.html" class="mobile-menu__link">Carta</a>
+      <a href="index.html#destacar" class="mobile-menu__link">A destacar</a>
+      <a href="index.html#reservas" class="mobile-menu__link mobile-menu__link--cta">Reservas</a>
+    </div>
+    <div class="mobile-menu__backdrop" id="menuBackdrop" aria-hidden="true"></div>
+  </aside>
+
+  <main>
+    <section class="menu-hero">
+      <div class="container reveal">
+        <p class="kicker">Carta</p>
+        <h1 class="menu-title">Nuestro menú</h1>
+        <p class="lead menu-subtitle">Elige una categoría a la izquierda y verás los platos a la derecha.</p>
+      </div>
+    </section>
+
+    <section class="menu-page">
+      <div class="container menu-layout">
+
+        <!-- Izquierda: categorías -->
+        <aside class="menu-categories reveal" aria-label="Categorías">
+          <h2 class="menu-panel-title">Categorías</h2>
+          <div class="cat-list" id="catList"></div>
+        </aside>
+
+        <!-- Derecha: cartas / cards -->
+        <section class="menu-cards reveal" aria-label="Platos">
+          <div class="menu-cards-top">
+            <h2 class="menu-panel-title" id="activeCategoryTitle">Todos</h2>
+          </div>
+          <div class="cards-grid" id="cardsGrid"></div>
+        </section>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <p>© 2026 Restaurante Demo. Proyecto Intermodular</p>
+        <a class="link" href="#top">Volver arriba</a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- LOGIN / RESERVAS MODAL -->
+  <div class="modal-overlay" id="loginOverlay">
+
+    <!-- MODAL RESERVA -->
+    <div class="modal-card hidden" id="reservationModal">
+      <h2>Reservar mesa</h2>
+      <form id="reservationForm">
+        <div class="form-group">
+          <label for="reservationGuests">Número de personas:</label>
+          <input type="number" id="reservationGuests" min="1" max="20" placeholder="EJ:2" required>
+        </div>
+        <div class="form-group">
+          <label for="reservationType">Tipo de reserva:</label>
+          <select id="reservationType" required>
+            <option value="" disabled selected>Selecciona una opción...</option>
+            <option value="Cena">Cena</option>
+            <option value="Comida">Comida</option>
+            <option value="Cita">Cita</option>
+            <option value="Cumpleaños">Cumpleaños</option>
+            <option value="Comida familiar">Comida familiar</option>
+            <option value="Reunion de trabajo">Reunión de trabajo</option>
+            <option value="Comida de empresa">Comida de empresa</option>
+            <option value="Aniversario">Aniversario</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="reservationDate">Fecha:</label>
+          <input type="date" id="reservationDate" required>
+        </div>
+        <div class="form-group">
+          <label for="reservationTime">Hora:</label>
+          <input type="time" id="reservationTime" required>
+        </div>
+        <button type="submit" id="submitReservation" class="btn btn--contrast">Confirmar Reserva</button>
+        <button type="button" id="cancelReservation" class="btn">Cancelar</button>
+        <p id="reservationMessage"></p>
+      </form>
+    </div>
+
+    <!-- Pantalla inicial -->
+    <div class="modal-card" id="welcomeModal">
+      <h2>¿Quieres hacer una reserva?</h2>
+      <p>
+        Inicia sesión antes de reservar una mesa.
+      </p>
+      <div class="modal-actions">
+        <button class="btn-primary" id="openLoginForm">
+          Iniciar sesión
+        </button>
+        <button class="btn-secondary" id="closeOverlay">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- Login -->
+    <div class="modal-card hidden" id="loginModal">
+      <h2>Iniciar sesión</h2>
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="username">Usuario</label>
+          <input type="text" id="username" name="username" placeholder="Tu usuario" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" placeholder="ejemplo@email.com"
+            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" minlength="6" required />
+        </div>
+        <p class="form-message" id="formMessage"></p>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">
+            Acceder
+          </button>
+          <button type="button" class="btn-secondary" id="cancelLogin">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/menu-page.js"></script>
+</body>
+
+</html>

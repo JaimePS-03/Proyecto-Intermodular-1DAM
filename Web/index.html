@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/jpeg" href="img/logo.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Restaurante Fuentes del Algar</title>
+  <meta name="description" content="Restaurante Don Joan." />
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/menu.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+
+  <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Ir al inicio">
+      <img src="img/logo.jpeg" alt="Logo del restaurante" class="brand__logo" loading="lazy" />
+      <span class="brandtext">Fuentes del Algars</span>
+    </a>
+
+    <!-- NAV -->
+    <div class="nav-clip" id="navClip">
+      <nav class="nav-desktop" id="navDesktop" aria-label="Navegación principal">
+        <button class="theme-switch" id="themeSwitch" type="button" aria-label="Cambiar tema" aria-pressed="false">
+          <span class="theme-switch__thumb" aria-hidden="true"></span>
+        </button>
+        <div class="lang-switch" style="display: flex; gap: 10px; margin-right: 15px;">
+          <button id="btn-es" style="cursor: pointer; background: none; border: none; font-weight: bold;">🇪🇸</button>
+          <button id="btn-en" style="cursor: pointer; background: none; border: none;">🇬🇧</button>
+        </div>
+        <a href="#nosotros" data-lang="nav_about">Nosotros</a>
+        <a href="#historia" data-lang="nav_history">Historia</a>
+        <a href="menu.html" data-lang="nav_menu">Menú</a>
+        <button class="reserve-btn" id="reserveBtn" aria-label="Reservas">
+          <i data-lucide="calendar-days"></i>
+          <span data-lang="btn_reserve">Reservar</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- CARRUSEL -->
+    <section class="carousel" aria-label="Carrusel de fotos del restaurante">
+      <div class="container">
+        <div class="carousel__viewport" id="carousel">
+          <div class="carousel__track">
+            <figure class="carousel__slide">
+              <img src="img/el-algar-de-don-joan.jpg" alt="Terraza del restaurante" loading="eager" />
+            </figure>
+            <figure class="carousel__slide">
+              <img src="img/el-algar-de-don-joan2.jpg" alt="Plato destacado" loading="lazy" />
+            </figure>
+            <figure class="carousel__slide">
+              <img src="img/Fuentes-de-Algar-1-5.jpg" alt="Comedor interior" loading="lazy" />
+            </figure>
+          </div>
+
+          <div class="carousel__overlay" aria-hidden="true"></div>
+
+          <div class="carousel__caption reveal">
+            <p class="kicker" data-lang="kicker">Carta</p>
+            <h1 class="carousel__title" data-lang="car_title">Restaurante Demo</h1>
+            <p class="lead" data-lang="lead">Cocina mediterránea creativa y ambiente familiar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EL MENÚ (CTA) -->
+    <section class="section section--cta" id="menu">
+      <div class="container cta reveal">
+        <div class="cta__text">
+          <h2 data-lang="cta_title">El menú</h2>
+          <p data-lang="cta">
+            Menú ficticio con platos de la zona, producto de proximidad y opciones para todos los gustos.
+          </p>
+        </div>
+
+        <div class="cta__actions">
+          <a class="btn btn--contrast" href="menu.html" data-lang="cta_btn">Explorar el menú</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLATOS -->
+    <section class="section" id="platos">
+      <div class="container">
+        <header class="section__header reveal">
+          <h2 data-lang="section1_title">Platos principales</h2>
+          <p data-lang="section1_p">Selección inventada para practicar maquetación de tarjetas.</p>
+        </header>
+
+        <div class="gridMenu">
+          <article class="dish reveal">
+            <h3 data-lang="dish1_title">Arroz del día</h3>
+            <p data-lang="dish1">Arroz meloso con “toque cítrico” y caldo de mar (ficticio).</p>
+            <span class="dish__tag" data-lang="dish1_tag">Recomendado</span>
+          </article>
+
+          <article class="dish reveal">
+            <h3 data-lang="dish2_title">Brasa mediterránea</h3>
+            <p data-lang="dish2">Corte a la parrilla con guarnición de temporada (inventado).</p>
+            <span class="dish__tag dish__tag--blue" data-lang="dish2_tag">Brasas</span>
+          </article>
+
+          <article class="dish reveal">
+            <h3 data-lang="dish3_title">Pescado de lonja demo</h3>
+            <p data-lang="dish3">Plancha suave, aceite aromático y verduras.</p>
+            <span class="dish__tag" data-lang="dish3_tag">Ligero</span>
+          </article>
+        </div>
+
+        <header class="section__header reveal" style="margin-top: 28px;">
+          <h2 data-lang="section2_title">Postres</h2>
+          <p data-lang="section2_p">Pequeños finales dulces también ficticios.</p>
+        </header>
+
+        <div class="gridMenu">
+          <article class="dish reveal">
+            <h3 data-lang="dish4_title">Tarta de naranja</h3>
+            <p data-lang="dish4">Bizcocho esponjoso y crema suave.</p>
+            <span class="dish__tag dish__tag--orange" data-lang="dish4_tag">Clásico</span>
+          </article>
+
+          <article class="dish reveal">
+            <h3 data-lang="dish5_title">Helado artesano</h3>
+            <p data-lang="dish5">Sabores rotativos: vainilla, cacao y fruta.</p>
+            <span class="dish__tag dish__tag--blue" data-lang="dish5_tag">Frío</span>
+          </article>
+
+          <article class="dish reveal">
+            <h3 data-lang="dish6_title">Crema marina</h3>
+            <p data-lang="dish6">Textura ligera con caramelo salado.</p>
+            <span class="dish__tag" data-lang="dish6_tag">Nuevo</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOSOTROS -->
+    <section class="section" id="nosotros">
+      <div class="container">
+        <header class="section__header reveal">
+          <h2 data-lang="section3_title">Nosotros</h2>
+          <p data-lang="section3_p">
+            Somos un restaurante familiar de ambiente alegre: comedor interior, terraza y un rincón mini‑aventura
+            para los peques.
+          </p>
+        </header>
+
+        <div class="cards">
+          <article class="card reveal">
+            <h3 data-lang="card1_title">Comedor interior</h3>
+            <p data-lang="card1">Espacio acogedor, mesas amplias y una iluminación suave para comidas tranquilas.</p>
+          </article>
+
+          <article class="card reveal">
+            <h3 data-lang="card2_title">Terraza</h3>
+            <p data-lang="card2">Zona exterior con sombra, brisa y vistas “de postal” para alargar la sobremesa.</p>
+          </article>
+
+          <article class="card reveal">
+            <h3 data-lang="card3_title">Reservas</h3>
+            <p data-lang="card3">Un lugar perfecto para celebrar ocasiones especiales con amigos y familiares.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAPA -->
+    <div class="mapa" data-aos="zoom-in">
+      <div id="map"></div>
+    </div>
+
+    <!-- HISTORIA -->
+    <section class="section section--tint" id="historia">
+      <div class="container split">
+        <div class="split__left reveal">
+          <p class="kicker" data-lang="history_kicker">Desde 2025</p>
+          <h2 data-lang="history_title">Nuestra historia</h2>
+          <p data-lang="history_text" 1>
+            Nuestro proyecto intermodular comenzó con la idea de crear un espacio gastronómico que combinara tradición y
+            modernidad, ofreciendo platos inspirados en la cocina mediterránea con un toque creativo. Desde nuestra
+            apertura, hemos trabajado con pasión para ofrecer una experiencia culinaria única, utilizando ingredientes
+            frescos y de proximidad para garantizar la calidad en cada plato.
+          </p>
+
+          <div class="timeline">
+            <div class="timeline__item">
+              <span class="timeline__year">2025</span>
+              <span class="timeline__text" data-lang="time1">Apertura del primer local.</span>
+            </div>
+            <div class="timeline__item">
+              <span class="timeline__year">2026</span>
+              <span class="timeline__text" data-lang="time2">Ampliación con terraza y parrilla.</span>
+            </div>
+            <div class="timeline__item">
+              <span class="timeline__year">2026</span>
+              <span class="timeline__text" data-lang="time3">Presentacion de nuestro proyecto intermodular</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="split__right reveal">
+          <div class="photoMock" role="img" aria-label="Imagen decorativa simulada">
+            <div class="photoMock__label">IES Pere Maria i Orts</div>
+            <img src="img/logo_ies.png" alt="Plato destacado" class="photoMock__image" loading="lazy" />
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <p data-lang="footer">© 2026 Restaurante Demo. Proyecto Intermodular</p>
+        <a class="link" href="#top" data-lang="top">Volver arriba</a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- LOGIN / RESERVAS MODAL -->
+  <div class="modal-overlay" id="loginOverlay">
+
+    <!-- MODAL RESERVA -->
+    <div class="modal-card hidden" id="reservationModal">
+      <h2>Reservar mesa</h2>
+      <form id="reservationForm">
+        <div class="form-group">
+          <label for="reservationGuests">Número de personas:</label>
+          <input type="number" id="reservationGuests" min="1" max="20" placeholder="EJ:2" required>
+        </div>
+        <div class="form-group">
+          <label for="reservationType">Tipo de reserva:</label>
+          <select id="reservationType" required>
+            <option value="" disabled selected>Selecciona una opción...</option>
+            <option value="Cena">Cena</option>
+            <option value="Comida">Comida</option>
+            <option value="Cita">Cita</option>
+            <option value="Cumpleaños">Cumpleaños</option>
+            <option value="Comida familiar">Comida familiar</option>
+            <option value="Reunion de trabajo">Reunión de trabajo</option>
+            <option value="Comida de empresa">Comida de empresa</option>
+            <option value="Aniversario">Aniversario</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="reservationDate">Fecha:</label>
+          <input type="date" id="reservationDate" required>
+        </div>
+        <div class="form-group">
+          <label for="reservationTime">Hora:</label>
+          <input type="time" id="reservationTime" required>
+        </div>
+        <button type="submit" id="submitReservation" class="btn btn--contrast">Confirmar Reserva</button>
+        <button type="button" id="cancelReservation" class="btn">Cancelar</button>
+        <p id="reservationMessage"></p>
+      </form>
+    </div>
+
+    <!-- Pantalla inicial -->
+    <div class="modal-card" id="welcomeModal">
+      <h2>¿Quieres hacer una reserva?</h2>
+      <p>
+        Inicia sesión antes de reservar una mesa.
+      </p>
+      <div class="modal-actions">
+        <button class="btn-primary" id="openLoginForm">
+          Iniciar sesión
+        </button>
+        <button class="btn-secondary" id="closeOverlay">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- Login -->
+    <div class="modal-card hidden" id="loginModal">
+      <h2>Iniciar sesión</h2>
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="username">Usuario</label>
+          <input type="text" id="username" name="username" placeholder="Tu usuario" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" placeholder="ejemplo@email.com"
+            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" minlength="6" required />
+        </div>
+        <p class="form-message" id="formMessage"></p>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">
+            Acceder
+          </button>
+          <button type="button" class="btn-secondary" id="cancelLogin">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

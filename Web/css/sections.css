@@ -1,0 +1,123 @@
+/* ======================
+   CARDS
+   ====================== */
+
+.cards {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.card {
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  transition: .25s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card h3 {
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ======================
+   SPLIT LAYOUT
+   ====================== */
+
+.split {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 26px;
+  align-items: start;
+}
+
+/* ======================
+   TIMELINE
+   ====================== */
+
+.timeline {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.timeline__item {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--bg-soft);
+  border: 1px solid var(--glass-border);
+}
+
+.timeline__year {
+  font-weight: 900;
+  color: var(--text);
+}
+
+.timeline__text {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ======================
+   PHOTO MOCK
+   ====================== */
+
+.photoMock {
+  height: 290px;
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  background:
+    linear-gradient(135deg, rgba(15, 76, 129, .18), rgba(255, 122, 24, .14)),
+    radial-gradient(400px 240px at 70% 20%, rgba(255, 255, 255, .9), transparent 55%);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.photoMock__label {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  font-weight: 900;
+  color: var(--text);
+  z-index: 10;
+}
+
+.photoMock__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ======================
+   RESPONSIVE
+   ====================== */
+
+@media (max-width:900px) {
+
+  .cards,
+  .split {
+    grid-template-columns: 1fr;
+  }
+}
